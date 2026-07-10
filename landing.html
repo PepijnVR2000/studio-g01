@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Studio G01 — 3D-Printed Ceramic Vases, Delft</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&display=swap" rel="stylesheet"/>
+
+  <style>
+  /* ── TOKENS ──────────────────────────────────────────────── */
+  :root {
+    --bg:      #F0F0EE;
+    --white:   #FFFFFF;
+    --text:    #0C0C0B;
+    --muted:   #8C8984;
+    --cobalt:  #1E4D9B;
+    --line:    rgba(12,12,11,0.09);
+    --fn-mark: 'Unbounded', sans-serif;
+    --fn-body: 'Cabinet Grotesk', sans-serif;
+    --fn-mono: 'IBM Plex Mono', monospace;
+    --ease:    cubic-bezier(0.22,1,0.36,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--fn-body);
+    font-size: 15px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ── NAV ─────────────────────────────────────────────────── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2.5rem;
+    height: 72px;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: height 0.45s var(--ease), background 0.4s var(--ease), border-color 0.4s var(--ease);
+  }
+  .nav.scrolled {
+    height: 52px;
+    background: var(--bg);
+    border-bottom-color: var(--cobalt);
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Small square mark — hidden at top, fades in on scroll */
+  .nav-mark {
+    width: 12px; height: 12px;
+    background: var(--cobalt);
+    flex-shrink: 0;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+
+  /* Full wordmark */
+  .nav-wordmark {
+    font-family: var(--fn-mark);
+    font-size: 15px;
+    font-weight: 550;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 280px;
+    opacity: 1;
+    color: rgba(240,240,238,0.9);
+    transition: font-size 0.45s var(--ease), letter-spacing 0.45s var(--ease),
+                opacity 0.3s var(--ease), max-width 0.45s var(--ease), color 0.4s var(--ease);
+  }
+
+  .nav-g01 { color: inherit; }
+  .nav.scrolled .nav-wordmark { font-size: 11px; letter-spacing: 0.09em; opacity: 0; max-width: 0; color: var(--text); }
+  .nav.scrolled .nav-mark     { opacity: 1; transform: scale(1); }
+
+  /* All nav items grouped right */
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+  }
+  .nav-actions a {
+    font-family: var(--fn-body);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,240,238,0.9);
+    opacity: 0.6;
+    transition: opacity 0.2s, color 0.2s, font-size 0.45s var(--ease), letter-spacing 0.45s var(--ease);
+  }
+  .nav-actions a:hover      { opacity: 1; color: #ffffff; }
+  .nav-actions a.nav-active { opacity: 1; color: #ffffff; }
+  .nav.scrolled .nav-actions a { font-size: 11px; letter-spacing: 0.13em; color: var(--text); opacity: 0.45; }
+  .nav.scrolled .nav-actions a:hover { color: var(--cobalt); opacity: 1; }
+
+  @media (max-width: 680px) {
+    .nav-actions a:not(.nav-cart) { display: none; }
+  }
+
+  /* ── PRELOADER ───────────────────────────────────────────── */
+  #preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s var(--ease);
+  }
+  #preloader.done { opacity: 0; pointer-events: none; }
+  .pre-label {
+    font-family: var(--fn-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  .pre-bar {
+    width: 160px; height: 1px;
+    background: var(--line);
+  }
+  .pre-fill {
+    height: 100%;
+    background: var(--cobalt);
+    width: 0%;
+    transition: width 0.15s linear;
+  }
+
+  /* ── VIDEO SCROLL ────────────────────────────────────────── */
+  #video-scroll {
+    position: relative;
+    height: 550vh;
+    background: #000;   /* prevents bg peek-through on mobile */
+  }
+  .canvas-sticky {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;     /* dynamic viewport — accounts for mobile browser chrome */
+    overflow: hidden;
+    background: #000;
+  }
+  #video-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: smooth;
+    image-rendering: -webkit-optimize-contrast;
+    will-change: contents;
+    filter: contrast(1.28) brightness(0.92) saturate(1.12);
+  }
+  /* ── VIGNETTE ────────────────────────────────────────────── */
+  .vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background:
+      radial-gradient(ellipse at center,
+        transparent 30%,
+        rgba(0,0,0,0.45) 68%,
+        rgba(0,0,0,0.82) 100%);
+  }
+
+  /* ── HERO GC TEXTURE ────────────────────────────────────── */
+  #hero-gc-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  #hero-gc-bg.active  { opacity: 1; }
+  #hero-gc-bg.fadeout { opacity: 0; transition: opacity 0.3s ease; }
+  .hero-gc-inner {
+    position: absolute;
+    bottom: 1.5rem; left: 2rem; right: 2rem;
+    display: flex;
+    flex-direction: column-reverse;
+    font-family: var(--fn-mono);
+    font-size: 10px;
+    line-height: 1.65;
+    color: rgba(240,240,238,0.1);
+    white-space: pre;
+  }
+  /* Make #shop-text sit above the texture */
+  #shop-text { position: relative; z-index: 1; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--fn-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(240,240,238,0.55);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    transition: opacity 0.5s var(--ease);
+    pointer-events: none;
+  }
+  .scroll-hint.hidden { opacity: 0; }
+  .scroll-hint-line {
+    width: 1px;
+    height: 28px;
+    background: rgba(240,240,238,0.35);
+    animation: tickDown 1.6s var(--ease) infinite;
+  }
+  @keyframes tickDown {
+    0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+    40%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+    60%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+    100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+  }
+
+  /* ── SHOP OVERLAY ────────────────────────────────────────── */
+  .shop-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .shop-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #shop-text {
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+  }
+  .shop-word {
+    display: block;
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(2rem, 4vw, 5.5rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1;
+    clip-path: polygon(0% 100%, 0% 100%);
+    transform: scale(0.32);
+    opacity: 0;
+    will-change: transform;
+    transition: transform 3.2s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.3s ease;
+  }
+  .shop-word.approach {
+    transform: scale(1);
+    opacity: 1;
+  }
+  /* Retreat: zooms away fast. Word stays opaque — only the overlay fades,
+     avoiding double-opacity compounding which causes perceived lag. */
+  .shop-word.retreat {
+    transform: scale(0.28) !important;
+    opacity: 1 !important;
+    transition: transform 0.35s cubic-bezier(0.55, 0, 1, 0.45) !important;
+  }
+  .shop-sub {
+    display: block;
+    font-family: var(--fn-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-top: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  #shop-text:hover .shop-word { opacity: 0.6; transition: opacity 0.2s; }
+  #shop-text:hover .shop-sub  { opacity: 0.35; }
+
+  /* shared utility */
+  .mono { font-family: var(--fn-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; }
+  .link-text {
+    font-family: var(--fn-body); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px;
+    transition: opacity 0.2s;
+  }
+  .link-text:hover { opacity: 0.4; }
+
+  /* ── INTRO ───────────────────────────────────────────────── */
+  .s-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    background: var(--bg);
+    min-height: 90vh;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+    margin-top: -3rem;
+  }
+  .intro-canvas-wrap {
+    height: 90vh;
+    position: relative;
+  }
+  #intro-vase-canvas {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  #intro-gcode-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  #intro-gcode-bg.active  { opacity: 1; }
+  #intro-gcode-bg.fadeout { opacity: 0; transition: opacity 1.8s ease; }
+  .intro-gc-inner {
+    position: absolute;
+    bottom: 1.2rem; left: 1.5rem; right: 1.5rem;
+    display: flex;
+    flex-direction: column-reverse;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    color: rgba(12, 12, 11, 0.12);
+  }
+  .intro-text {
+    padding: 6rem 4rem 6rem 3rem;
+  }
+  .tag-label {
+    font-family: var(--fn-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .tag-label.cobalt { color: var(--cobalt); }
+  .intro-heading {
+    font-family: var(--fn-body);
+    font-size: clamp(2.4rem, 4.5vw, 5rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.18;
+    margin-bottom: 2.5rem;
+  }
+  .link-arrow {
+    font-family: var(--fn-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 1px;
+    color: var(--text);
+    transition: opacity 0.2s;
+  }
+  .link-arrow:hover { opacity: 0.4; }
+
+  /* ── PLACEHOLDER IMAGES ──────────────────────────────────── */
+  .ph-clay  { background: #C4B09A; }
+  .ph-dark  { background: #1A1512; }
+  .ph-sand  { background: #DDD8D0; }
+  .ph-white { background: var(--white); }
+
+  /* ── FULL IMAGE ──────────────────────────────────────────── */
+  .img-full {
+    width: 100%;
+    height: 72vh;
+    position: relative;
+  }
+  .img-tag {
+    position: absolute;
+    bottom: 2rem;
+    left: 2.5rem;
+    font-family: var(--fn-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .img-tag--light { color: rgba(240,240,238,0.5); }
+
+  /* ── CENTERED STATEMENT ──────────────────────────────────── */
+  .s-center {
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 14vw 4rem 15vw;
+    gap: 3rem;
+  }
+  .center-heading {
+    font-family: var(--fn-body);
+    font-size: clamp(3rem, 6.5vw, 7rem);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+
+  /* ── COLLAGE ─────────────────────────────────────────────── */
+  .s-collage {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    height: 90vh;
+  }
+  .collage-main {
+    position: relative;
+    height: 100%;
+  }
+  .collage-side {
+    display: flex;
+    flex-direction: column;
+  }
+  .collage-img {
+    flex: 1;
+    min-height: 58%;
+  }
+  .collage-text {
+    padding: 2.5rem;
+    background: var(--bg);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+  .collage-name {
+    font-family: var(--fn-body);
+    font-size: clamp(1.6rem, 2.2vw, 2.6rem);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    margin-top: 0.5rem;
+    margin-bottom: 0.3rem;
+  }
+  .collage-price {
+    font-family: var(--fn-mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── PROCESS ─────────────────────────────────────────────── */
+  .s-process {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--white);
+    min-height: 60vh;
+  }
+  .process-code {
+    background: var(--bg);
+    padding: 5rem 3rem 4rem;
+  }
+  .gcode-block {
+    font-family: var(--fn-mono);
+    font-size: 10px;
+    line-height: 2.1;
+    color: var(--text);
+    opacity: 0.5;
+    margin-top: 1.5rem;
+    white-space: pre;
+  }
+  .process-info {
+    padding: 5rem 3rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  .process-heading {
+    font-family: var(--fn-body);
+    font-size: clamp(2rem, 3.5vw, 4rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .process-body {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 34ch;
+    line-height: 1.8;
+  }
+
+  /* ── FOOTER ──────────────────────────────────────────────── */
+  footer {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 2rem;
+    height: 58px;
+    background: var(--bg);
+    font-family: var(--fn-body);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .footer-center { text-align: center; }
+
+  .footer-links {
+    display: flex;
+    gap: 2.5rem;
+    justify-content: flex-end;
+  }
+  .footer-links a:hover { color: var(--cobalt); }
+
+  /* ── MOBILE ─────────────────────────────────────────────── */
+  @media (max-width: 680px) {
+    .s-intro {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .intro-canvas-wrap {
+      height: 60vw;
+      min-height: 280px;
+    }
+    .intro-text {
+      padding: 3rem 1.5rem 4rem;
+    }
+    .s-collage,
+    .s-process {
+      grid-template-columns: 1fr;
+    }
+    .s-center { padding: 5rem 1.5rem; }
+    .nav { padding: 0 1.25rem; }
+  }
+
+  /* ── HERO TEXT OVERLAY ──────────────────────────────────── */
+  .hero-text-overlay {
+    position: absolute;
+    bottom: 5.5rem;
+    left: 3rem;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  }
+  .hero-text-overlay.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .hero-text-overlay.faded {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .hero-rule {
+    display: block;
+    width: 2rem;
+    height: 2px;
+    background: var(--cobalt);
+    margin-bottom: 1.4rem;
+  }
+  .hero-headline {
+    font-family: var(--fn-mark);
+    font-size: clamp(1.6rem, 2.8vw, 3.2rem);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1.05;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+  .hero-sub {
+    font-family: var(--fn-body);
+    font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+    color: rgba(240,240,238,0.75);
+    line-height: 1.6;
+    font-weight: 400;
+    max-width: 34ch;
+    display: block;
+    margin-bottom: 2rem;
+  }
+  .hero-cta {
+    display: inline-block;
+    padding: 0.7rem 1.6rem;
+    border: 1px solid rgba(240,240,238,0.35);
+    color: rgba(240,240,238,0.9);
+    font-family: var(--fn-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    pointer-events: auto;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .hero-cta:hover {
+    background: var(--cobalt);
+    border-color: var(--cobalt);
+    color: #ffffff;
+  }
+  @media (max-width: 680px) {
+    .hero-text-overlay { left: 1.5rem; bottom: 4.5rem; }
+  }
+
+  /* ── SCROLL REVEAL ───────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-d1 { transition-delay: 0.12s; }
+  .reveal-d2 { transition-delay: 0.24s; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-brand">
+      <div class="nav-mark"></div>
+      <span class="nav-wordmark">Studio <span class="nav-g01">G01</span></span>
+    </div>
+    <div class="nav-actions">
+      <a href="shop.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="cart.html" class="nav-cart">Cart</a>
+    </div>
+  </nav>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div>
+      <p class="pre-label">Studio G01</p>
+      <div class="pre-bar"><div class="pre-fill" id="pre-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- VIDEO SCROLL HERO -->
+  <section id="video-scroll">
+    <div class="canvas-sticky">
+      <canvas id="video-canvas"></canvas>
+      <div class="shop-overlay" id="shop-overlay">
+        <div id="hero-gc-bg">
+          <div class="hero-gc-inner" id="hero-gc-inner"></div>
+        </div>
+        <a href="shop.html" id="shop-text">
+          <span class="shop-word" id="shop-word">Studio G01</span>
+          <span class="shop-sub" id="shop-sub">View collection →</span>
+        </a>
+      </div>
+      <!-- VIGNETTE -->
+      <div class="vignette"></div>
+
+
+      <!-- HERO TEXT -->
+      <div class="hero-text-overlay" id="hero-text-overlay">
+        <span class="hero-rule"></span>
+        <span class="hero-headline">The New<br>Delft Blue</span>
+        <span class="hero-sub">400 years of ceramic tradition,<br>continued in code.</span>
+        <a href="shop.html" class="hero-cta">Explore Collection</a>
+      </div>
+
+      <div class="scroll-hint" id="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-hint-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© Studio G01 · Delft</span>
+    <span class="footer-center">SS26</span>
+    <div class="footer-links">
+      <a href="#">Instagram</a>
+      <a href="mailto:info@studiog01.nl">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+  /* ── CONFIG ──────────────────────────────────────────────── */
+  const TOTAL    = 284;  // full video minus first 0.5 s
+  const LOOP_END = 27;   // ping-pong zone (frames 0-26)
+
+
+  /* ── MOUSE STATE ─────────────────────────────────────────── */
+  let mouseSpeed = 0;      // smoothed pixel-distance per mousemove event
+  let lastMX = -1, lastMY = -1;
+
+  /* ── STATE ───────────────────────────────────────────────── */
+  const frames = new Array(TOTAL).fill(null);
+  let loaded = 0;
+  let canvas, ctx;
+  let bFrame = 0, bDir = 1, lastT = 0;
+  let boomerangActive = false;
+  let rafId = null;
+
+  /* ── DRIFT (mouse-driven pan) ───────────────────────────── */
+  const drift = { x: 0, y: 0, s: 1.0 };
+  const driftTgt = { x: 0, y: 0, s: 1.0 };
+
+  function tickDrift() {
+    const ease = 0.022; // lerp speed — smoothly chases mouse position
+    drift.x += (driftTgt.x - drift.x) * ease;
+    drift.y += (driftTgt.y - drift.y) * ease;
+    drift.s += (driftTgt.s - drift.s) * ease;
+  }
+
+  /* ── CANVAS SETUP ────────────────────────────────────────── */
+  function initCanvas() {
+    canvas = document.getElementById('video-canvas');
+    ctx    = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    // Mouse tracker — velocity drives boomerang FPS, position drives pan
+    window.addEventListener('mousemove', (e) => {
+      // Velocity for FPS
+      if (lastMX >= 0) {
+        const dx = e.clientX - lastMX, dy = e.clientY - lastMY;
+        const raw = Math.sqrt(dx * dx + dy * dy);
+        mouseSpeed = mouseSpeed * 0.25 + raw * 0.75; // snappy blend
+      }
+      lastMX = e.clientX;
+      lastMY = e.clientY;
+
+      // Position → pan target (mouse at center = no pan, edges = ±max)
+      driftTgt.x = (e.clientX / window.innerWidth  - 0.5) * 60;  // ±30 px
+      driftTgt.y = (e.clientY / window.innerHeight - 0.5) * 40;  // ±20 px
+    }, { passive: true });
+  }
+
+  function resize() {
+    const dpr  = window.devicePixelRatio || 1;
+    const cssW = window.innerWidth;
+    const cssH = window.innerHeight;
+    // Set actual pixel buffer to match physical display pixels
+    canvas.width  = Math.round(cssW * dpr);
+    canvas.height = Math.round(cssH * dpr);
+    canvas.style.width  = cssW + 'px';
+    canvas.style.height = cssH + 'px';
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    drawFrame(bFrame, boomerangActive, currentZoom);
+  }
+
+  /* ── PRINT REVEAL (from teaser) ─────────────────────────── */
+  function printReveal(el, { rows=14, msPerRow=190, delayMs=0, gapFrac=0.26, onComplete }={}) {
+    const rowPct = 100 / rows;
+    function applyMask(gap) {
+      if (gap <= 0.001) { el.style.webkitMaskImage = el.style.maskImage = el.style.webkitMaskSize = el.style.maskSize = ''; return; }
+      const g = (gap * 100).toFixed(3);
+      const grad = `repeating-linear-gradient(to bottom,transparent 0%,transparent ${g}%,black ${g}%,black 100%)`;
+      el.style.webkitMaskImage = el.style.maskImage = grad;
+      el.style.webkitMaskSize  = el.style.maskSize  = `100% ${rowPct.toFixed(4)}%`;
+    }
+    function setClip(row, col) {
+      const bot = 100 - row * rowPct, top = 100 - (row + 1) * rowPct;
+      const poly = col >= 100
+        ? `0% 100%,100% 100%,100% ${top.toFixed(3)}%,0% ${top.toFixed(3)}%`
+        : [`0% 100%`,`100% 100%`,`100% ${bot.toFixed(3)}%`,`${col.toFixed(3)}% ${bot.toFixed(3)}%`,`${col.toFixed(3)}% ${top.toFixed(3)}%`,`0% ${top.toFixed(3)}%`].join(',');
+      el.style.clipPath = `polygon(${poly})`;
+    }
+    setClip(0, 0); applyMask(gapFrac);
+    setTimeout(() => {
+      let t0 = null;
+      function frame(ts) {
+        if (!t0) t0 = ts;
+        const rf = (ts - t0) / msPerRow, row = Math.min(Math.floor(rf), rows - 1), col = rf < rows ? (rf % 1) * 100 : 100;
+        setClip(row, col);
+        if (rf < rows) { requestAnimationFrame(frame); }
+        else {
+          el.style.clipPath = 'none'; let g0 = null;
+          function close(ts) {
+            if (!g0) g0 = ts;
+            const p = Math.min((ts - g0) / 500, 1), e = 1 - (1 - p) * (1 - p);
+            applyMask(gapFrac * (1 - e));
+            if (p < 1) requestAnimationFrame(close); else if (onComplete) onComplete();
+          }
+          requestAnimationFrame(close);
+        }
+      }
+      requestAnimationFrame(frame);
+    }, delayMs);
+  }
+
+  /* ── DRAW ────────────────────────────────────────────────── */
+  let currentZoom = 1.0;
+
+  function drawFrame(idx, withDrift = false, zoom = 1.0) {
+    idx = Math.max(0, Math.min(TOTAL - 1, Math.round(idx)));
+    const img = frames[idx];
+    if (!img || !ctx) return;
+    const cw = canvas.width, ch = canvas.height;
+    const base = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+
+    ctx.save();
+    if (withDrift) {
+      ctx.translate(cw / 2 + drift.x, ch / 2 + drift.y);
+      ctx.scale(base * drift.s * zoom, base * drift.s * zoom);
+      ctx.drawImage(img, -img.naturalWidth / 2, -img.naturalHeight / 2);
+    } else {
+      ctx.translate(cw / 2, ch / 2);
+      ctx.scale(base * zoom, base * zoom);
+      ctx.drawImage(img, -img.naturalWidth / 2, -img.naturalHeight / 2);
+    }
+    ctx.restore();
+  }
+
+  /* ── BOOMERANG LOOP ──────────────────────────────────────── */
+  function tickBoomerang(t) {
+    if (!boomerangActive) return;
+    rafId = requestAnimationFrame(tickBoomerang);
+
+    // Drift updates every rAF tick for buttery-smooth pan/zoom
+    tickDrift();
+
+    // Decay mouse speed each frame (~110ms half-life at 60fps)
+    mouseSpeed *= 0.925;
+
+    // Map mouse speed → FPS: still = 15fps, fast swipe = 30fps
+    const dynamicFPS = Math.max(15, Math.min(15 + mouseSpeed * 0.65, 30));
+
+    if (t - lastT >= 1000 / dynamicFPS) {
+      lastT = t;
+      bFrame += bDir;
+      if (bFrame >= LOOP_END - 1) bDir = -1;
+      if (bFrame <= 0)            bDir =  1;
+    }
+
+    drawFrame(bFrame, true);
+  }
+
+  function startBoomerang() {
+    if (boomerangActive) return;
+    boomerangActive = true;
+    requestAnimationFrame(tickBoomerang);
+  }
+
+  function stopBoomerang() {
+    boomerangActive = false;
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+  }
+
+  /* ── PRELOAD ─────────────────────────────────────────────── */
+  function preload() {
+    initCanvas();
+    const fill  = document.getElementById('pre-fill');
+    const preEl = document.getElementById('preloader');
+
+    for (let i = 0; i < TOTAL; i++) {
+      const img = new Image();
+      img.src = `frames/frame_${String(i + 1).padStart(4, '0')}.jpg`;
+      img.onload = () => {
+        frames[i] = img;
+        loaded++;
+        fill.style.width = (loaded / TOTAL * 100) + '%';
+        // Unlock boomerang as soon as loop zone is ready
+        if (loaded === LOOP_END) {
+          preEl.classList.add('done');
+          startBoomerang();
+          // Reveal hero text shortly after preloader fades
+          setTimeout(() => {
+            document.getElementById('hero-text-overlay').classList.add('visible');
+          }, 500);
+        }
+      };
+    }
+  }
+
+  /* ── HERO GC TEXTURE ────────────────────────────────────── */
+  const heroGcBg    = document.getElementById('hero-gc-bg');
+  const heroGcInner = document.getElementById('hero-gc-inner');
+  let heroGcTimer   = null, heroGcAngle = 0, heroGcE = 0, heroGcLayer = -1;
+
+  function heroGcAppend(text) {
+    const el = document.createElement('div');
+    el.textContent = text;
+    heroGcInner.insertBefore(el, heroGcInner.firstChild);
+    if (heroGcInner.children.length > 300) heroGcInner.removeChild(heroGcInner.lastChild);
+  }
+
+  function heroGcLine() {
+    heroGcAngle += 0.19 + Math.random() * 0.04;
+    const r = 38 + Math.sin(heroGcAngle * 0.08) * 26;
+    const x = (120 + r * Math.cos(heroGcAngle)).toFixed(3);
+    const y = (120 + r * Math.sin(heroGcAngle)).toFixed(3);
+    heroGcE += 0.011 + Math.random() * 0.02;
+    const layer = Math.floor(heroGcAngle / (Math.PI * 2));
+    if (layer !== heroGcLayer) {
+      heroGcLayer = layer;
+      heroGcAppend('');
+      heroGcAppend(`; Layer ${layer}  Z=${(0.1 + layer * 0.2).toFixed(2)}mm`);
+      heroGcAppend(`G1 Z${(0.1 + layer * 0.2).toFixed(2)} F900`);
+    }
+    heroGcAppend(`G1 X${x} Y${y} E${heroGcE.toFixed(4)} F${1200 + Math.floor(Math.random() * 400)}`);
+  }
+
+  function heroGcStart() {
+    heroGcBg.classList.remove('fadeout');
+    heroGcBg.classList.add('active');
+    heroGcTimer = setInterval(heroGcLine, 70);
+  }
+
+  function heroGcStop() {
+    clearInterval(heroGcTimer);
+    heroGcTimer = null;
+    heroGcBg.classList.remove('active');
+    heroGcBg.classList.add('fadeout');
+  }
+
+  /* ── SCROLL ──────────────────────────────────────────────── */
+  const scrollSection   = document.getElementById('video-scroll');
+  const navTrigger      = scrollSection;
+  const scrollHint      = document.getElementById('scroll-hint');
+  const heroTextOverlay = document.getElementById('hero-text-overlay');
+  const shopOverlay     = document.getElementById('shop-overlay');
+  const shopWordEl    = document.getElementById('shop-word');
+  const shopSubEl     = document.getElementById('shop-sub');
+
+  // second 3.2 of original = second 2.7 after 0.5s trim = frame 81
+  const SHOP_FRAME  = 81;
+  let shopTriggered = false;
+
+  function resetShop() {
+    // Retreat: word shrinks away while overlay fades — no double-opacity
+    shopWordEl.classList.remove('approach');
+    shopWordEl.classList.add('retreat');
+    shopSubEl.style.opacity = '0';
+    shopOverlay.classList.remove('visible'); // overlay fade starts immediately
+    // After retreat animation finishes, fully reset for next trigger
+    setTimeout(() => {
+      shopWordEl.classList.remove('retreat');
+      shopWordEl.style.clipPath = 'polygon(0% 100%, 0% 100%)';
+      shopWordEl.style.webkitMaskImage = shopWordEl.style.maskImage = '';
+    }, 350);
+  }
+
+  window.addEventListener('scroll', () => {
+    const scrollY   = window.scrollY;
+    const secHeight = scrollSection.offsetHeight - window.innerHeight;
+
+    // Nav stays transparent — no scrolled state
+
+    // Scroll hint + hero text
+    if (scrollY > 40) {
+      scrollHint.classList.add('hidden');
+      heroTextOverlay.classList.add('faded');
+    } else {
+      scrollHint.classList.remove('hidden');
+      heroTextOverlay.classList.remove('faded');
+    }
+
+    // Within video section
+    if (scrollY > 0 && scrollY <= secHeight) {
+      stopBoomerang();
+      const progress = scrollY / secHeight;
+      const frameIdx = LOOP_END + progress * (TOTAL - LOOP_END - 1);
+
+      const zoom = 1 + progress * 0.7;
+      currentZoom = zoom;
+      canvas.style.transform = '';
+      drawFrame(frameIdx, false, zoom);
+
+      // Trigger print-in when reaching SHOP_FRAME
+      if (frameIdx >= SHOP_FRAME && !shopTriggered) {
+        shopTriggered = true;
+        shopOverlay.classList.add('visible');
+        heroGcStart();
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          shopWordEl.classList.add('approach');
+          printReveal(shopWordEl, {
+            rows: 14, msPerRow: 210, delayMs: 0, gapFrac: 0.28,
+            onComplete: () => { shopSubEl.style.opacity = '1'; }
+          });
+        }));
+      }
+
+      // Fade out when scrolling back past trigger
+      if (frameIdx < SHOP_FRAME && shopTriggered) {
+        shopTriggered = false;
+        heroGcStop();
+        resetShop();
+      }
+    }
+
+    // Back at top — reset everything
+    if (scrollY <= 0) {
+      canvas.style.transform = '';
+      currentZoom = 1.0;
+      if (shopTriggered) { shopTriggered = false; resetShop(); }
+      startBoomerang();
+    }
+  }, { passive: true });
+
+  /* ── NAV SCROLL ──────────────────────────────────────────── */
+  const navEl = document.getElementById('nav');
+
+  /* ── SCROLL REVEAL ───────────────────────────────────────── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ── INIT ────────────────────────────────────────────────── */
+  preload();
+  </script>
+
+</body>
+</html>
