@@ -60,20 +60,14 @@
       color: var(--text);
     }
     /* STUDIO always occupies layout space but starts clipped invisible.
-       Reveal = clip-path + the wordmark's own transform slide — no layout
-       animation, so mobile Safari can't desync and jump. */
+       Reveal animates only transforms + clip-path (set inline from JS) —
+       no layout animation, so mobile Safari can't desync and jump.
+       Motion replicates the original: STUDIO grows out of the center
+       (sliding left) while G01 glides right — a mirror split. */
     .wm-studio {
       opacity: 0;
       -webkit-clip-path: inset(0 100% 0 0);
       clip-path: inset(0 100% 0 0);
-      transition: -webkit-clip-path 1.1s cubic-bezier(0.22,1,0.36,1),
-                  clip-path 1.1s cubic-bezier(0.22,1,0.36,1),
-                  opacity 0.7s ease;
-    }
-    .wm-studio.expand {
-      opacity: 1;
-      -webkit-clip-path: inset(0 0 0 0);
-      clip-path: inset(0 0 0 0);
     }
     /* keep the full lockup inside small screens */
     @media (max-width: 640px) {
@@ -388,13 +382,17 @@
 
     const wmEl = document.querySelector('.wordmark');
     const wmStudioEl = document.getElementById('wm-studio');
-    // STUDIO occupies layout space from the start (clipped invisible), so
-    // shift the wordmark left by half its width to keep G01 dead-center.
-    // Start slightly low too — it settles during the reveal.
+    const wmG01El = document.querySelector('.wm-g01');
+    // Start wordmark slightly low — it'll settle during the reveal
+    wmEl.style.transform = 'translate(-50%, calc(-50% + 3vh))';
+    // STUDIO occupies layout space from the start (clipped invisible).
+    // Counter-shift the two spans so G01 sits dead-center: STUDIO waits
+    // half its width to the right, G01 half to the left.
     function setWmIntro() {
       if (wmEl.dataset.revealed) return;
       const half = wmStudioEl.offsetWidth / 2;
-      wmEl.style.transform = 'translate(calc(-50% - ' + half + 'px), calc(-50% + 3vh))';
+      wmStudioEl.style.transform = 'translateX(' + half + 'px)';
+      wmG01El.style.transform = 'translateX(' + (-half) + 'px)';
     }
     setWmIntro();
     // re-measure once webfonts load (width changes with the real font)
@@ -516,12 +514,21 @@
       if (raw >= 0.70 && !brandFired) {
         brandFired = true;
         window._gcStop();
-        // Slide the whole wordmark to true center (transform only — no layout)
-        // while STUDIO un-clips left-to-right: G01 glides right into the lockup.
+        // Mirror split from center (transform + clip only — no layout):
+        // STUDIO un-clips while sliding left, G01 glides right, and the
+        // wordmark settles vertically. Same duration + easing on all three
+        // keeps the reveal edge exactly on G01's heels — no gap, no overlap.
         wmEl.dataset.revealed = '1';
-        wmEl.style.transition = 'transform 2s cubic-bezier(0.22,1,0.36,1)';
+        const bez = 'cubic-bezier(0.22,1,0.36,1)';
+        wmEl.style.transition = 'transform 2s ' + bez;
         wmEl.style.transform  = 'translate(-50%, -50%)';
-        document.getElementById('wm-studio').classList.add('expand');
+        wmStudioEl.style.transition = '-webkit-clip-path 1.4s ' + bez + ', clip-path 1.4s ' + bez + ', transform 1.4s ' + bez + ', opacity 0.7s ease';
+        wmStudioEl.style.webkitClipPath = 'inset(0 0 0 0)';
+        wmStudioEl.style.clipPath = 'inset(0 0 0 0)';
+        wmStudioEl.style.transform = 'translateX(0)';
+        wmStudioEl.style.opacity = '1';
+        wmG01El.style.transition = 'transform 1.4s ' + bez;
+        wmG01El.style.transform = 'translateX(0)';
         setTimeout(() => {
           document.getElementById('edge-top').classList.add('in');
           document.getElementById('edge-bottom').classList.add('in');
