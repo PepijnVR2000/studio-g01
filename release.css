@@ -1,0 +1,91 @@
+/* Temporary public release: real imagery, stable media and direct contact. */
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+.release-page .logo-tester{display:none!important}
+
+/* One size per job, minimum 1.2x apart: 64 / 41 / 22 / 16 / 12. The shared
+   sheets set nav to 11px and the intro line to 15px, both a hair off a size
+   this page already uses, so they are folded in here rather than edited there
+   where the other direction-04 prototypes still depend on them. */
+.release-page .site-head nav a{font-size:12px}
+.release-page .d4-intro p{font-size:16px}
+
+/* The real photographs play as a colour boomerang. The stage height is settled
+   by logo-tester.js so its lower edge shares the collage baseline. */
+.spin{position:relative;display:block;height:clamp(230px,29vh,300px);overflow:hidden;background:transparent}
+.spin img{position:absolute;left:50%;top:50%;width:100%;height:100%!important;display:block;object-fit:cover;object-position:50% 54%;transform:translate(-50%,-50%) scale(1.24);opacity:0;transition:none}
+.spin img.is-on{opacity:1}
+
+.band{margin:clamp(60px,9vh,120px) var(--page-x) 0}
+.band img{width:100%;height:min(62vh,640px);display:block;object-fit:cover;object-position:50% 48%}
+
+/* Until there is an archive to link to, the lower page is a short close rather
+   than a portfolio it cannot yet fill. Two blocks, both on the page grid, both
+   flat on the field: no panels, no fills, hierarchy from scale and position. */
+.note,.contact{
+  padding:clamp(110px,16vh,190px) var(--page-x) 0;
+  display:grid;grid-template-columns:var(--cols);gap:0 var(--col-gap);align-items:start;
+}
+.note h2,.contact h2{font-size:clamp(29px,3.2vw,50px);line-height:1.04;letter-spacing:-.045em;font-weight:400;margin:0;text-wrap:balance}
+.note p{font-size:16px;line-height:1.65;max-width:44ch;margin:28px 0 0}
+.note-copy{grid-column:1}
+.note h2{max-width:15ch}
+/* The band above is the page's largest image. This one is deliberately small:
+   it is evidence, not another hero, and column 2 stays empty to say so. */
+.note-figure{grid-column:3;margin:0;padding-top:9px}
+.note-figure img{width:100%;display:block;aspect-ratio:3/2;object-fit:cover}
+.note-figure figcaption{margin-top:11px;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:#6f6f69}
+.text-link{display:inline-block;margin-top:34px;padding-bottom:5px;border-bottom:1px solid;letter-spacing:.08em;font-size:12px}
+.text-link span{margin-left:22px}
+
+.contact-lead{grid-column:1}
+.contact h2{max-width:16ch}
+.contact-detail{grid-column:3;padding-top:9px}
+/* Body size, not a fifth step: the underline carries the emphasis. */
+.contact-detail li{list-style:none;margin:0 0 12px}
+.contact-detail a{display:inline-block;font-size:16px;border-bottom:1px solid rgba(20,20,20,.28);padding-bottom:4px;transition:color .2s,border-color .2s}
+.contact-detail a:hover{color:var(--cobalt);border-bottom-color:var(--cobalt)}
+.contact-detail ul{margin:0;padding:0}
+.contact-detail p{margin:26px 0 0;font-size:12px;line-height:1.75;letter-spacing:.06em;color:#6f6f69}
+.text-link:focus-visible,.contact-mail:focus-visible{outline:2px solid var(--cobalt);outline-offset:5px}
+
+.release-page .colophon{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:#8a8a84;letter-spacing:.08em;margin-top:clamp(80px,12vh,140px)}
+
+figure.tile{margin:0}
+.release-page .tile:hover img{filter:none}
+.t3 img{height:100%}
+.tile-video video{width:100%;display:block;object-fit:cover;border:0;outline:0;box-shadow:none;background:transparent}
+
+/* The collage is budgeted against the viewport instead of hand-tuned pixel
+   heights, so all four captions are readable at any window height. */
+.release-page{--head-h:74px}
+@media(min-width:1200px) and (max-height:880px){.release-page{--head-h:64px}}
+
+@media(min-width:801px){
+  .release-page .d4-grid{
+    height:calc(100vh - var(--head-h));min-height:640px;
+    grid-template-rows:minmax(0,44fr) minmax(0,56fr);align-items:stretch;
+    padding-bottom:clamp(18px,2.2vh,30px);
+  }
+  .release-page .d4-intro{min-height:0}
+  .release-page .tile{min-height:0}
+  /* The media absorbs whatever is left once the caption has its line. */
+  .release-page .tile>img,
+  .release-page .tile>video,
+  .release-page .tile>.spin{flex:1 1 0;min-height:0;height:auto}
+  .release-page .t1{margin-top:-88px;height:calc(100% + 88px)}
+  .release-page .t4 video{object-position:50% 50%}
+}
+
+@media(max-width:800px){
+  .band{margin-top:44px}
+  .band img{height:auto;aspect-ratio:4/3}
+  .tile-video video{height:auto;aspect-ratio:4/3}
+  .spin{height:auto;aspect-ratio:4/3}
+  .note,.contact{display:flex;flex-direction:column;align-items:stretch;padding-top:88px}
+  .note h2,.contact h2{max-width:none}
+  .note-figure{padding-top:36px}
+  .note-figure img{aspect-ratio:4/3}
+  .contact-detail{padding-top:30px}
+}
+
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.spin img,.contact-button{transition:none}}

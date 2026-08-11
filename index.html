@@ -1,587 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Studio G01</title>
-  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@300,400,500,700,800&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --bg:     #000000;
-      --text:   rgba(240,240,238,0.92);
-      --cobalt: #3D6FD4;
-      --muted:  rgba(240,240,238,0.35);
-      --spring: cubic-bezier(0.34,1.56,0.64,1);
-      --ease:   cubic-bezier(0.22,1,0.36,1);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; height: 100%; overflow: hidden; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Cabinet Grotesk', sans-serif;
-      cursor: default;
-    }
-
-    /* ── TOUCH: hide custom cursor on touch/mobile devices ─── */
-    @media (hover: none) and (pointer: coarse) {
-      body { cursor: auto; }
-      #cursor, #cursor-ring { display: none; }
-    }
-
-    /* ── CURSOR ─────────────────────────────────────────────── */
-    #cursor, #cursor-ring { display: none; }
-
-    /* ── CANVAS ─────────────────────────────────────────────── */
-    #vase-canvas {
-      position: fixed; inset: 0;
-      width: 100%; height: 100%;
-      z-index: 3;
-    }
-
-    /* ── WORDMARK ───────────────────────────────────────────── */
-    .wordmark {
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 20;
-      display: flex;
-      align-items: baseline;
-      white-space: nowrap;
-    }
-    .wm-studio, .wm-g01 {
-      font-family: 'Unbounded', sans-serif;
-      font-weight: 400;
-      font-size: clamp(3rem, 6vw, 8rem);
-      letter-spacing: 0.01em;
-      white-space: nowrap;
-      color: var(--text);
-    }
-    /* STUDIO starts collapsed — expands left-to-right pushing G01 right */
-    .wm-studio {
-      max-width: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-width 1.1s cubic-bezier(0.22,1,0.36,1), opacity 0.7s ease;
-    }
-    .wm-studio.expand { max-width: 900px; opacity: 1; }
-
-    /* ── INSTAGRAM BLOCK ─────────────────────────────────────── */
-    .insta-block {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 20;
-      text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.4s ease;
-      white-space: nowrap;
-    }
-    .insta-block.show { opacity: 1; pointer-events: auto; }
-    .insta-handle {
-      display: block;
-      font-family: 'Unbounded', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      color: rgba(240,240,238,0.4);
-      margin-bottom: 0.9rem;
-    }
-    .insta-cta {
-      display: inline-block;
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(240,240,238,0.55);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(240,240,238,0.2);
-      padding-bottom: 2px;
-      transition: color 0.2s ease, border-color 0.2s ease;
-    }
-    .insta-cta:hover { color: #fff; border-color: rgba(240,240,238,0.55); }
-
-    /* blinking cursor */
-    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
-    .wm-g01-inner  { position: relative; display: inline-block; }
-    .wm-g01-cursor { position: absolute; left: 100%; top: 0; color: var(--text); visibility: hidden; }
-    .wm-g01-cursor.show { visibility: visible; animation: blink 1.1s step-end infinite; }
-
-    /* ── EDGE LINES ─────────────────────────────────────────── */
-    .edge-top, .edge-bottom {
-      position: fixed; left: 0; right: 0; height: 1px;
-      background: var(--text); opacity: 0;
-      z-index: 20;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 1.4s var(--ease), opacity 0s;
-    }
-    .edge-top    { top: 0; }
-    .edge-bottom { bottom: 0; }
-    .edge-top.in, .edge-bottom.in {
-      opacity: 0.08;
-      transform: scaleX(1);
-    }
-
-    /* ── CORNER MARKS ───────────────────────────────────────── */
-    .mark {
-      position: fixed;
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      z-index: 20;
-      opacity: 0;
-      transition: opacity 1.6s ease;
-    }
-    .mark.in { opacity: 1; }
-    .mark-tl  { top: 2rem; left: 2.5vw; }
-    .mark-tr  { top: 2rem; right: 2.5vw; text-align: right; }
-    .mark-br  {
-      bottom: 2rem; right: 2.5vw;
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-    }
-
-    /* ── PROGRESS BAR ───────────────────────────────────────── */
-    /* thin line at very bottom showing print progress */
-    .print-bar {
-      position: fixed;
-      bottom: 0; left: 0;
-      height: 2px;
-      background: var(--cobalt);
-      width: 0%;
-      z-index: 30;
-      opacity: 0.4;
-      transition: opacity 0.8s ease;
-    }
-    .print-bar.done { opacity: 0; transition: opacity 1s ease 0.5s; }
-
-    /* ── HERO BACKGROUND (last scroll frame) ───────────────── */
-    .hero-bg {
-      position: fixed; inset: 0;
-      z-index: 0;
-      background: #000;
-    }
-    .hero-bg img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      transform: scale(1.50);
-      transform-origin: center;
-      filter: contrast(1.28) brightness(0.92) saturate(1.12);
-    }
-
-    /* ── VIGNETTE ────────────────────────────────────────────── */
-    .vignette {
-      position: fixed; inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background: radial-gradient(ellipse at center,
-        transparent 30%,
-        rgba(0,0,0,0.45) 68%,
-        rgba(0,0,0,0.82) 100%);
-    }
-
-    /* ── G-CODE TERMINAL BACKGROUND ───────────────────────── */
-    #gcode-bg {
-      position: fixed; inset: 0;
-      z-index: 2;
-      overflow: hidden;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
-    #gcode-bg.active  { opacity: 1; }
-    #gcode-bg.fadeout { opacity: 0; transition: opacity 1.8s ease; }
-    #gcode-bg .gc-inner {
-      position: absolute;
-      bottom: 1.4rem; left: 2.2rem; right: 2.2rem;
-      display: flex;
-      flex-direction: column-reverse;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 11px;
-      line-height: 1.65;
-      color: rgba(240,240,238,0.1);
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Studio G01 researches robotic ceramic extrusion and makes physical objects in Delft.">
+  <title>Studio G01 — robotic ceramics, Delft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap">
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
-<body>
+<body class="d4 release-page">
+  <link rel="stylesheet" href="logo-tester.css?v=8">
+  <link rel="stylesheet" href="below-fold.css?v=4">
+  <link rel="stylesheet" href="release.css?v=12">
+  <header class="site-head"><a class="brand" href="index.html">STUDIO G01</a><nav><a href="about.html">ABOUT</a><a href="#contact">CONTACT</a></nav></header>
 
-  <div id="cursor"></div>
-  <div id="cursor-ring"></div>
+  <main class="d4-grid">
+    <section class="d4-intro"><h1>A studio for<br>robotic making.</h1><p>Delft, Netherlands.</p></section>
 
-  <!-- LAST SCROLL FRAME AS BACKGROUND -->
-  <div class="hero-bg">
-    <img src="frames/frame_0284.jpg" alt="">
-  </div>
-  <div class="vignette"></div>
+    <figure class="tile t1">
+      <img src="assets/star-vase.jpg" alt="Star-shaped ceramic vase with a layered blue and white glaze">
+      <span>01 / STAR VASE</span>
+    </figure>
 
-  <div id="gcode-bg"></div>
-  <canvas id="vase-canvas"></canvas>
+    <figure class="tile t2">
+      <img src="assets/site/still-b.jpg" alt="Printed porcelain test blocks and a perforated disc">
+      <span>02 / TEST PIECES</span>
+    </figure>
 
-  <div class="wordmark">
-    <span class="wm-studio" id="wm-studio">STUDIO&nbsp;</span>
-    <span class="wm-g01"><span class="wm-g01-inner"><span id="gcode-text"></span><span class="wm-g01-cursor" id="blink-cursor">_</span></span></span>
-  </div>
+    <div class="tile t3">
+      <div class="spin" role="img" aria-label="A printed ceramic cup rotating in a continuous loop">
+        <img src="assets/site/cup360/01.jpg" alt="Printed ceramic cup on a turntable">
+        <img src="assets/site/cup360/02.jpg" alt="" aria-hidden="true">
+        <img src="assets/site/cup360/03.jpg" alt="" aria-hidden="true">
+        <img src="assets/site/cup360/04.jpg" alt="" aria-hidden="true">
+        <img src="assets/site/cup360/05.jpg" alt="" aria-hidden="true">
+        <img src="assets/site/cup360/06.jpg" alt="" aria-hidden="true">
+        <img src="assets/site/cup360/07.jpg" alt="" aria-hidden="true">
+        <img src="assets/site/cup360/08.jpg" alt="" aria-hidden="true">
+        <img src="assets/site/cup360/09.jpg" alt="" aria-hidden="true">
+      </div>
+      <span>03 / CUP</span>
+    </div>
 
-  <div class="insta-block" id="insta-block">
-    <a href="https://www.instagram.com/studio.g01" class="insta-cta" target="_blank">View Instagram →</a>
-  </div>
+    <figure class="tile t4 tile-video">
+      <video src="assets/site/print-portrait.mp4?v=2" poster="assets/site/print-portrait-poster.jpg?v=2" autoplay muted loop playsinline preload="auto" aria-label="Ceramic printing process in the studio"></video>
+      <span>04 / PRINTING PROCESS</span>
+    </figure>
+  </main>
 
-  <div class="edge-top"    id="edge-top"></div>
-  <div class="edge-bottom" id="edge-bottom"></div>
+  <figure class="band">
+    <img src="assets/site/pot-01.jpg" alt="Printed vessel with a raised blue and white ceramic pattern">
+  </figure>
 
-  <div class="mark mark-tl" id="mark-tl">Studio G01</div>
-  <div class="mark mark-tr" id="mark-tr">Delft</div>
-  <div class="mark mark-br" id="mark-br">SS26</div>
+  <section class="note" aria-labelledby="note-title">
+    <div class="note-copy">
+      <h2 id="note-title">The form and the toolpath are designed together.</h2>
+      <p>Clay then decides whether the toolpath was possible. Both answers arrive in the same object. Most of what comes off the machine is thrown away, and the pieces that survive carry the process that made them.</p>
+      <a class="text-link" href="about.html">About the studio <span aria-hidden="true">→</span></a>
+    </div>
+    <figure class="note-figure">
+      <img src="assets/site/still-a.jpg" alt="Unglazed printed test form, its coiled extrusion lines left visible">
+      <figcaption>Extrusion test, unglazed</figcaption>
+    </figure>
+  </section>
 
-  <div class="print-bar" id="print-bar"></div>
+  <section class="contact" id="contact" aria-labelledby="contact-title">
+    <div class="contact-lead">
+      <h2 id="contact-title">Open to conversations with galleries, makers and researchers.</h2>
+    </div>
+    <div class="contact-detail">
+      <ul>
+        <li><a href="mailto:info@studiog01.nl?subject=Studio%20G01%20enquiry">info@studiog01.nl</a></li>
+        <li><a href="tel:+31640245587">+31 6 40 24 55 87</a></li>
+        <li><a href="https://www.instagram.com/studio.g01">Instagram / studio.g01</a></li>
+      </ul>
+      <p>Delft, Netherlands</p>
+    </div>
+  </section>
 
-  <script>
-    // ── CURSOR ───────────────────────────────────────────────
-    const dot = document.getElementById('cursor'), ring = document.getElementById('cursor-ring');
-    let tx = window.innerWidth/2, ty = window.innerHeight/2, rx = tx, ry = ty;
-    document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
-    document.addEventListener('mousedown', () => document.body.classList.add('ck'));
-    document.addEventListener('mouseup',   () => document.body.classList.remove('ck'));
-    (function loop() {
-      dot.style.left = tx+'px'; dot.style.top = ty+'px';
-      rx += (tx-rx)*0.1; ry += (ty-ry)*0.1;
-      ring.style.left = rx+'px'; ring.style.top = ry+'px';
-      requestAnimationFrame(loop);
-    })();
+  <footer class="colophon">
+    <span>Studio G01 / Design research in robotic ceramic extrusion</span>
+    <span>&copy; 2026</span>
+  </footer>
 
-    // ── PRINT REVEAL ─────────────────────────────────────────
-    function printReveal(el, {rows=16, msPerRow=200, delayMs=0, gapFrac=0.28, onComplete}={}) {
-      const rowPct = 100/rows;
-      function applyMask(gap) {
-        if (gap <= 0.001) { el.style.webkitMaskImage=el.style.maskImage=el.style.webkitMaskSize=el.style.maskSize=''; return; }
-        const g = (gap*100).toFixed(3);
-        const grad = `repeating-linear-gradient(to bottom,transparent 0%,transparent ${g}%,black ${g}%,black 100%)`;
-        el.style.webkitMaskImage = el.style.maskImage = grad;
-        el.style.webkitMaskSize  = el.style.maskSize  = `100% ${rowPct.toFixed(4)}%`;
-      }
-      function setClip(row, col) {
-        const bot = 100 - row*rowPct, top = 100 - (row+1)*rowPct;
-        const poly = col>=100
-          ? `0% 100%,100% 100%,100% ${top.toFixed(3)}%,0% ${top.toFixed(3)}%`
-          : [`0% 100%`,`100% 100%`,`100% ${bot.toFixed(3)}%`,`${col.toFixed(3)}% ${bot.toFixed(3)}%`,`${col.toFixed(3)}% ${top.toFixed(3)}%`,`0% ${top.toFixed(3)}%`].join(',');
-        el.style.clipPath = `polygon(${poly})`;
-      }
-      setClip(0,0); applyMask(gapFrac);
-      setTimeout(() => {
-        let t0 = null;
-        function frame(ts) {
-          if (!t0) t0 = ts;
-          const rf = (ts-t0)/msPerRow, row = Math.min(Math.floor(rf),rows-1), col = rf<rows?(rf%1)*100:100;
-          setClip(row,col);
-          if (rf < rows) { requestAnimationFrame(frame); }
-          else {
-            el.style.clipPath = 'none'; let g0=null;
-            function close(ts) {
-              if(!g0)g0=ts; const p=Math.min((ts-g0)/500,1), e=1-(1-p)*(1-p);
-              applyMask(gapFrac*(1-e));
-              if(p<1) requestAnimationFrame(close); else if(onComplete) onComplete();
-            }
-            requestAnimationFrame(close);
-          }
-        }
-        requestAnimationFrame(frame);
-      }, delayMs);
-    }
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script>
-  (function() {
-    const canvas = document.getElementById('vase-canvas');
-    if (!canvas || typeof THREE === 'undefined') return;
-
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 0);
-
-    const scene  = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 50);
-    // Start directly above — you'll see a circle growing
-    camera.position.set(0, 5.5, 0.4);
-    camera.lookAt(0, 0.28, 0);
-
-    // ── Profile + SplineCurve LUT ─────────────────────────────
-    const H = 2.0, RMAX = 1.35;
-
-    const profile = [
-      [0.0, 0.30], [0.2, 0.30], [0.4, 0.34],
-      [0.6, 0.36], [0.8, 0.17], [1.0, 0.22],
-    ];
-
-    const splinePts = profile.map(p => new THREE.Vector2(p[1], p[0]));
-    const spline    = new THREE.SplineCurve(splinePts);
-    const LUT_SIZE  = 400;
-    const lut       = Array.from({ length: LUT_SIZE + 1 }, (_, i) => spline.getPoint(i / LUT_SIZE));
-
-    function vaseR(t) {
-      let lo = 0, hi = lut.length - 1;
-      while (lo < hi - 1) { const m = (lo+hi)>>1; if (lut[m].y < t) lo = m; else hi = m; }
-      if (lut[hi].y === lut[lo].y) return lut[lo].x;
-      return lut[lo].x + (t - lut[lo].y) / (lut[hi].y - lut[lo].y) * (lut[hi].x - lut[lo].x);
-    }
-
-    // ── Spiral geometry ───────────────────────────────────────
-    const LAYERS = 55, STEPS = 80, TOTAL = LAYERS * STEPS + 1;
-
-    const pos = new Float32Array(TOTAL * 3);
-    for (let i = 0; i < TOTAL; i++) {
-      const t     = i / (TOTAL - 1);
-      const angle = (i / STEPS) * Math.PI * 2;
-      const r     = vaseR(t) * RMAX;
-      const y     = (t - 0.5) * H;
-      pos[i*3]   = Math.cos(angle) * r;
-      pos[i*3+1] = y;
-      pos[i*3+2] = Math.sin(angle) * r;
-    }
-
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    geo.setDrawRange(0, 0);
-
-    const mat = new THREE.LineBasicMaterial({ color: 0xF0F0EE, transparent: true, opacity: 0.80 });
-
-    const vaseGroup = new THREE.Group();
-    vaseGroup.position.set(0, 0.28, 0);
-    scene.add(vaseGroup);
-    vaseGroup.add(new THREE.Line(geo, mat));
-
-
-    function resize() {
-      const w = canvas.offsetWidth, h = canvas.offsetHeight;
-      if (!w || !h) return;
-      renderer.setSize(w, h, false);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    // ── Camera path + final pose ──────────────────────────────
-    const CAM_Y0 = 5.5,  CAM_Z0 = 0.4;   // top-down start (circle view)
-    const CAM_YM = 0.15, CAM_ZM = 3.8;  // side view — vase fully visible
-    const CAM_Y1 = -0.25, CAM_Z1 = 1.55; // close-up end — vase as texture
-    const LOOK_AT = new THREE.Vector3(0, 0.28, 0);
-    const FINAL_RX = 0.68, FINAL_RZ = 0.08;
-    let cinematicDone = false;
-
-    const wmEl = document.querySelector('.wordmark');
-    // Start wordmark slightly low — it'll settle during the reveal
-    wmEl.style.transform = 'translate(-50%, calc(-50% + 3vh))';
-
-
-    // ── G-code terminal background ────────────────────────────
-    (function() {
-      const bg = document.getElementById('gcode-bg');
-      // inner flex container — column-reverse so new lines anchor at bottom
-      const inner = document.createElement('div');
-      inner.className = 'gc-inner';
-      bg.appendChild(inner);
-      let timer = null, gcAngle = 0, gcE = 0.0, gcLayerLast = -1, gcProgress = 0;
-
-      const HEADER = [
-        '',
-        'G1 Z0.10 F900  ; Prime position',
-        'G92 E0         ; Reset extrusion',
-        'G29            ; Mesh bed leveling',
-        'G28            ; Home all axes',
-        'M104 S1280     ; Kiln preheat',
-        '; Material: Porcelain clay  |  Glaze: Cobalt',
-        '; Layer height: 0.20mm  |  Layers: ' + LAYERS,
-        '; Studio G01  |  SS26  |  Delft',
-      ];
-
-      function appendLine(text) {
-        const el = document.createElement('div');
-        el.textContent = text;
-        // prepend → in column-reverse this puts the line at the visual bottom
-        inner.insertBefore(el, inner.firstChild);
-        // cull oldest lines (visual top = DOM tail)
-        if (inner.children.length > 300) inner.removeChild(inner.lastChild);
-      }
-
-      function genLine() {
-        const layer = Math.floor(gcProgress * LAYERS);
-        const z     = (0.1 + layer * 0.2).toFixed(2);
-        gcAngle    += 0.19 + Math.random() * 0.04;
-        const r = vaseR(Math.min(gcProgress, 0.999)) * RMAX * 118;
-        const x = (120 + r * Math.cos(gcAngle)).toFixed(3);
-        const y = (120 + r * Math.sin(gcAngle)).toFixed(3);
-        gcE += 0.010 + Math.random() * 0.020;
-        const e = gcE.toFixed(4);
-        const f = 1200 + Math.floor(Math.random() * 400);
-
-        if (layer !== gcLayerLast) {
-          gcLayerLast = layer;
-          appendLine('');
-          appendLine('; Layer ' + layer + '/' + LAYERS + '  Z=' + z + 'mm');
-          appendLine('G1 Z' + z + ' F900');
-        }
-        appendLine('G1 X' + x + ' Y' + y + ' E' + e + ' F' + f);
-      }
-
-      window._gcStart = function() {
-        HEADER.forEach(appendLine);
-        bg.classList.add('active');
-        timer = setInterval(genLine, 85);
-      };
-      window._gcSetProgress = function(p) { gcProgress = p; };
-      window._gcStop = function() {
-        clearInterval(timer);
-        bg.classList.add('fadeout');
-      };
-    })();
-
-    // ── Print + camera pan animation ─────────────────────────
-    let drawStart = null, finishFired = false, brandFired = false;
-    const DRAW_DUR = 9000;
-    const printBar = document.getElementById('print-bar');
-
-    function eio(t)  { return t < 0.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2; }
-    function eio3(t) { return t < 0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
-
-    // Phase split: first 45% of print time = top→side, last 55% = side→close-up
-    const SPLIT = 0.45;
-    function sub(raw, a, b) { return eio3(Math.min(Math.max((raw-a)/(b-a), 0), 1)); }
-
-    function drawFrame(ts) {
-      if (!drawStart) { drawStart = ts; window._gcStart(); }
-      const raw  = Math.min((ts - drawStart) / DRAW_DUR, 1);
-      window._gcSetProgress(raw);
-      const easy = eio(raw);
-      const n    = Math.floor(easy * TOTAL);
-
-      // ── Spiral progress ──
-      geo.setDrawRange(0, n);
-      printBar.style.width = (raw * 100).toFixed(2) + '%';
-
-      // ── Two-phase camera path ──────────────────────────────
-      const t1 = sub(raw, 0,     SPLIT); // top-down → side view
-      const t2 = sub(raw, SPLIT, 1);     // side view → close-up
-
-      if (raw < SPLIT) {
-        // Phase 1: descend to side view, vase stays upright
-        camera.position.y = CAM_Y0 + (CAM_YM - CAM_Y0) * t1;
-        camera.position.z = CAM_Z0 + (CAM_ZM - CAM_Z0) * t1;
-        vaseGroup.rotation.x = 0;
-        vaseGroup.rotation.z = 0;
-        vaseGroup.position.y = 0.28;
-        mat.opacity = 0.65 + 0.2 * t1;
-      } else {
-        // Phase 2: zoom into close-up, vase tilts toward viewer
-        camera.position.y = CAM_YM + (CAM_Y1 - CAM_YM) * t2;
-        camera.position.z = CAM_ZM + (CAM_Z1 - CAM_ZM) * t2;
-        vaseGroup.rotation.x = FINAL_RX * t2;
-        vaseGroup.rotation.z = FINAL_RZ * t2
-          + Math.sin(t2 * Math.PI * 2) * 0.04 * (1 - t2);
-        vaseGroup.position.y = 0.28 - 0.25 * t2;
-        mat.opacity = 0.85 + 0.15 * t2;
-      }
-      camera.lookAt(LOOK_AT);
-
-
-      // ── Text reveals while zoom is still happening ──
-      if (raw >= 0.70 && !brandFired) {
-        brandFired = true;
-        window._gcStop();
-        wmEl.style.transition = 'transform 2s cubic-bezier(0.22,1,0.36,1)';
-        wmEl.style.transform  = 'translate(-50%, -50%)';
-        // STUDIO slides in from left, pushing G01 right into one-line lockup
-        document.getElementById('wm-studio').classList.add('expand');
-        setTimeout(() => {
-          document.getElementById('edge-top').classList.add('in');
-          document.getElementById('edge-bottom').classList.add('in');
-          document.getElementById('mark-tl').classList.add('in');
-          document.getElementById('mark-tr').classList.add('in');
-          document.getElementById('mark-br').classList.add('in');
-          setTimeout(() => blinkCur.classList.add('show'), 800);
-        }, 1100);
-      }
-
-      if (raw < 1) requestAnimationFrame(drawFrame);
-      else showFinish();
-    }
-
-    function showFinish() {
-      if (finishFired) return;
-      finishFired = true;
-      printBar.classList.add('done');
-      // Lock final pose — text reveal already started at 70%
-      mat.opacity = 1;
-      camera.position.set(0, CAM_Y1, CAM_Z1);
-      camera.lookAt(LOOK_AT);
-      autoAngle = vaseGroup.rotation.y;
-      cRX = FINAL_RX;
-      cinematicDone = true;
-      // Position and show Instagram block below the wordmark
-      setTimeout(() => {
-        const ib = document.getElementById('insta-block');
-        const wm = document.querySelector('.wordmark');
-        if (ib && wm) {
-          const rect = wm.getBoundingClientRect();
-          ib.style.top = (rect.bottom + 36) + 'px';
-          ib.classList.add('show');
-        }
-      }, 1000);
-    }
-
-    // ── Terminal typing sequence ──────────────────────────────
-    function typeText(el, text, msPerChar, onComplete) {
-      let i = 0;
-      (function step() {
-        el.textContent = text.slice(0, ++i);
-        if (i < text.length) setTimeout(step, msPerChar);
-        else if (onComplete) setTimeout(onComplete, 0);
-      })();
-    }
-
-    const gcodeEl  = document.getElementById('gcode-text');
-    const blinkCur = document.getElementById('blink-cursor');
-
-    setTimeout(() => {
-      typeText(gcodeEl, 'G01', 150, () => {
-        setTimeout(() => requestAnimationFrame(drawFrame), 150);
-      });
-    }, 200);
-
-    // ── Y rotation (tick) + hold after finish ─────────────────
-    let tRY=0, cRX=0, cRY=0, autoAngle=0;
-    document.addEventListener('mousemove', e => {
-      tRY = (e.clientX/window.innerWidth - 0.5) * 0.5;
-    });
-
-    function tick() {
-      requestAnimationFrame(tick);
-      if (cinematicDone) {
-        // Frozen pose — gently re-centre if mouse drifted
-        cRX += (FINAL_RX - cRX) * 0.012;
-        cRY += (0 - cRY)       * 0.008;
-        vaseGroup.rotation.x = cRX;
-        vaseGroup.rotation.y = autoAngle + cRY;
-        camera.lookAt(LOOK_AT); // keep lookAt after pose locked
-      } else {
-        autoAngle += 0.0014;
-        cRY += (tRY - cRY) * 0.025;
-        vaseGroup.rotation.y = autoAngle + cRY;
-        // rotation.x/.z driven by drawFrame
-      }
-      renderer.render(scene, camera);
-    }
-    tick();
-  })();
-  </script>
-
+  <script src="logo-tester.js?v=14"></script>
+  <script src="spin.js?v=3"></script>
 </body>
 </html>

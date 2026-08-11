@@ -1,0 +1,111 @@
+/* About — layout proportions measured from oliviervanherpt.com/about on
+   2026-08-10 at a 1280px viewport, rebuilt in the Studio G01 field, type and
+   colour. Reference figures: 1075px of content inside a 1265px viewport (85%),
+   columns 30.4 / 4.4 gap / 65.2, portrait 3:4, closing image 3:2, hero a full
+   viewport height with the header transparent over it, 118px from hero to text
+   and 94px from text to the closing image.
+
+   Type is ours, not the reference's: 41 / 21 / 12, three sizes on this page. */
+
+.about-olv{background:#f3f3f1}
+.about-olv main{padding-bottom:0}
+
+/* Fixed and transparent so the hero runs under it, as on the reference. The
+   mark keeps its multiply blend, so it prints onto the photograph instead of
+   sitting on an opaque plate. */
+.about-olv .site-head{
+  position:fixed;top:0;left:0;right:0;
+  background:transparent;border-bottom:0;z-index:20;
+}
+
+.olv-hero{position:relative;margin:0}
+.olv-hero img{
+  width:100%;height:100svh;min-height:520px;
+  object-fit:cover;object-position:50% 50%;display:block;
+}
+
+.olv-scroll{
+  position:absolute;left:50%;bottom:50px;transform:translateX(-50%);
+  width:30px;height:30px;color:var(--ink);
+}
+.olv-scroll svg{display:block;width:30px;height:30px;stroke:currentColor;fill:none;animation:olv-bounce 2.1s ease-in-out infinite}
+.olv-scroll:focus-visible{outline:2px solid var(--cobalt);outline-offset:6px}
+@keyframes olv-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+/* 85% of the viewport until the content reaches 1256px, then the margins take
+   the rest. Measured on the reference at three widths: content 1075 with 95px
+   margins at 1265, and content 1256 with 324px margins at 1905. */
+.olv-wrap{width:85%;max-width:1256px;margin-inline:auto}
+
+/* The gap is a fixed 48px at every width, not a percentage; the columns split
+   what is left 31.85 / 68.15. */
+.olv-intro{
+  padding-top:118px;
+  display:grid;grid-template-columns:31.85fr 68.15fr;column-gap:48px;align-items:start;
+}
+.olv-portrait{margin:0}
+/* 2:3, the founders image's own ratio. The reference slot is 3:4, but this is
+   a stacked diptych rather than a single portrait, and a 3:4 cover crop takes
+   about 11% off the height, clipping the top figure's hair. */
+.olv-portrait img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
+
+/* Set uppercase to match the wordmark, so the tight negative tracking that
+   suits lowercase display type is released back to neutral. Weight 500 is the
+   reference's own heading weight. */
+.olv-text h1{font-size:41px;line-height:1.17;letter-spacing:0;font-weight:500;text-transform:uppercase;margin:0 0 30px}
+
+/* The page title as the wordmark itself rather than typed text, reusing the
+   header lockup (Jost Light "STUDIO" + the cobalt pixel G01) at heading
+   scale. Text stays for screen readers and search; the mark carries the
+   visible weight. Sized in ems so it tracks the h1's own responsive step. */
+/* Margin-bottom lives on .olv-text h1 above (higher specificity would win
+   over this class alone, so it's set there, not duplicated here). */
+.olv-mark-heading{line-height:0}
+.olv-mark{display:block;height:1.1745em;width:auto}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.olv-text p{font-size:21px;line-height:35px;margin:0 0 24px}
+.olv-text .text-link{margin-top:10px}
+
+/* Section headings reuse the 21px reading size rather than adding a sixth
+   size to the scale. Weight 500 and a large space above carry the break;
+   Studio RAP's About does the same job with a size step, but its h1 is text
+   where ours is the wordmark, so a third display size would crowd the mark. */
+.olv-text h2{font-size:21px;line-height:1.3;font-weight:600;margin:46px 0 14px}
+
+.olv-contact{list-style:none;margin:26px 0 0;padding:0}
+.olv-contact li{margin:0 0 10px}
+.olv-contact a{
+  display:inline-block;font-size:21px;
+  border-bottom:1px solid rgba(20,20,20,.28);padding-bottom:3px;
+  transition:color .2s,border-color .2s;
+}
+.olv-contact a:hover{color:var(--cobalt);border-bottom-color:var(--cobalt)}
+.olv-contact a:focus-visible{outline:2px solid var(--cobalt);outline-offset:5px}
+
+/* Needs .olv-text in the selector: `.olv-registry` alone loses to `.olv-text p`. */
+.olv-text p.olv-registry{font-size:12px;letter-spacing:.06em;line-height:1.75;color:#6f6f69;margin:28px 0 0}
+
+/* margin-top only: the shorthand would cancel the wrapper's auto side margins. */
+.olv-wide{margin-top:94px}
+.olv-wide img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
+
+/* The colophon shares the content column rather than the site-wide gutter. */
+.about-olv .colophon{width:85%;max-width:1075px;margin-inline:auto;padding-inline:0}
+
+@media(max-width:800px){
+  .olv-intro{display:block;padding-top:64px}
+  .olv-portrait{margin-bottom:34px}
+  /* Stays portrait on mobile: a landscape crop would cut both faces. */
+  .olv-portrait img{aspect-ratio:2/3}
+  .olv-text h1{font-size:29px}
+  .olv-text p{font-size:17px;line-height:1.62;margin-bottom:20px}
+  .olv-text h2{font-size:17px;margin:36px 0 12px}
+  .olv-contact a{font-size:17px}
+  .olv-wide{margin-top:60px}
+  .olv-portrait{margin-inline:0}
+  .olv-scroll{bottom:28px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .olv-scroll svg{animation:none}
+}

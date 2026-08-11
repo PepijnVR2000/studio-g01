@@ -1,0 +1,24 @@
+.brand-logo{display:block;width:154px;height:50px;border:0;overflow:hidden;mix-blend-mode:multiply;pointer-events:none}
+.logo-tester{position:fixed;z-index:30;left:50%;bottom:18px;transform:translateX(-50%);width:min(760px,calc(100vw - 32px));height:58px;display:grid;grid-template-columns:46px minmax(0,1fr) 46px;background:#171715;color:#f5f4f0;border:1px solid rgba(255,255,255,.16);font-family:Arial,sans-serif}
+.logo-tester button{border:0;border-radius:0;background:transparent;color:inherit;font:20px/1 Arial;cursor:pointer}
+.logo-tester button:hover,.logo-tester button:focus-visible{background:#2c2c28;outline:0}
+.logo-test-track{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none}.logo-test-track::-webkit-scrollbar{display:none}
+.logo-test-option{flex:0 0 auto;min-width:52px;padding:0 12px;border-left:1px solid rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;color:#8e8e88;font:10px/1 Consolas,monospace;letter-spacing:.08em;cursor:pointer}
+.logo-test-option:last-child{border-right:1px solid rgba(255,255,255,.13)}.logo-test-option:hover{color:#fff}.logo-test-option.active{min-width:235px;justify-content:flex-start;color:#fff;background:#252522}
+.logo-test-option span{display:none;margin-left:10px;white-space:nowrap;font-family:Arial,sans-serif;letter-spacing:0}.logo-test-option.active span{display:inline}
+.logo-test-close{position:absolute;right:0;top:-24px;height:24px!important;width:auto!important;padding:0 9px!important;background:#171715!important;font:9px/1 Consolas,monospace!important;letter-spacing:.08em}
+.logo-tester.is-collapsed{width:132px;grid-template-columns:1fr;height:34px}.logo-tester.is-collapsed>*:not(.logo-test-close){display:none}.logo-tester.is-collapsed .logo-test-close{position:static;height:32px!important}
+.d4{min-height:135vh}.d4 .site-head{position:sticky;top:0;z-index:20;transition:height .62s cubic-bezier(.65,0,.2,1)}.logo-scroll-sentinel{height:1px;margin-bottom:-1px}.d4 .brand{position:relative;display:block;width:154px;height:50px;overflow:hidden;transition:width .62s cubic-bezier(.65,0,.2,1)}.d4 .brand-logo{position:absolute;inset:0 auto 0 0;transform-origin:left center}.d4 .brand.is-compact-logo:not(.system-b) .brand-logo{width:72px}.d4 .brand.system-b .brand-logo{width:154px;transition:transform .62s cubic-bezier(.65,0,.2,1)}.d4 .brand.system-b.is-compact-logo{width:38px}.d4 .brand.system-b.is-compact-logo .brand-logo{width:154px;transform:translateX(-116px)}.d4:has(.brand.is-compact-logo) .site-head{height:48px}
+@keyframes logo-register-in{0%{opacity:0;transform:translateX(-7px);clip-path:inset(0 0 70% 0)}22%{opacity:.8;transform:translateX(4px);clip-path:inset(38% 0 31% 0)}48%{opacity:1;transform:translateX(-2px);clip-path:inset(67% 0 8% 0)}72%{transform:translateX(1px);clip-path:inset(16% 0 52% 0)}100%{opacity:1;transform:translateX(0);clip-path:inset(0)}}
+@keyframes logo-register-out{0%{opacity:1;transform:translateX(0);clip-path:inset(0)}32%{opacity:.7;transform:translateX(5px);clip-path:inset(12% 0 58% 0)}68%{opacity:.3;transform:translateX(-4px);clip-path:inset(61% 0 10% 0)}100%{opacity:0;transform:translateX(7px);clip-path:inset(45% 0 45% 0)}}
+.d4 .logo-swap-in{animation:logo-register-in .32s steps(2,end) both}.d4 .logo-swap-out{animation:logo-register-out .28s steps(2,end) both}
+@media(prefers-reduced-motion:reduce){.d4 .logo-swap-in,.d4 .logo-swap-out{animation-duration:.01ms}}
+.d4 .brand.system-b .brand-logo{transition:transform .62s cubic-bezier(.65,0,.2,1),height .62s cubic-bezier(.65,0,.2,1),top .62s cubic-bezier(.65,0,.2,1)}
+.d4 .brand.system-b.is-compact-logo{width:34px;height:48px}
+.d4 .brand.system-b.is-compact-logo .brand-logo{top:3px;width:154px;height:42px;transform:translateX(-90px)}
+@media(max-width:800px){.brand-logo{width:112px;height:44px}.logo-tester{bottom:10px;height:52px;grid-template-columns:40px minmax(0,1fr) 40px}.logo-test-option{min-width:46px;padding-inline:10px}.logo-test-option.active{min-width:170px}}
+@media(min-width:801px){.d4 .d4-grid{grid-template-columns:minmax(0,42fr) minmax(0,28fr) minmax(0,28fr)}.d4 .t3 img{height:269px}}
+@media(min-width:1200px) and (max-height:880px){.d4 .t3 img{height:calc(clamp(485px,70vh,590px) - clamp(235px,34vh,285px) - 51.2px)}}
+/* The inline mark stands in for the iframe once its markup has been memoised. */
+span.brand-logo{display:block;overflow:hidden;pointer-events:none}
+span.brand-logo svg,span.brand-logo img{display:block;width:100%;height:100%;object-fit:contain}

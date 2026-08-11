@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Studio G01 — Selected Six</title>
+  <!-- Jost (SIL OFL, free): the closest open match to Futura's geometric
+       construction, explicitly modelled on the same Bauhaus-era forms.
+       Futura itself is a paid Monotype/Bitstream licence. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap">
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#d2cfc8;color:#111;font-family:Arial,Helvetica,sans-serif}
+    header{height:72px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #aaa69e;background:#d8d5ce}
+    h1{font-size:23px;font-weight:500;margin:0}.meta,.eyebrow,.note{font-family:Consolas,monospace;text-transform:uppercase;letter-spacing:.12em}.meta{font-size:10px}
+    .intro{padding:15px 28px;border-bottom:1px solid #aaa69e;font-size:12px}.grid{display:grid;grid-template-columns:repeat(6,1fr)}
+    .card{padding:9px;background:#e9e5dd;border-right:1px solid #aaa69e;border-bottom:1px solid #aaa69e}.card:nth-child(6n){border-right:0}
+    .art{height:auto;aspect-ratio:1/1;background:#f1ede5;display:flex;align-items:center;justify-content:center;overflow:hidden}.art svg,.art img{display:block;width:100%;height:100%;object-fit:contain}
+    .caption{display:flex;justify-content:space-between;align-items:end;gap:8px;margin-top:8px}.caption strong{font-size:11px;line-height:1.15}.caption span{font-family:Consolas,monospace;font-size:9px}.note{font-size:6px;line-height:1.25;color:#555;margin-top:5px}
+    .motif-head{height:72px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #aaa69e;background:#d8d5ce}.motif-head h2{font-size:18px;font-weight:500;margin:0}.motif-wrap{display:grid;grid-template-columns:42% 58%;border-bottom:1px solid #aaa69e}.motif-art{min-height:430px;background:#f1ede5;border-right:1px solid #aaa69e}.motif-art svg{width:100%;height:100%;display:block}.motif-copy{padding:42px 38px}.motif-copy strong{display:block;font-size:27px;font-weight:500;margin-bottom:24px}.motif-copy p{font-size:15px;line-height:1.55;max-width:560px;margin:0 0 24px}.motif-copy ul{padding:0;margin:0;list-style:none;border-top:1px solid #aaa69e}.motif-copy li{padding:12px 0;border-bottom:1px solid #aaa69e;font:10px Consolas,monospace;text-transform:uppercase;letter-spacing:.1em}.decision-note{padding:14px 28px;border-bottom:1px solid #aaa69e;background:#c9c6bf;font:10px Consolas,monospace;text-transform:uppercase;letter-spacing:.1em}
+    @media(max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}.card:nth-child(6n){border-right:1px solid #aaa69e}.card:nth-child(3n){border-right:0}}
+    @media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr)}.card:nth-child(3n){border-right:1px solid #aaa69e}.card:nth-child(2n){border-right:0}}
+    @media(max-width:420px){.grid{grid-template-columns:1fr}.card{border-right:0!important}}
+    body.embed{background:transparent;overflow:hidden}
+    body.embed>header,body.embed>.intro,body.embed>.decision-note,body.embed>.motif-section{display:none}
+    body.embed .grid{display:block;width:100%;height:100vh;background:transparent}
+    body.embed .card{display:none;width:100%;height:100%;padding:0;border:0;background:transparent}
+    body.embed .card.is-active{display:block}
+    body.embed .art{width:100%;height:100%;aspect-ratio:auto;background:transparent}
+    body.embed .caption,body.embed .note{display:none}
+  </style>
+</head>
+<body>
+  <header><h1>STUDIO G01 / FINAL SELECTION</h1><div class="meta">6 logo candidates · 1 graphic motif · V30</div></header>
+  <div class="decision-note">Founder selection · pending review with Bertalan · website direction 04 currently preferred</div>
+  <div class="intro eyebrow">PRIMARY LOGO CANDIDATES — DIRECT COMPARISON</div>
+  <main class="grid" id="grid"></main>
+  <section class="motif-section"><div class="motif-head"><h2>SECONDARY GRAPHIC DEVICE</h2><div class="meta">18 / BINARY FIELD</div></div><div class="motif-wrap"><div class="motif-art" id="motif-art"></div><div class="motif-copy"><strong>Encoded research texture</strong><p>The binary matrix is retained as a supporting visual language rather than a primary logo. It can signal code, computation and robotic process while allowing the chosen wordmark to remain clear.</p><ul><li>Website fields and transitions</li><li>Packaging, certificates and edition records</li><li>Process documentation and research graphics</li><li>Crops, repetition and large-scale environmental use</li></ul></div></div></section>
+  <script>
+    // brandBlue is lifted from the G01 monogram in frame-1.svg, so the pixel
+    // G01 and the drawn G01 read as the same mark in two resolutions.
+    const bone='#f1ede5',ink='#111',cobalt='#1948b8',brandBlue='#00468D';
+    const glyphs={G:['01110','10000','10000','10111','10001','10001','01110'],0:['01110','10001','10001','10001','10001','10001','01110'],1:['00100','01100','00100','00100','00100','00100','01110'],S:['01111','10000','10000','01110','00001','00001','11110'],T:['11111','00100','00100','00100','00100','00100','00100'],U:['10001','10001','10001','10001','10001','10001','01110'],D:['11110','10001','10001','10001','10001','10001','11110'],I:['11111','00100','00100','00100','00100','00100','11111'],O:['01110','10001','10001','10001','10001','10001','01110']};
+    function glyph(char,x,y,c,fill){
+      // Adjacent SVG cells overlap by 0.8 units. This removes antialiasing
+      // seams after responsive scaling without visibly changing the grid.
+      const bleed=.4, size=c+.8;
+      let out=`<g fill="${fill}" shape-rendering="crispEdges">`;
+      glyphs[char].forEach((row,ry)=>[...row].forEach((b,rx)=>{
+        if(b==='1')out+=`<rect x="${x+rx*c-bleed}" y="${y+ry*c-bleed}" width="${size}" height="${size}"/>`
+      }));
+      return out+'</g>'
+    }
+    function slash(x,y,c,fill){return `<g fill="${fill}"><rect x="${x+c}" y="${y+c*4}" width="${c}" height="${c}"/><rect x="${x+c*2}" y="${y+c*3}" width="${c}" height="${c}"/><rect x="${x+c*3}" y="${y+c*2}" width="${c}" height="${c}"/></g>`}
+    function pixelWord(x,y,c,fill=ink){
+      const zx=x+c*5.7;
+      const one=x+c*11.4;
+      return glyph('G',x,y,c,fill)+glyph('0',zx,y,c,fill)+slash(zx,y,c,fill)+glyph('1',one,y,c,fill)
+    }
+    function pixelLabel(word,x,y,c,fill,direction='horizontal'){
+      return [...word].map((char,index)=>glyph(char,x+(direction==='horizontal'?index*c*5.8:0),y+(direction==='vertical'?index*c*7.8:0),c,fill)).join('');
+    }
+    function topRightBox(x,y,w,h,r){return `M${x} ${y}H${x+w-r}A${r} ${r} 0 0 1 ${x+w-r} ${y+h}H${x}Z`}
+    function binaryMatrix(highlightRow,highlightCol){
+      const c=8.2,pitchX=58,pitchY=70,startX=88,startY=30,cols=10,rows=7;
+      let out=`<svg viewBox="0 0 760 540"><rect width="760" height="540" fill="${bone}"/>`;
+      for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){
+        if(row===highlightRow&&col>=highlightCol&&col<highlightCol+3)continue;
+        const char=((row*7+col*3+row*col)%5<2)?'1':'0';
+        out+=glyph(char,startX+col*pitchX,startY+row*pitchY,c,ink);
+      }
+      const hx=startX+highlightCol*pitchX,hy=startY+highlightRow*pitchY;
+      out+=glyph('G',hx,hy,c,cobalt)+glyph('0',hx+pitchX,hy,c,cobalt)+slash(hx+pitchX,hy,c,cobalt)+glyph('1',hx+pitchX*2,hy,c,cobalt);
+      return out+'</svg>';
+    }
+    function binaryStudioMatrix(direction){
+      const c=8.2,pitchX=58,pitchY=70,startX=88,startY=30,cols=10,rows=7;
+      const studio='STUDIO';
+      let out=`<svg viewBox="0 0 760 540"><rect width="760" height="540" fill="${bone}"/>`;
+      for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){
+        const gx=startX+col*pitchX,gy=startY+row*pitchY;
+        let char=((row*7+col*3+row*col)%5<2)?'1':'0',fill=ink,isSlashedZero=false;
+        if(direction==='horizontal'&&row===1&&col>=1&&col<=6){char=studio[col-1];fill=cobalt}
+        if(direction==='vertical'&&col===1&&row<=5){char=studio[row];fill=cobalt}
+        if(row===5&&col>=6&&col<=8){char=['G','0','1'][col-6];fill=cobalt;isSlashedZero=col===7}
+        out+=glyph(char,gx,gy,c,fill);
+        if(isSlashedZero)out+=slash(gx,gy,c,fill);
+      }
+      return out+'</svg>';
+    }
+    function dotGlyph(char,x,y,pitch,size,fill){let out=`<g fill="${fill}">`;glyphs[char].forEach((row,ry)=>[...row].forEach((b,rx)=>{if(b==='1')out+=`<rect x="${x+rx*pitch}" y="${y+ry*pitch}" width="${size}" height="${size}" rx="${size*.28}"/>`}));return out+'</g>'}
+    const segmentSets={G:['a','f','g','e','d','q'],0:['a','b','c','d','e','f'],1:['b','c']};
+    function segmentShape(style,name,x,y,fill){
+      const horizontal={a:[13,0],g:[13,82],d:[13,164]},vertical={f:[0,13,69],b:[94,13,69],e:[0,95,69],c:[94,95,69],q:[94,82,42]};
+      if(horizontal[name]){const [dx,dy]=horizontal[name],sx=x+dx,sy=y+dy;if(style==='round')return `<rect x="${sx}" y="${sy}" width="94" height="26" rx="13" fill="${fill}"/>`;if(style==='raster')return `<rect x="${sx}" y="${sy+9}" width="94" height="8" rx="2" fill="${fill}"/>`;return `<path d="M${sx+10} ${sy}H${sx+84}L${sx+94} ${sy+13}L${sx+84} ${sy+26}H${sx+10}L${sx} ${sy+13}Z" fill="${fill}"/>`}
+      const [dx,dy,len]=vertical[name],sx=x+dx,sy=y+dy;if(style==='round')return `<rect x="${sx}" y="${sy}" width="26" height="${len}" rx="13" fill="${fill}"/>`;if(style==='raster'){let d='';const count=Math.max(3,Math.round(len/14));for(let i=0;i<count;i++)d+=`<rect x="${sx}" y="${sy+i*14}" width="26" height="8" rx="2" fill="${fill}"/>`;return d}return `<path d="M${sx+13} ${sy}L${sx+26} ${sy+10}V${sy+len-10}L${sx+13} ${sy+len}L${sx} ${sy+len-10}V${sy+10}Z" fill="${fill}"/>`;
+    }
+    function segmentGlyph(style,char,x,y,fill=ink){return segmentSets[char].map(name=>segmentShape(style,name,x,y,fill)).join('')}
+    const moduleClassic=`<svg viewBox="0 0 760 540"><rect width="760" height="540" fill="${bone}"/><g transform="translate(0 55)"><g fill="${ink}" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="600"><text x="60" y="83">S</text><text x="94" y="83">T</text><text x="128" y="83">U</text><text x="162" y="83">D</text><text x="198" y="83">I</text><text x="240" y="83" text-anchor="end">O</text></g><path fill="${ink}" d="M60 118h180v48H108v126h84v-36h-50v-46h98v130H60z"/><path fill="${ink}" fill-rule="evenodd" d="M290 118h180v222H290zm48 48v126h84V166z"/><path fill="${ink}" d="M552 118h90v174h58v48H520v-48h72V166h-58v-30z"/><path d="M304 326L456 132" stroke="${ink}" stroke-width="18"/></g></svg>`;
+    const moduleClassicFillet=`<svg viewBox="0 0 760 540"><defs><filter id="cornerRound13" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="6.5"/><feComponentTransfer><feFuncA type="linear" slope="80" intercept="-39.5"/></feComponentTransfer></filter></defs><rect width="760" height="540" fill="${bone}"/><g transform="translate(0 55)"><g fill="${ink}" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="600"><text x="60" y="83">S</text><text x="94" y="83">T</text><text x="128" y="83">U</text><text x="162" y="83">D</text><text x="198" y="83">I</text><text x="240" y="83" text-anchor="end">O</text></g><g fill="${ink}" filter="url(#cornerRound13)"><path d="M60 118h180v48H108v126h84v-36h-50v-46h98v130H60z"/><path fill-rule="evenodd" d="M290 118h180v222H290zm48 48v126h84V166z"/><path d="M552 118h90v174h58v48H520v-48h72V166h-58v-30z"/></g><path d="M304 326L456 132" stroke="${ink}" stroke-width="18" stroke-linecap="round"/></g></svg>`;
+    const moduleClassicWide=`<svg viewBox="0 0 760 540"><rect width="760" height="540" fill="${bone}"/><g transform="translate(0 28)"><text x="67" y="160" fill="${ink}" font-family="Arial,Helvetica,sans-serif" font-size="156" font-weight="400">STUDIO</text><path fill="${ink}" d="M60 190h180v48H108v126h84v-36h-50v-46h98v130H60z"/><path fill="${ink}" fill-rule="evenodd" d="M290 190h180v222H290zm48 48v126h84V238z"/><path fill="${ink}" d="M552 190h90v174h58v48H520v-48h72V238h-58v-30z"/><path d="M304 398L456 204" stroke="${ink}" stroke-width="18"/></g></svg>`;
+    const stackClassic=`<svg viewBox="0 0 600 600"><defs><filter id="stackG01Thin" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB"><feMorphology operator="erode" radius="7"/></filter></defs><rect width="600" height="600" fill="${bone}"/><path d="M54 52H436V188H54zM104 202H486V338H104zM154 352H536V488H154z" fill="${ink}"/><g fill="${bone}" font-family="Arial,Helvetica,sans-serif" font-size="104" font-weight="700" letter-spacing="-5"><text x="76" y="157">STU</text><text x="126" y="307">DIO</text></g><g transform="translate(153 333) scale(.4 .38)"><g fill="${bone}" filter="url(#stackG01Thin)"><path d="M60 118h180v48H108v126h84v-36h-50v-46h98v130H60z"/><path transform="translate(-38 0)" fill-rule="evenodd" d="M290 118h180v222H290zm48 48v126h84V166z"/><path transform="translate(-76 0)" d="M552 118h90v174h58v48H520v-48h72V166h-58v-30z"/></g><path transform="translate(-38 0)" d="M304 326L456 132" stroke="${bone}" stroke-width="18"/></g></svg>`;
+    const stackClassicCorner=`<svg viewBox="0 0 600 600"><rect width="600" height="600" fill="${bone}"/><path d="${topRightBox(54,52,382,136,68)}" fill="${ink}"/><path d="${topRightBox(104,202,382,136,68)}" fill="${ink}"/><path d="${topRightBox(154,352,382,136,68)}" fill="${ink}"/><g fill="${bone}" font-family="Arial,Helvetica,sans-serif" font-size="104" font-weight="700" letter-spacing="-5"><text x="76" y="157">STU</text><text x="126" y="307">DIO</text></g><g transform="translate(156 333) scale(.4 .38)"><path fill="${bone}" d="M60 118h180v48H108v126h84v-36h-50v-46h98v130H60z"/><path fill="${bone}" fill-rule="evenodd" d="M290 118h180v222H290zm48 48v126h84V166z"/><path fill="${bone}" d="M552 118h90v174h58v48H520v-48h72V166h-58v-30z"/><path d="M304 326L456 132" stroke="${bone}" stroke-width="18"/></g></svg>`;
+    /* Jost (SIL OFL, free, self-hosted via Google Fonts) is the working
+       typeface: it is a direct revival of the same geometric-sans lineage as
+       Futura, so it is the free substitute rather than a generic fallback.
+       Futura/Futura PT stay in the stack after it for the rare visitor who
+       has a licensed copy installed. Measured cap height at 108px is ~77px,
+       matching the pixel G01 module's 77.8px height (7-row grid at c=11), so
+       no font-size rescale was needed once measured with real metrics.
+       Weight 300 (Light) reads quieter than the solid-filled pixel module,
+       so the word sits behind the mark rather than competing with it.
+       Tracking opened from -5 to -1: still tight enough to read as one word,
+       loose enough that the letters stop touching at this weight. */
+    const inlinePixel=`<svg viewBox="0 0 600 600"><rect width="600" height="600" fill="${bone}"/><g transform="translate(-4 133) scale(.82)"><text x="76" y="245" fill="${ink}" font-family="Jost,Futura,'Futura PT','Century Gothic',Arial,Helvetica,sans-serif" font-size="108" font-weight="300" letter-spacing="-1">STUDIO</text>${pixelWord(447,169,11,brandBlue)}</g></svg>`;
+    const modulePixel=`<svg viewBox="0 0 600 600"><rect width="600" height="600" fill="${bone}"/><g transform="translate(39 111) scale(.95)"><text x="70" y="102" fill="${ink}" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="600" textLength="125" lengthAdjust="spacing">STUDIO</text>${pixelWord(70,145,25)}</g></svg>`;
+    const modulePixelNoStudio=`<svg viewBox="0 0 600 600"><rect width="600" height="600" fill="${bone}"/><g transform="translate(39 38) scale(.95)">${pixelWord(70,145,25,brandBlue)}</g></svg>`;
+    const modulePixelWide=`<svg viewBox="0 0 760 540"><rect width="760" height="540" fill="${bone}"/><text x="75" y="126" fill="${ink}" font-family="Arial,Helvetica,sans-serif" font-size="102" font-weight="400">STUDIO</text>${pixelWord(70,160,25)}</svg>`;
+    const stackPixel=`<svg viewBox="0 0 600 600"><rect width="600" height="600" fill="${bone}"/><path d="M54 52H436V188H54zM104 202H486V338H104zM154 352H536V488H154z" fill="${ink}"/><g fill="${bone}" font-family="Arial,Helvetica,sans-serif" font-size="104" font-weight="700" letter-spacing="-5"><text x="76" y="157">STU</text><text x="126" y="307">DIO</text></g>${pixelWord(177,385,12,bone)}</svg>`;
+    const stackPixelCorner=`<svg viewBox="0 0 600 600"><rect width="600" height="600" fill="${bone}"/><path d="${topRightBox(54,52,382,136,68)}" fill="${ink}"/><path d="${topRightBox(104,202,382,136,68)}" fill="${ink}"/><path d="${topRightBox(154,352,382,136,68)}" fill="${ink}"/><g fill="${bone}" font-family="Arial,Helvetica,sans-serif" font-size="104" font-weight="700" letter-spacing="-5"><text x="76" y="157">STU</text><text x="126" y="307">DIO</text></g>${pixelWord(177,385,12,bone)}</svg>`;
+    const binaryMatrixCentered=binaryMatrix(3,4);
+    const binaryMatrixOffset=binaryMatrix(1,6);
+    const binaryStudioHorizontal=binaryStudioMatrix('horizontal');
+    const binaryStudioVertical=binaryStudioMatrix('vertical');
+    const register=`<img src="../logo-shortlist-v6/05-register-shift.svg?v=3" alt="Register Shift retained">`;
+    const k2SolidLight=`<img src="./assets/g01-k2-solid-light.svg?v=2" alt="G01 corrected solid monoline">`;
+    const k2StudioLeft=`<img src="./assets/g01-k2-studio-left.svg?v=5" alt="Studio horizontally matched beside G01 K2 monogram">`;
+    const k2StudioAbove=`<img src="./assets/g01-k2-studio-above.svg?v=4" alt="Studio naturally spaced above G01 K2 monogram">`;
+    const k2StudioGAligned=`<img src="./assets/g01-k2-studio-g-aligned.svg?v=1" alt="Studio aligned with the G of the G01 K2 monogram">`;
+    const importedFrameOne=`<img src="./assets/frame-1.svg?v=2" alt="Corrected Frame 1 wordmark lockup">`;
+    const importedFrameOneVariant=`<img src="./assets/frame-1-variant.svg?v=1" alt="Additional Frame 1 wordmark lockup variant">`;
+    const importedFrameTwo=`<img src="./assets/frame-2.svg?v=2" alt="Corrected Frame 2 vertical lockup">`;
+    const roundedModuleTight=`<img src="../logo-geometric-generator/svg/06-rounded-module-tight.svg" alt="Rounded Module Tight">`;
+    const roundedModuleOpen=`<img src="../logo-geometric-generator/svg/07-rounded-module-open.svg" alt="Rounded Module Open">`;
+    const roundedModuleTightWide=`<img src="../logo-geometric-generator/svg/08-rounded-module-tight-wide-studio.svg" alt="Rounded Module Tight with full-width Studio">`;
+    const roundedModuleOpenWide=`<img src="../logo-geometric-generator/svg/09-rounded-module-open-wide-studio.svg" alt="Rounded Module Open with full-width Studio">`;
+    const roundedSegment=`<svg viewBox="0 0 760 540"><rect width="760" height="540" fill="${bone}"/><text x="104" y="135" fill="${ink}" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="600" textLength="120" lengthAdjust="spacing">STUDIO</text>${segmentGlyph('round','G',104,178)}${segmentGlyph('round','0',264,178)}${segmentGlyph('round','1',424,178)}</svg>`;
+    const dotMatrix=`<svg viewBox="0 0 760 540"><rect width="760" height="540" fill="${bone}"/><text x="92" y="130" fill="${ink}" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="600" textLength="150" lengthAdjust="spacing">STUDIO</text>${dotGlyph('G',92,180,23,17,ink)}${dotGlyph('0',270,180,23,17,ink)}${dotGlyph('1',448,180,23,17,ink)}</svg>`;
+    const horizontalRaster=`<svg viewBox="0 0 760 540"><rect width="760" height="540" fill="${bone}"/><text x="104" y="135" fill="${ink}" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="600" textLength="120" lengthAdjust="spacing">STUDIO</text>${segmentGlyph('raster','G',104,178)}${segmentGlyph('raster','0',264,178)}${segmentGlyph('raster','1',424,178)}</svg>`;
+    const chamferDisplay=`<svg viewBox="0 0 760 540"><rect width="760" height="540" fill="${bone}"/><text x="104" y="135" fill="${ink}" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="600" textLength="120" lengthAdjust="spacing">STUDIO</text>${segmentGlyph('chamfer','G',104,178)}${segmentGlyph('chamfer','0',264,178)}${segmentGlyph('chamfer','1',424,178)}</svg>`;
+    const items=[
+      ['03 / Inline Clean','Pixel G01 · slashed zero',inlinePixel],
+      ['04 / Pixel Module — No Studio','Standalone pixel G01 · slashed zero',modulePixelNoStudio],
+      ['06 / Register Shift','Original retained route',register],
+      ['20 / G01 Fix Solid','Corrected continuous monoline · supplied SVG',k2SolidLight],
+      ['24 / Frame 1 — Wordmark Lockup','Imported SVG · black wordmark · cobalt monogram',importedFrameOne],
+      ['26 / Frame 1 — Refined Lockup','Additional supplied SVG · lighter cobalt monogram',importedFrameOneVariant]
+    ];
+    document.getElementById('grid').innerHTML=items.map(([title,note,art],i)=>`<article class="card" id="item-${i}"><div class="art">${art}</div><div class="caption"><strong>${title}</strong><span>${title.slice(0,2)}</span></div><div class="note">${note}</div></article>`).join('');
+    document.getElementById('motif-art').innerHTML=binaryStudioHorizontal;
+    const params=new URLSearchParams(location.search);
+    if(params.get('embed')==='1'){
+      const logoIndex=Math.max(0,Math.min(items.length-1,Number(params.get('logo'))||0));
+      document.body.classList.add('embed');
+      const activeCard=document.getElementById(`item-${logoIndex}`);
+      activeCard.classList.add('is-active');
+      document.title=items[logoIndex][0];
+      const art=activeCard.querySelector('.art');
+      const fitSvg=svg=>{
+        svg.removeAttribute('width');svg.removeAttribute('height');
+        const original=svg.viewBox.baseVal;
+        [...svg.children].forEach(node=>{
+          if(node.tagName.toLowerCase()!=='rect')return;
+          const width=Number(node.getAttribute('width')),height=Number(node.getAttribute('height'));
+          const fill=(node.getAttribute('fill')||'').toLowerCase();
+          if(width>=original.width*.8&&height>=original.height*.8&&['#f1ede5','#fff','#ffffff','white'].includes(fill))node.remove();
+        });
+        svg.querySelectorAll('[fill="#f1ede5"],[fill="#F1EDE5"]').forEach(node=>node.setAttribute('fill','#fff'));
+        svg.querySelectorAll('[stroke="#f1ede5"],[stroke="#F1EDE5"]').forEach(node=>node.setAttribute('stroke','#fff'));
+        requestAnimationFrame(()=>requestAnimationFrame(()=>{
+          try{
+            const box=svg.getBBox();
+            const padX=Math.max(4,box.width*.055),padY=Math.max(3,box.height*.1);
+            svg.setAttribute('viewBox',`${box.x-padX} ${box.y-padY} ${box.width+padX*2} ${box.height+padY*2}`);
+            svg.setAttribute('preserveAspectRatio','xMinYMid meet');
+          }catch(error){}
+        }));
+      };
+      const image=art.querySelector('img');
+      if(image){
+        fetch(image.src).then(response=>response.text()).then(source=>{
+          const parsed=new DOMParser().parseFromString(source,'image/svg+xml');
+          const svg=parsed.documentElement;
+          art.replaceChildren(document.importNode(svg,true));
+          fitSvg(art.querySelector('svg'));
+        });
+      }else{
+        const svg=art.querySelector('svg');
+        if(svg)fitSvg(svg);
+      }
+    }
+  </script>
+</body>
+</html>
