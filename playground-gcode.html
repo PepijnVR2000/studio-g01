@@ -1,0 +1,1120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio G01 G-code</title>
+<meta name="description" content="Studio G01 G-code">
+<link rel="canonical" href="https://studiog01.nl/playground-gcode.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Studio G01">
+<meta property="og:title" content="Studio G01 G-code">
+<meta property="og:description" content="Studio G01 G-code">
+<meta property="og:url" content="https://studiog01.nl/playground-gcode.html">
+<link rel="icon" href="/favicon-96x96.png" sizes="96x96" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400&display=swap">
+<style>
+@font-face{font-family:"G01 Pixel";src:url(data:font/woff;base64,d09GRgABAAAAAAkQAAoAAAAAFHgAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABPUy8yAAABZAAAADMAAABgOiNvz2NtYXAAAAG4AAAApAAAANwmsCgjZ2x5ZgAAAtgAAASlAAAOhD8PbuRoZWFkAAAA9AAAADYAAAA2LsmG0GhoZWEAAAEsAAAAHwAAACQFegH2aG10eAAAAZgAAAAeAAAAegPoAopsb2NhAAACXAAAAHoAAAB6cNls+21heHAAAAFMAAAAGAAAACAARgAmbmFtZQAAB4AAAAD9AAAB5oorm6lwb3N0AAAIgAAAAI8AAACvNu0zxgABAAAAAQAAkQrIzF8PPPUAAwPoAAAAAObfIf4AAAAA5t8h/gAA/zgB9AK8AAAAAwACAAAAAAAAeJxjYGRgYG75b8HAwBTBwMCQwviFASiCAhgBWB8DdQB4nGNgZGBgsGFQYeBkAAEmBjQAAAsIAG14nGNgZopgnMDAysDCQBgwA7ECjONuYAhiKyhOYm75bwGUbGE4AZNj/MK0B6IWAOoTB5YAeJxjimAwYkAHKRgi2AA+VSlQiMwHgRMIJQDK/AR1AAB4nFWNvQ4BURCFP+sSREGiVNwbi13ir5GQiHgNjdDzAJ5AKZ5AKdF4BKVWpdsX0Kl0Y7IU9kxmzkzyTQ7gAWntis5U7Iabuo/VzeCoUSekx4gxE6bMWbBmy4WH27uDiNI2pgLa9H/UTKklmwRVpkQB5Ckvrbdc5a7XUXayis7RSfN9vrL8q5q4QoZ0NalDi4H+eJpsyJClQY68JjQpEnwAE8InAwAAABQAMQBTAHkAkgCpAL0A3wD2AQwBKQFZAWgBiQGqAckB5AISAjsCXgJvAokCrQLRAwkDLANTA4EDlwPCA+8EEAQ0BFwEfASqBNEE6wUNBTIFUgVSBV4FcgWDBZAFpAW3BcMF4wYFBiUGTwZ6BowGsgbNBwMHIgdCAAB4nIVXS27jOBCl7HiEoD0YCIZgNHrREIRGNtkkgtBzgBwiB+ABfBSdoVc5RFa94gF8FG+tmXqvihKpyGkFTPxhFV/Ve1XFuI17dq74vXl3W1c611VN9aOpmudiGH8Vj+N58359ed68uo2Tp7hw3z/OHZq6eaqbvqtasWgrj73Fo/fj2W/efQjXN1q/OtkfLb+I5cG5SmzjT9HVbS1Ljjuri/FUDF4eeJGfzav8drvk9DL6IQacD3t5/UP+EoeHh+iPnsZ9cfHjSfy5JBJ4IpqKSKqIgghoJcePe1ckEeToL7IXpwzj3vC6ZPf9vFt8214NbDy7uyymv101R3SU/X1byjuNJ0gYwSsdjCWM55CfBWQgzwjxExeI6PoCW9kNk0F3y1lt1SmFcbcF7YtLwprmW/fLz1ay3MkCJi+oZAVDJQmWA8qF5cEd3Tf3nfg6+ADnT3Xb11jmDQusK/fxAXrPoPngsDTmncaMLJGA65vPcKvautpOBfq+K7OTAmP2tH4RjYjWPvXQi4eHjx6E0BM8KMK7D2pNtFq1zcTrrNOYwb1P9HkvqkgVlNSJN4lCSVIiada3Wd6zkx8s062svFqCJjiEpGBAJ54kHqi0dl8nVK1QaIyW5lsR5lwSqFeoARm6Xc/i8Ch/G2qk6cGswJi6y4nNBYWWKaEkIupTisNDkNc3aT7bxTnQC3kkB1n+sR8CWsc22SFzglFVpPbea7yiVqVQs/apn60ssPBz8hP8pCaFQm7Ez/0NZr+7ltokkykusPBg9dWs4NRHBYRczo+8uxn/8pxqJf7obTwlXnbUcSWYyVHf7GLtcwkRPZsz5aKFnGJCSWaYvuTKxgBRdbO6xed2qq9Eg7HIgFY4UsTyzi26Yhd7Yt8FDY6E0JNzf63k5tus3CbtbIys6+caI4g9+41PIky9ZpVbaX0xX0fjFRx0nDyqXPPBUrUQY9bgeu4lqFtXdJquXoDVXW/5mnIRTMWnWGJZ7ZfL+Y2cz3g43UhiDkZFvFCVxijZjvliM6l2UJi8xPEfG6SGVQycfHcf9LVUlwhi1lWiKfj7U780LpvF6yWoHB+TBnDrsU6+KuS/iRWQ+2TrCgEpDKYO7WEDZ3Jpk5sd/TDrnP3xElHR5r9/i4vY3MebhZ5a0bLQzjpHAWuKXK9g+5mxIVOlzfB6nuHp7J66i2oIGmWjNq4EzcwVJ6pUW3ugh6oNSVEYb7Lwwir00XE2s2MGdqqNfi7fwC/V1LdH5DQoHpUw98k7zoNS99XRi94vC3wvOR5wwpRXlDxmjOARW3aHWuuH3YF00z5opQXGuLVpFG+Ie10+mViO95Tevr81K7J7kq3Yz9IeGXA/jj1szR5aidM5mQBaUqYBv+4j2oGhiMXnLljgWa/hbQ+56jVfljPNG9ZRPvP5E+b5EeIY+aRK4zxa5gefySVmiE0fd1MrSx9/C9IA3cT/eaBCYIztb+9vdPrjjU6f3aSmzMaBzl4FdWX3QbNv7Dbm2fEI0ToJ574q78bc75IcrM99n498G/qv2fiZekw8K+U9Tgt2q2jEPgUvxtu69ZP2dFJ+0OzaTPZ+suYE/h99iqXqAAAAeJx1j81qwkAUhb+JUZFCaUspLqdddWGGJAtXXQquBFEQtwGjDQQDYwI+Sp+hi677OH2UXsylP5YOzPCde869MwNc8oahXUPZLRsGoloO6HOv3OGWR+WQa56Uu1wwU+5xxVqSJhyIinlWNtzwohzIva/KHZn4rhzywIdylzsTKPewZrism01R2WmcjGwap2NnJz7b1k4Kdl4c83KR75oy86JPMlIdxS75ylgtrnJ/KKq9bb1feZbUNGwoqLBM5Q8JI6FUKGWME57gydhK0mnCMpeOIzklCzl3MqOUjFf/243O/Eh8J4m/c+xZciXKczi9bC/uz75/538CK2BKuQAAAHicXcvJSkIBAEDR81TEicrUzAYIMdNySCtzqE2LFi7EX3BhAwjB44Ef0A/7CUqr8MKFu7li/hPY52VnzbW6Gw1Nt+60tHV03evpe/DoycCzoZGxye55VVBUcqLsVMWZcxfeTc3MxeUdunTkwJU3x7JyklISqn5tglgQzyzC8Gcdfn9+Rem/XC0/oi2EsxIPAA==) format("woff");font-display:block}
+/* Layout: an instrument on the site's 12-column grid. Columns 1-4 hold the control panel,
+   columns 5-12 the print bed preview with its layer scrubber, read-out and export.
+   Brandbook: blue and paper only, Geist (interim) one weight for labels, G01 Pixel for every value and unit. */
+:root{
+  --paper:#FAF9F6; --blue:#00468D;
+  --bg:var(--paper); --fg:var(--blue);
+  --line:rgba(0,70,141,.28); --tint:rgba(0,70,141,.07); --grid:rgba(0,70,141,.14); --back:rgba(0,70,141,.24);
+  --human:"Geist","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --machine:"G01 Pixel",ui-monospace,monospace;
+  --gutter:48px; --head:82px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:var(--blue);--fg:var(--paper);--line:rgba(250,249,246,.32);--tint:rgba(250,249,246,.07);--grid:rgba(250,249,246,.16);--back:rgba(250,249,246,.26);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:var(--blue);--fg:var(--paper);--line:rgba(250,249,246,.32);--tint:rgba(250,249,246,.07);--grid:rgba(250,249,246,.16);--back:rgba(250,249,246,.26);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--fg);font:400 1rem/1.5 var(--human);margin:0;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+main{flex:1}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+h1,h2,p,figure,ul,dl,dd{margin:0;font-weight:400}
+.wrap{max-width:1440px;margin:0 auto;padding-inline:var(--gutter);width:100%}
+.small{font-size:.75rem;line-height:1.4}
+.px{font-family:var(--machine);font-size:1.25rem;line-height:1.3;font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px 24px;padding-block:20px}
+.logo{width:150px;display:block;color:var(--fg)}
+.logo svg{width:100%;height:auto;display:block;fill:currentColor}
+nav{display:flex;gap:28px;flex-wrap:wrap}
+nav a{font-size:1rem;text-decoration:none;padding-block:14px;display:inline-flex;align-items:center;gap:8px}
+nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.bm{display:inline-grid;grid-template-columns:4px 4px;grid-template-rows:4px 4px}
+.bm i.on{background:var(--fg)}
+footer .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;padding-block:24px 32px;border-top:1px solid var(--line);margin-top:96px}
+footer .end{text-align:right}
+
+
+/* ---------- the instrument ---------- */
+.app{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;padding-block:8px 0;height:calc(100svh - var(--head));min-height:660px}
+.panel{grid-column:1 / span 4;overflow-y:auto;overscroll-behavior:contain;padding-right:12px;padding-bottom:24px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;min-width:0}
+.view{grid-column:5 / span 8;display:flex;flex-direction:column;gap:12px;min-width:0;padding-bottom:16px}
+
+.group{border-top:1px solid var(--line);padding-block:12px 24px;display:grid;gap:18px}
+.group:first-child{border-top:0;padding-top:0}
+.group h2{font-size:.75rem;line-height:1.4}
+
+.seg{display:grid;border:1px solid var(--fg)}
+.seg button{background:transparent;border:0;border-left:1px solid var(--fg);cursor:pointer;min-height:44px;padding:8px 4px;display:grid;justify-items:center;align-content:center;gap:6px}
+.seg button:first-child{border-left:0}
+.seg button:hover{background:var(--tint)}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.seg.shapes{grid-template-columns:repeat(4,minmax(0,1fr))}
+.seg.shapes svg{width:28px;height:36px;display:block;overflow:visible}
+.seg.shapes span{font-size:.75rem;line-height:1.4}
+.seg.mats{grid-template-columns:1fr 1fr}
+
+.ctl{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:2px 12px}
+.ctl label{font-size:1rem;line-height:1.4}
+.val{display:flex;align-items:baseline;gap:5px;justify-content:flex-end}
+.u{font-family:var(--machine);font-size:1.25rem;line-height:1}
+.ctl input[type=range]{grid-column:1 / -1}
+
+input.n{font-family:var(--machine);font-size:1.25rem;line-height:1.3;font-variant-numeric:tabular-nums;color:var(--fg);background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:0 2px;margin:0;width:4ch;text-align:right;cursor:ew-resize;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+input.n:hover{border-bottom-color:var(--fg)}
+input.n:focus{cursor:text;-webkit-user-select:text;user-select:text;outline:none;border-bottom:2px solid var(--fg);background:var(--tint)}
+body.scrub,body.scrub *{cursor:ew-resize!important}
+
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;margin:0;background:
+  linear-gradient(var(--fg),var(--fg)) 0 50% / var(--p,50%) 3px no-repeat,
+  linear-gradient(var(--line),var(--line)) 0 50% / 100% 1px no-repeat;cursor:pointer;touch-action:pan-y}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--fg);border:0;border-radius:0}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;background:var(--fg);border:0;border-radius:0}
+input[type=range]::-moz-range-track{background:transparent}
+input[type=range]:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 20px}
+.fld{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px;border-bottom:1px solid var(--line);min-width:0}
+.fld label{font-size:.75rem;line-height:1.3}
+.fld input.n{border-bottom:0}
+.fld:focus-within{border-bottom-color:var(--fg)}
+.note{font-size:.75rem;line-height:1.4}
+.code{display:grid;gap:6px}
+.code label{font-size:.75rem;line-height:1.4}
+.code textarea{font:400 .75rem/1.5 var(--human);color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:0;padding:10px 12px;resize:vertical;min-height:72px;width:100%}
+.code textarea::placeholder{color:var(--fg);opacity:.55}
+.code textarea:focus{outline:none;border-color:var(--fg)}
+
+.stage{position:relative;flex:1;min-height:320px;background:var(--tint);touch-action:pan-y;cursor:grab;overflow:hidden}
+.stage:active{cursor:grabbing}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.beadbox{position:absolute;left:16px;top:16px;pointer-events:none;z-index:1}
+.tools{position:absolute;right:4px;top:4px;display:flex;gap:0;z-index:2}
+.tools button{width:44px;height:44px;padding:0;display:grid;place-items:center;background:transparent;border:0;color:var(--fg);cursor:pointer}
+.tools button:hover{background:var(--tint)}
+
+/* quick controls: a row of parameter buttons along the bottom of the view, and the slider of the one you tap */
+.quick{position:absolute;left:0;right:0;bottom:0;z-index:2;cursor:default}
+.qs{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:0 12px;background:var(--bg);border-top:1px solid var(--line);padding:8px 12px 0}
+.qs[hidden],[hidden]{display:none !important}
+/* one set of controls per screen: the panel beside the view from 768 px, the quick buttons in the view below that */
+@media (min-width:768px){.quick{display:none}}
+@media (max-width:767px){#g-form,#g-surface{display:none}}
+.qs label{font-size:.75rem}
+.qs input[type=range]{grid-column:1 / -1}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:6px 12px 8px;scrollbar-width:none;background:var(--bg);border-top:1px solid var(--line)}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;display:inline-flex;gap:6px;align-items:center;min-height:44px;padding:0 12px;border:1px solid var(--fg);background:var(--bg);color:var(--fg);font-size:.75rem;cursor:pointer}
+.chips button .px{font-size:1.25rem;line-height:1}
+.chips button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.cap{font-size:.75rem;line-height:1.4;margin-top:-4px}
+.u.hv{font-family:var(--human);font-size:.75rem;line-height:1.4}
+
+.layerbar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px}
+.layerbar label{font-size:.75rem}
+.layerbar .px{min-width:9ch;text-align:right}
+
+.data{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.data div{display:grid;gap:2px;padding:10px 12px;border-left:1px solid var(--line);min-width:0}
+.data div:first-child{border-left:0;padding-left:0}
+.data dt{font-size:.75rem;line-height:1.4}
+.data dd{font-family:var(--machine);font-size:1.875rem;line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.data div.over dd{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
+
+.act{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 24px;align-items:center}
+.warn{font-size:.75rem;line-height:1.4;max-width:62ch}
+.warn .px{font-size:1rem;line-height:1}
+.dl{background:var(--fg);color:var(--bg);border:0;min-height:52px;padding:0 24px;display:inline-flex;gap:16px;align-items:center;cursor:pointer;font-size:1rem}
+.dl:hover{outline:1px solid var(--fg);outline-offset:3px}
+.dl .px{font-size:1.25rem}
+.status{font-size:.75rem;line-height:1.4;grid-column:1 / -1;min-height:1.4em}
+.askus{grid-column:2;justify-self:end;font-size:1rem;text-decoration:underline;text-underline-offset:4px;display:inline-flex;gap:10px;align-items:baseline;min-height:44px}
+.askus .px{font-size:1.25rem;text-decoration:none}
+
+/* for your printer: folded away, the shape comes first */
+.forp{border-top:1px solid var(--line)}
+.forp > summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;min-height:52px;font-size:1rem}
+.forp > summary::-webkit-details-marker{display:none}
+.forp > summary::after{content:"+";font-family:var(--machine);font-size:1.25rem}
+.forp[open] > summary::after{content:"-"}
+.forp > .group:first-of-type{border-top:0;padding-top:0}
+@media (max-width:1199px){
+  :root{--gutter:32px}
+  .app{grid-template-columns:repeat(8,minmax(0,1fr))}
+  .panel{grid-column:1 / span 3}.view{grid-column:4 / span 5}
+  .data{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .data div:nth-child(4){border-left:0;padding-left:0}
+  .data div:nth-child(n+4){border-top:1px solid var(--line)}
+  .fields{grid-template-columns:1fr}
+}
+@media (max-width:767px){
+  header{position:static}
+  :root{--gutter:20px}
+  nav{gap:16px}.logo{width:140px}
+  .app{display:flex;flex-direction:column;height:auto;min-height:0;gap:32px}
+  .view{order:-1;padding-bottom:0}
+  .panel{overflow:visible;padding-right:0}
+  .stage{flex:none;aspect-ratio:4/5;min-height:0}
+  .data{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .data div:nth-child(4){border-left:1px solid var(--line);padding-left:12px}
+  .data div:nth-child(odd){border-left:0;padding-left:0}
+  .data div:nth-child(n+3){border-top:1px solid var(--line)}
+  .act{grid-template-columns:1fr}
+  .dl{width:100%;justify-content:space-between}
+  .askus{grid-column:1;justify-self:start}
+  .fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+  footer .wrap{grid-template-columns:1fr 1fr;margin-top:64px}footer .end{text-align:left}
+}
+@media (min-width:768px) and (max-height:820px){header .wrap{padding-block:12px}:root{--head:66px}.data dd{font-size:1.25rem}}
+.facts .px,.none .px,figcaption .px,footer .px,.text .px,.ni .px,.dlg p .px{font-size:1em;line-height:inherit}.flive{display:inline-flex;align-items:center;gap:6px;text-decoration:none}.flive:hover{text-decoration:underline;text-underline-offset:3px}.flive i{width:6px;height:6px;background:#E5322D;animation:flive 1s steps(1,end) infinite}@keyframes flive{50%{opacity:0}}@media (prefers-reduced-motion:reduce){.flive i{animation:none}}</style>
+
+<style>
+/* ---------- G-code app: library | visualizer | your file ----------
+   Columns 1-3 hold the command library, 4-9 the printer view, 10-12 the file you build.
+   Blue and paper only; Geist for names and explanations, G01 Pixel for every command, value and unit. */
+.gapp{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;padding-block:8px 0;height:calc(100svh - var(--head));min-height:660px;grid-template-rows:minmax(0,1fr)}
+.lib,.gview,.prog{min-height:0}
+.lib{grid-column:1 / span 3;overflow-y:auto;overscroll-behavior:contain;padding-right:12px;padding-bottom:24px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;min-width:0;display:grid;align-content:start;gap:18px}
+.gview{grid-column:4 / span 6;display:flex;flex-direction:column;gap:12px;min-width:0;padding-bottom:16px}
+.prog{grid-column:10 / span 3;display:flex;flex-direction:column;gap:12px;min-width:0;padding-bottom:16px}
+
+.chk{display:flex;gap:10px;align-items:center;font-size:.75rem;line-height:1.4;min-height:32px;cursor:pointer}
+.chk input{-webkit-appearance:none;appearance:none;width:16px;height:16px;border:1px solid var(--fg);border-radius:0;margin:0;display:grid;place-content:center;flex:none;cursor:pointer;background:transparent}
+.chk input::after{content:"";width:8px;height:8px;background:var(--fg);transform:scale(0)}
+.chk input:checked::after{transform:scale(1)}
+.chk input:disabled{opacity:.32;cursor:not-allowed}
+
+.lib h2{font-size:.75rem;line-height:1.4;padding-top:6px}
+.cmds{display:grid}
+.cmd{border-top:1px solid var(--line)}
+.cmd:last-child{border-bottom:1px solid var(--line)}
+.cmd .row{display:grid;grid-template-columns:4.6ch minmax(0,1fr) auto;align-items:baseline;gap:12px;width:100%;text-align:left;background:none;border:0;padding:10px 0;cursor:pointer;min-height:44px;color:inherit}
+.cmd .row:hover .nm{text-decoration:underline;text-underline-offset:4px}
+.cmd .code{font-family:var(--machine);font-size:1.25rem;line-height:1}
+.cmd .nm{font-size:1rem;line-height:1.3}
+.cmd .tag{font-size:.75rem;line-height:1.4;white-space:nowrap}
+.cmd.off .row{opacity:.32}
+.cmd.off .row:hover{opacity:.6}
+.lib.only .cmd.off{display:none}
+.cmd .body{display:none;gap:12px;padding:0 0 18px}
+.cmd.open .body{display:grid}
+.cmd.open .row .nm{text-decoration:underline;text-underline-offset:4px}
+.body p{font-size:.75rem;line-height:1.45;max-width:48ch}
+.body .why{font-size:.75rem;line-height:1.45}
+.body .fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+.body .fld input.n{width:6ch;cursor:text;-webkit-user-select:text;user-select:text}
+.preview{font-family:var(--machine);font-size:1.25rem;line-height:1.3;background:var(--tint);padding:8px 10px;overflow-wrap:anywhere}
+.add{background:var(--fg);color:var(--bg);border:0;min-height:44px;padding:0 18px;display:inline-flex;gap:14px;align-items:center;cursor:pointer;justify-self:start;font-size:1rem}
+.add .px{font-size:1.25rem}
+.add:hover{outline:1px solid var(--fg);outline-offset:3px}
+.add[disabled]{opacity:.32;cursor:not-allowed;outline:0}
+.lib .frame{font-size:.75rem;line-height:1.45;border-top:1px solid var(--line);padding-top:12px}
+.lib .frame a{text-underline-offset:3px}
+
+/* the printer view */
+.gview .stage{cursor:crosshair}
+.gview .stage.grab{cursor:grab}
+.playbar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px}
+.playbar label{font-size:.75rem}
+.playbar .px{min-width:7ch;text-align:right}
+.help{font-size:1rem;line-height:1.45;min-height:2.9em;max-width:62ch}
+.help .px,.help code{font-family:var(--machine);font-size:1em}
+.rep{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:.75rem;line-height:1.4}
+.rep input.n{width:3ch;cursor:text;-webkit-user-select:text;user-select:text;font-size:1.25rem}
+.txtbtn{background:none;border:0;padding:0;min-height:32px;font:inherit;font-size:.75rem;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.txtbtn[disabled]{opacity:.32;cursor:not-allowed}
+.gview .data{grid-template-columns:repeat(5,minmax(0,1fr))}
+
+/* your file */
+.prog .ph2{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.prog h2{font-size:.75rem;line-height:1.4}
+.prog .cnt{font-family:var(--machine);font-size:.75rem}
+.lines{flex:1;min-height:160px;overflow-y:auto;overscroll-behavior:contain;border-top:1px solid var(--line);margin:0;padding:0;list-style:none;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.ln{display:grid;grid-template-columns:3.2ch minmax(0,1fr) auto;gap:4px 10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.ln:hover,.ln.on{background:var(--tint)}
+.ln .no{font-family:var(--machine);font-size:.75rem;opacity:.55;text-align:right}
+.ln .tx{font-family:var(--machine);font-size:1rem;line-height:1.3;overflow-wrap:anywhere}
+.ln .cm{display:block;font-family:var(--human);font-size:.75rem;line-height:1.4;opacity:.75}
+.ln .x{background:none;border:0;color:inherit;cursor:pointer;font-family:var(--machine);font-size:1rem;line-height:1;padding:2px 6px;opacity:0}
+.ln:hover .x,.ln.on .x,.ln .x:focus-visible{opacity:1}
+.ln .msg{grid-column:2 / -1;font-size:.75rem;line-height:1.4}
+.ln.warn .tx{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.empty{font-size:.75rem;line-height:1.45;padding:12px 0;max-width:36ch}
+.ptools{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center}
+.prog .dl{justify-content:space-between}
+.prog .status{font-size:.75rem;line-height:1.4;min-height:1.4em}
+
+@media (max-width:1199px){
+  .gapp{grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:auto;height:auto;min-height:0}
+  .lib{grid-column:1 / span 3;max-height:calc(100svh - var(--head) - 16px);position:sticky;top:var(--head)}
+  .gview{grid-column:4 / span 5}
+  .gview .stage{flex:none;height:min(62svh,620px)}
+  .prog{grid-column:4 / span 5}
+  .lines{max-height:420px}
+  .gview .data{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .gview .data div:nth-child(4){border-left:0;padding-left:0}
+  .gview .data div:nth-child(n+4){border-top:1px solid var(--line)}
+}
+@media (max-width:767px){
+  .gapp{display:flex;flex-direction:column;gap:32px}
+  .gview{order:-1;padding-bottom:0}
+  .lib{max-height:none;position:static;overflow:visible;padding-right:0}
+  .gview .stage{height:auto;aspect-ratio:1/1}
+  .gview .data{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gview .data div:nth-child(4){border-left:1px solid var(--line);padding-left:12px}
+  .gview .data div:nth-child(odd){border-left:0;padding-left:0}
+  .gview .data div:nth-child(n+3){border-top:1px solid var(--line)}
+  .ln .x{opacity:1}
+}
+
+/* Essentials first, the rest folded */
+.lib .lede{font-size:.75rem;line-height:1.4;margin:2px 0 10px}
+.more{border-top:1px solid var(--line)}
+.more > summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;min-height:52px;font-size:1rem}
+.more > summary::-webkit-details-marker{display:none}
+.more > summary::after{content:"+";font-family:var(--machine);font-size:1.25rem}
+.more[open] > summary::after{content:"-"}
+.more h2{padding-top:14px;margin-bottom:6px}
+/* the line taken apart */
+.anat{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:flex-start;min-height:72px;padding:12px 0 4px;border-top:1px solid var(--line)}
+.tk{display:grid;gap:6px;align-content:start}
+.tk .px{font-size:1.875rem;line-height:1}
+.tk .lb{font-size:.75rem;line-height:1.3;max-width:18ch}
+.tk.cmdtk .px{background:var(--fg);color:var(--bg);padding:2px 6px;margin-left:-6px}
+.anat .none2{font-size:.75rem;line-height:1.45;max-width:52ch}
+@media (min-width:768px) and (max-height:820px){.tk .px{font-size:1.25rem}.anat{min-height:56px}}
+/* phone: the bed stays at the top while the commands scroll underneath, so you see what each one does */
+@media (max-width:767px){
+  html,body{overflow-x:clip !important}
+  .gapp{gap:20px}
+  .gview{display:contents}
+  .gview .help{order:1;min-height:0}
+  .gview .stage{order:2;position:sticky;top:0;z-index:5;height:44svh;aspect-ratio:auto;background:#E9ECF0;background:color-mix(in srgb,var(--fg) 7%,var(--bg));box-shadow:0 1px 0 var(--line)}
+  .anat{order:3}
+  .lib{order:4}
+  .playbar{order:5}
+  .gview .data{order:6}
+  .prog{order:7}
+}
+</style>
+<style data-g01-menu>
+.menu-btn{display:none;margin-left:auto;font:inherit;font-size:1rem;color:inherit;background:none;border:0;padding:0 0 0 16px;min-height:44px;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+@media (max-width:767px){
+  header .wrap{flex-wrap:nowrap}
+  .menu-btn{display:inline-flex;align-items:center}
+  header nav{display:none}
+  header.menu-on{position:relative;min-height:100svh;background:var(--fg);color:var(--bg)}
+  header.menu-on .wrap{flex-wrap:wrap;align-content:flex-start}
+  header.menu-on .logo{color:var(--bg)}
+  header.menu-on nav{display:flex;flex-direction:column;gap:0;width:100%;margin-top:40px}
+  header.menu-on nav a{font-size:2.5rem;line-height:1.2;letter-spacing:-.02em;padding-block:6px;color:var(--bg);gap:14px}
+  header.menu-on nav .bm{grid-template-columns:8px 8px;grid-template-rows:8px 8px}
+  header.menu-on nav .bm i.on{background:var(--bg)}
+  body.menu-open main,body.menu-open footer,body.menu-open dialog{display:none}
+  /* nothing may stick out sideways: iOS zooms the whole page out if one element does */
+  html,body{overflow-x:hidden}
+  main{overflow-x:clip}
+  input,select,textarea{max-width:100%}
+  .send{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<header id="hd"><div class="wrap"><a class="logo" href="index.html" aria-label="studio G01, home"><svg role="img" aria-label="studio G01" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 926.1 151.6"><path d="M59.56732394366197 2.6474366197183095Q43.90332394366197 2.6474366197183095 33.2032676056338 -2.3165070422535208Q22.503211267605632 -7.280450704225351 16.767098591549296 -15.994929577464788Q11.030985915492957 -24.709408450704224 10.14850704225352 -35.74039436619718L24.709408450704224 -37.06411267605633Q26.033126760563377 -25.15064788732394 34.306366197183095 -17.87019718309859Q42.579605633802814 -10.589746478873238 59.56732394366197 -10.589746478873238Q73.68698591549295 -10.589746478873238 81.18805633802816 -15.443380281690139Q88.68912676056337 -20.29701408450704 88.68912676056337 -30.2249014084507Q88.68912676056337 -35.51977464788732 86.37261971830985 -39.27030985915492Q84.05611267605633 -43.02084507042253 77.10659154929576 -45.77859154929577Q70.1570704225352 -48.536338028169006 56.258028169014075 -50.963154929577456Q39.9321690140845 -54.05183098591549 30.99707042253521 -58.46422535211267Q22.061971830985915 -62.876619718309854 18.642366197183097 -69.27459154929576Q15.22276056338028 -75.67256338028169 15.22276056338028 -84.7179718309859Q15.22276056338028 -100.16135211267604 26.584676056338026 -109.86861971830984Q37.94659154929577 -119.57588732394365 57.80236619718309 -119.57588732394365Q72.80450704225352 -119.57588732394365 82.4014647887324 -114.39132394366196Q91.99842253521126 -109.20676056338027 96.96236619718309 -100.93352112676055Q101.92630985915491 -92.66028169014083 103.25002816901407 -83.1736338028169L88.68912676056337 -81.84991549295773Q88.0272676056338 -88.24788732394366 84.82828169014084 -93.87369014084507Q81.62929577464787 -99.49949295774647 75.0107042253521 -102.91909859154929Q68.39211267605633 -106.3387042253521 57.581746478873235 -106.3387042253521Q44.12394366197183 -106.3387042253521 36.95380281690141 -100.60259154929577Q29.783661971830984 -94.86647887323943 29.783661971830984 -85.15921126760563Q29.783661971830984 -78.7612394366197 32.32078873239436 -74.67977464788731Q34.857915492957744 -70.59830985915492 41.36619718309859 -67.95087323943662Q47.87447887323943 -65.3034366197183 59.56732394366197 -63.31785915492957Q76.55504225352112 -60.4498028169014 86.15199999999999 -56.25802816901408Q95.74895774647887 -52.066253521126754 99.49949295774647 -45.668281690140844Q103.25002816901407 -39.27030985915493 103.25002816901407 -30.2249014084507Q103.25002816901407 -14.560901408450702 91.22625352112675 -5.956732394366196Q79.20247887323943 2.6474366197183095 59.56732394366197 2.6474366197183095ZM159.28743661971828 0.0Q145.1677746478873 0.0 138.4388732394366 -6.618591549295774Q131.7099718309859 -13.237183098591547 131.7099718309859 -26.915605633802812V-144.28529577464786H145.60901408450704V-27.356845070422533Q145.60901408450704 -18.973295774647884 149.35954929577463 -15.663999999999998Q153.11008450704225 -12.354704225352112 160.61115492957745 -12.354704225352112H175.61329577464787V0.0ZM113.17791549295774 -104.57374647887323V-116.92845070422534H175.61329577464787V-104.57374647887323ZM227.01769014084505 2.6474366197183095Q209.58873239436616 2.6474366197183095 199.10929577464788 -9.155718309859154Q188.62985915492956 -20.958873239436617 188.62985915492956 -41.69712676056338V-116.92845070422534H202.52890140845068V-45.8889014084507Q202.52890140845068 -27.79808450704225 209.58873239436616 -18.862985915492956Q216.64856338028164 -9.927887323943661 230.5476056338028 -9.927887323943661Q245.99098591549293 -9.927887323943661 254.92608450704222 -19.966084507042254Q263.8611830985915 -30.004281690140843 263.8611830985915 -47.21261971830985V-116.92845070422534H277.7602253521126V0.0H264.74366197183093L264.5230422535211 -30.004281690140843L266.50861971830983 -29.121802816901404Q263.8611830985915 -14.119661971830984 253.49205633802814 -5.7361126760563375Q243.12292957746476 2.6474366197183095 227.01769014084505 2.6474366197183095ZM342.1811830985915 2.6474366197183095Q326.95842253521124 2.6474366197183095 315.92743661971826 -4.853633802816901Q304.8964507042253 -12.354704225352112 298.93971830985913 -26.033126760563377Q292.9829859154929 -39.711549295774645 292.9829859154929 -58.46422535211267Q292.9829859154929 -77.2169014084507 298.93971830985913 -90.89532394366196Q304.8964507042253 -104.57374647887323 315.92743661971826 -112.07481690140844Q326.95842253521124 -119.57588732394365 342.1811830985915 -119.57588732394365Q355.19774647887317 -119.57588732394365 365.3462535211267 -113.0676056338028Q375.4947605633802 -106.55932394366197 379.9071549295774 -95.74895774647887V-156.64H393.80619718309856V0.0H381.67211267605626L381.0102535211267 -22.72383098591549Q376.1566197183098 -10.810366197183097 365.6771830985915 -4.081464788732394Q355.19774647887317 2.6474366197183095 342.1811830985915 2.6474366197183095ZM344.60799999999995 -10.589746478873238Q355.6389859154929 -10.589746478873238 363.58129577464786 -16.546478873239437Q371.52360563380273 -22.503211267605632 375.71538028169005 -33.31357746478873Q379.9071549295774 -44.12394366197183 379.9071549295774 -58.46422535211267Q379.9071549295774 -72.80450704225352 375.71538028169005 -83.50456338028168Q371.52360563380273 -94.20461971830984 363.58129577464786 -100.27166197183098Q355.6389859154929 -106.3387042253521 344.60799999999995 -106.3387042253521Q327.6202816901408 -106.3387042253521 317.5820845070422 -93.43245070422535Q307.54388732394364 -80.52619718309859 307.54388732394364 -58.46422535211267Q307.54388732394364 -36.622873239436615 317.5820845070422 -23.606309859154926Q327.6202816901408 -10.589746478873238 344.60799999999995 -10.589746478873238ZM416.9712676056337 0.0V-116.92845070422534H430.8703098591548V0.0ZM498.15932394366183 2.6474366197183095Q482.49532394366184 2.6474366197183095 470.69216901408436 -4.853633802816901Q458.8890140845069 -12.354704225352112 452.491042253521 -26.143436619718308Q446.0930704225351 -39.9321690140845 446.0930704225351 -58.46422535211267Q446.0930704225351 -77.2169014084507 452.491042253521 -90.89532394366196Q458.8890140845069 -104.57374647887323 470.69216901408436 -112.07481690140844Q482.49532394366184 -119.57588732394365 498.15932394366183 -119.57588732394365Q514.0439436619718 -119.57588732394365 525.7367887323942 -112.07481690140844Q537.4296338028167 -104.57374647887323 543.8276056338027 -90.89532394366196Q550.2255774647886 -77.2169014084507 550.2255774647886 -58.46422535211267Q550.2255774647886 -39.9321690140845 543.8276056338027 -26.143436619718308Q537.4296338028167 -12.354704225352112 525.7367887323942 -4.853633802816901Q514.0439436619718 2.6474366197183095 498.15932394366183 2.6474366197183095ZM498.15932394366183 -10.589746478873238Q515.8089014084505 -10.589746478873238 525.7367887323942 -23.385690140845067Q535.664676056338 -36.1816338028169 535.664676056338 -58.46422535211267Q535.664676056338 -80.74681690140844 525.7367887323942 -93.54276056338027Q515.8089014084505 -106.3387042253521 498.15932394366183 -106.3387042253521Q480.730366197183 -106.3387042253521 470.6921690140844 -93.54276056338027Q460.6539718309858 -80.74681690140844 460.6539718309858 -58.46422535211267Q460.6539718309858 -36.1816338028169 470.6921690140844 -23.385690140845067Q480.730366197183 -10.589746478873238 498.15932394366183 -10.589746478873238Z M416.97 -145.00 H430.87 V-131.10 H416.97 Z" transform="translate(0,145)" fill="currentColor"/><path d="M636.088 0.000 L698.231 0.000 L698.231 20.714 L636.088 20.714 Z M636.088 20.714 L636.088 124.286 L615.374 124.286 L615.374 20.714 Z M656.803 62.143 L718.946 62.143 L718.946 124.286 L698.231 124.286 L698.231 82.857 L656.803 82.857 Z M636.088 124.286 L698.231 124.286 L698.231 145.000 L636.088 145.000 Z M760.374 0.000 L822.517 0.000 L822.517 20.714 L760.374 20.714 Z M760.374 20.714 L760.374 82.857 L781.088 82.857 L781.088 103.571 L760.374 103.571 L760.374 124.286 L739.660 124.286 L739.660 20.714 Z M822.517 20.714 L843.231 20.714 L843.231 124.286 L822.517 124.286 L822.517 62.143 L801.803 62.143 L801.803 41.429 L822.517 41.429 Z M801.803 62.143 L801.803 82.857 L781.088 82.857 L781.088 62.143 Z M760.374 124.286 L822.517 124.286 L822.517 145.000 L760.374 145.000 Z M884.660 0.000 L905.374 0.000 L905.374 124.286 L926.088 124.286 L926.088 145.000 L863.946 145.000 L863.946 124.286 L884.660 124.286 L884.660 41.429 L863.946 41.429 L863.946 20.714 L884.660 20.714 Z" fill="currentColor" fill-rule="evenodd"/></svg></a><button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button><nav id="main-nav" aria-label="Main"><a href="commissions.html">Work with us</a><a href="work.html">Archive</a><a href="collection.html">Shop</a><a href="about.html">About</a><a href="playground.html" aria-current="page"><span class="bm" aria-hidden="true"><i></i><i class="on"></i><i class="on"></i><i></i></span>Playground</a></nav></div></header>
+<script>
+(function(){
+  // phone menu: the header becomes a sheet holding the six links
+  var h=document.querySelector('header'),b=h&&h.querySelector('.menu-btn');if(!b)return;
+  var y=0;
+  function set(o){if(o===h.classList.contains('menu-on'))return;if(o)y=scrollY;h.classList.toggle('menu-on',o);document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o?'true':'false');b.textContent=o?'Close':'Menu';scrollTo({top:o?0:y,behavior:'instant'});}
+  b.addEventListener('click',function(){set(!h.classList.contains('menu-on'));});
+  addEventListener('keydown',function(e){if(e.key==='Escape'&&h.classList.contains('menu-on')){set(false);b.focus();}});
+  if(window.matchMedia)matchMedia('(min-width:768px)').addEventListener('change',function(e){if(e.matches)set(false);});
+})();
+</script>
+
+<main>
+<div class="wrap gapp">
+  <h1 class="sr">G-code: learn the commands a printer reads, and build a small file</h1>
+
+  <section class="lib" id="lib" aria-label="Command library">
+    <div class="seg mats" role="group" aria-label="Printer">
+      <button type="button" class="mat" data-m="clay" aria-pressed="true">Clay printer</button>
+      <button type="button" class="mat" data-m="plastic" aria-pressed="false">Plastic printer</button>
+    </div>
+    <label class="chk"><input type="checkbox" id="only"> Show only what you can use now</label>
+    <div id="groups"></div>
+    <p class="frame">A learning tool for standard G-code. Each piece we make for a place is designed from scratch and tested attempt by attempt. <a href="work.html">See our work in the archive <span class="px" aria-hidden="true">&rarr;</span></a></p>
+  </section>
+
+  <section class="gview" aria-label="Printer view">
+    <p class="help" id="help" aria-live="polite"></p>
+    <div class="stage" id="stage">
+      <canvas id="cv" role="img" aria-label="The print bed, the nozzle and the path of your file"></canvas>
+      <div class="beadbox" id="bead"></div>
+      <div class="tools"><button type="button" id="replay" aria-label="Play the file from the start" title="Play from the start"></button></div>
+    </div>
+    <div class="anat" id="anat" aria-live="polite"></div>
+    <div class="playbar">
+      <label for="scrub">Line</label>
+      <input type="range" id="scrub" min="0" max="0" value="0">
+      <span class="px" id="scrub-n">000/000</span>
+    </div>
+    <dl class="data">
+      <div><dt>X</dt><dd id="d-x">-</dd></div>
+      <div><dt>Y</dt><dd id="d-y">-</dd></div>
+      <div><dt>Z</dt><dd id="d-z">-</dd></div>
+      <div><dt>Material, E</dt><dd id="d-e">0</dd></div>
+      <div><dt id="d-5t">Time, min:s</dt><dd id="d-5">0:00</dd></div>
+    </dl>
+  </section>
+
+  <section class="prog" aria-label="Your file">
+    <div class="ph2"><h2>Your file</h2><span class="cnt" id="cnt">0</span></div>
+    <ol class="lines" id="lines"></ol>
+    <div class="ptools">
+      <button type="button" class="txtbtn" id="undo">Undo</button>
+      <button type="button" class="txtbtn" id="clear">Clear</button>
+      <button type="button" class="txtbtn" id="example">Load an example</button>
+    </div>
+    <div class="rep">
+      <span>Repeat the last layer</span><input class="n" id="rep-n" value="10" inputmode="numeric" aria-label="Number of times"><span>times</span>
+      <button type="button" class="txtbtn" id="rep">Repeat</button>
+    </div>
+    <label class="chk"><input type="checkbox" id="explain" checked> Explain each line in the file</label>
+    <button type="button" class="dl" id="dl">Download G-code <span class="px" aria-hidden="true">&rarr;</span></button>
+    <p class="status" id="status" aria-live="polite">Made in your browser, nothing is uploaded. Check the file in your printer's preview before you print.</p>
+  </section>
+</div>
+</main>
+<footer><div class="wrap small">
+<span><a href="contact.html">Contact</a><br>info@studiog01.nl<br><span class="px">+31 6 40 24 55 87</span></span>
+<span>Rotterdamseweg <span class="px">396</span><br><span class="px">2629 HH</span> Delft</span>
+<span><a href="https://www.instagram.com/studio.g01">instagram / studio.g01</a><br>KVK <span class="px">42128321</span></span>
+<span class="end">Delft <span class="px" data-clock>--:--</span></span>
+</div></footer>
+
+<script>
+/* Bead: the two loose pixels of Studio G01 as a small living element.
+ * Same model as motion/bead.py: always two pixels in a 2 x 2 block, which slides
+ * along one diagonal track (4 steps up-right, 4 down-left), moving one pixel
+ * one cell per 0.1 s tick. No dependencies.
+ *
+ *   const bead = new Bead(container, { unit: 8, color: "#00468D" });
+ *   bead.look(dx, dy) / bead.setPos(-4..4) / bead.surprise() / bead.happy()
+ *   bead.loading(true|false) / bead.spin(true|false) / bead.sleep() / bead.wake()
+ */
+(function (global) {
+  "use strict";
+  const TICK = 100;
+  const POSES = {
+    rest: [[1, 0], [0, 1]], rest2: [[0, 0], [1, 1]],
+    left: [[0, 0], [0, 1]], right: [[1, 0], [1, 1]],
+    up: [[0, 0], [1, 0]], down: [[0, 1], [1, 1]],
+    sleep: [[0, 1], [0, 1]],
+  };
+  const SPIN = ["up", "right", "down", "left"];   // one pixel jumps diagonally per step
+  const OFF = 4;                       // track and stretch fit in cells -4..5
+  const SPAN = 10;
+  const sign = (v) => (v > 0) - (v < 0);
+
+  function target(pose, pos, stretch) {
+    const [[ax, ay], [bx, by]] = POSES[pose];
+    return [[pos + ax + stretch, -pos + ay - stretch], [pos + bx - stretch, -pos + by + stretch]];
+  }
+
+  function stepTowards(cur, tgt) {
+    // the two pixels are identical: each goes to the nearer target, so a quarter
+    // turn in the 2 x 2 block is one diagonal jump of one pixel
+    const d = (p, q) => Math.max(Math.abs(p[0] - q[0]), Math.abs(p[1] - q[1]));
+    if (d(cur[0], tgt[1]) + d(cur[1], tgt[0]) < d(cur[0], tgt[0]) + d(cur[1], tgt[1])) tgt = [tgt[1], tgt[0]];
+    const moves = [];
+    for (const i of [0, 1]) {
+      const [x, y] = cur[i], [tx, ty] = tgt[i];
+      if (x !== tx || y !== ty) moves.push([i, [x + sign(tx - x), y + sign(ty - y)]]);
+    }
+    if (!moves.length) return false;
+    const sharingOk = tgt[0][0] === tgt[1][0] && tgt[0][1] === tgt[1][1];
+    for (const [i, n] of moves) {
+      const o = cur[1 - i];
+      if (sharingOk || n[0] !== o[0] || n[1] !== o[1]) { cur[i] = n; return true; }
+    }
+    cur[moves[0][0]] = moves[0][1];
+    return true;
+  }
+
+  class Bead {
+    constructor(el, opts = {}) {
+      this.el = el;
+      this.unit = opts.unit || 8;
+      this.color = opts.color || "#00468D";
+      this.state = { pose: "rest", pos: 0, stretch: 0 };
+      this.cur = target("rest", 0, 0);
+      this.idleSince = performance.now();
+      this.breath = 0;
+      this.loadingOn = false;
+      this.reduced = global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (getComputedStyle(el).position === "static") el.style.position = "relative";
+      el.style.width = el.style.height = SPAN * this.unit + "px";
+      el.setAttribute("aria-hidden", "true");
+      this.px = [0, 1].map(() => {
+        const d = document.createElement("div");
+        Object.assign(d.style, { position: "absolute", width: this.unit + "px", height: this.unit + "px", background: this.color });
+        el.appendChild(d);
+        return d;
+      });
+      this.draw();
+      if (!this.reduced) this.timer = setInterval(() => this.tick(), TICK);
+    }
+
+    set(changes) {
+      if (this.state.pose === "sleep" && !("pose" in changes)) this.state.pose = "rest";   // anything wakes it
+      Object.assign(this.state, changes);
+      this.idleSince = performance.now();
+    }
+    look(dx, dy) {
+      if (this.state.pose === "sleep") this.wake();
+      const pose = Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? "left" : "right") : (dy < 0 ? "up" : "down");
+      this.set({ pose });
+    }
+    rest() { this.set({ pose: "rest" }); }
+    setPos(p) { this.set({ pos: Math.max(-4, Math.min(4, Math.round(p))) }); }
+    surprise() { this.set({ stretch: 3 }); clearTimeout(this.t1); this.t1 = setTimeout(() => this.set({ stretch: 0 }), 700); }
+    happy() {
+      const p = this.state.pos;
+      this.setPos(p + 1); clearTimeout(this.t2); this.t2 = setTimeout(() => this.setPos(p), 500);
+    }
+    loading(on) { this.loadingOn = on; if (on) this.set({ pos: -4, pose: "rest" }); }
+    spin(on) { this.spinning = on; this.set({ pose: on ? "up" : "rest", stretch: 0 }); }
+    sleep() { this.set({ pose: "sleep", stretch: 0 }); }
+    wake() { this.set({ pose: "rest" }); }
+
+    tick() {
+      const now = performance.now(), s = this.state;
+      if (this.spinning) {
+        if (this.done()) s.pose = SPIN[(SPIN.indexOf(s.pose) + 1) % 4];   // turn a quarter
+        this.idleSince = now;
+      } else if (this.loadingOn && this.done()) {
+        s.pos = s.pos >= 4 ? -4 : s.pos + 1;       // climb the stair, drop back, again
+      } else if (!this.loadingOn && s.pose !== "sleep" && now - this.idleSince > 20000) {
+        s.pose = "sleep";                         // nothing happening for a while
+      } else if (!this.loadingOn && ["left", "right", "up", "down"].includes(s.pose) && now - this.idleSince > 1500) {
+        s.pose = "rest";                          // stopped looking: back to the stair
+      } else if (!this.loadingOn && s.pose.startsWith("rest") && now - this.idleSince > 1500 && this.done()) {
+        if (++this.breath % 12 === 0) s.pose = s.pose === "rest" ? "rest2" : "rest";   // breathing
+      }
+      if (stepTowards(this.cur, target(s.pose, s.pos, s.stretch))) this.draw();
+    }
+    done() {
+      const t = target(this.state.pose, this.state.pos, this.state.stretch);
+      const eq = (p, q) => p[0] === q[0] && p[1] === q[1];
+      const [a, b] = this.cur;                    // the pixels are identical, so either order counts
+      return (eq(a, t[0]) && eq(b, t[1])) || (eq(a, t[1]) && eq(b, t[0]));
+    }
+    draw() {
+      this.cur.forEach(([x, y], i) => {
+        this.px[i].style.left = (x + OFF) * this.unit + "px";
+        this.px[i].style.top = (y + OFF) * this.unit + "px";
+      });
+    }
+  }
+
+  global.Bead = Bead;
+})(window);
+
+</script>
+<script>
+(function(){
+"use strict";
+var REDUCE=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var TAU=Math.PI*2;
+
+/* ---------- printers ---------- */
+// Starting values from common practice. w: line width, h: layer height, fil: the diameter E is counted in.
+var MAT={
+  clay:   {w:3.6, h:1.5,fil:1.75,F:1500,FT:3000,bed:300,hot:false,arc:25,step:40},
+  plastic:{w:0.45,h:0.2,fil:1.75,F:1800,FT:6000,bed:220,hot:true, arc:10,step:20}
+};
+var MIN_FLOW=170;
+var mat='clay';
+function M(){return MAT[mat];}
+
+/* ---------- the library: standard commands only ---------- */
+var CMDS=[
+  {g:'Start',c:'G28',n:'Home',d:'Moves each axis to its end stop, so the printer knows where the nozzle is. Nearly every file starts here. After homing the nozzle is at X0 Y0 Z0.'},
+  {g:'Start',c:'G21',n:'Millimetres',d:'Reads every distance in millimetres. Most printers already do, and a file that says so is clearer.',mode:'units'},
+  {g:'Start',c:'G90',n:'Absolute positions',d:'X, Y and Z are places on the bed, measured from zero. X100 means 100 mm from the edge where X is zero.',mode:'abs'},
+  {g:'Start',c:'G91',n:'Relative positions',d:'X, Y and Z are steps from where the nozzle is now. X10 means 10 mm further along.',mode:'rel'},
+  {g:'Start',c:'M82',n:'Absolute extrusion',d:'E is the total length of material pushed since the last reset, so every move carries a larger number.',mode:'eabs'},
+  {g:'Start',c:'M83',n:'Relative extrusion',d:'E is the material for this move alone. Easier to read and to write by hand.',mode:'erel'},
+  {g:'Start',c:'G92',n:'Set position',d:'Tells the printer that it is at a value, without moving. G92 E0 resets the material count.',p:['X','Y','Z','E'],def:{E:'0'}},
+  {g:'Heat',c:'M104',n:'Heat the nozzle',d:'Starts heating the nozzle and goes straight on to the next line. S is the temperature.',p:['S'],def:{S:'210'},heat:1},
+  {g:'Heat',c:'M109',n:'Heat the nozzle and wait',d:'Heats the nozzle and waits until it is there. Plastic only flows from about 170 \u00b0C.',p:['S'],def:{S:'210'},heat:1},
+  {g:'Heat',c:'M140',n:'Heat the bed',d:'Starts heating the bed, so the first layer sticks, and goes straight on.',p:['S'],def:{S:'60'},heat:1},
+  {g:'Heat',c:'M190',n:'Heat the bed and wait',d:'Heats the bed and waits until it is there.',p:['S'],def:{S:'60'},heat:1},
+  {g:'Move',c:'G0',n:'Travel',d:'Moves in a straight line without pushing material. F is the speed in millimetres per minute.',p:['X','Y','Z','F'],move:1},
+  {g:'Move',c:'G1',n:'Straight move',d:'Moves in a straight line, and pushes material while it moves when E is given. G1 is short for G01, the straight move during which material is laid down. Our name comes from it.',p:['X','Y','Z','F'],move:1,ext:1},
+  {g:'Move',c:'G2',n:'Arc, clockwise',d:'Moves along a clockwise arc to X and Y. I and J place the centre, measured from where the arc starts. End where you started for a full circle.',p:['X','Y','I','J','F'],move:1,ext:1,arc:1},
+  {g:'Move',c:'G3',n:'Arc, anticlockwise',d:'The same arc, turning the other way.',p:['X','Y','I','J','F'],move:1,ext:1,arc:1},
+  {g:'Move',c:'G4',n:'Pause',d:'Waits for P milliseconds before the next line, for example to let a layer firm up.',p:['P'],def:{P:'500'}},
+  {g:'Fan',c:'M106',n:'Fan on',d:'Spins the part fan. S runs from 0, off, to 255, full. Plastic sets faster when it is cooled.',p:['S'],def:{S:'255'},fan:1},
+  {g:'Fan',c:'M107',n:'Fan off',d:'Stops the part fan.',fan:1},
+  {g:'Finish',c:'M84',n:'Motors off',d:'Releases the motors at the end of a print. The printer forgets where the nozzle is, so home again before the next move.'}
+];
+var GROUPS=['Start','Heat','Move','Fan','Finish'];
+var BY={};CMDS.forEach(function(d){BY[d.c]=d;});
+var UNIT={X:'mm',Y:'mm',Z:'mm',I:'mm',J:'mm',E:'mm',F:'mm/min',P:'ms'};
+var STEP={X:1,Y:1,Z:.1,I:1,J:1,E:.1,F:100,S:5,P:100};
+var MSG={
+  home:'Home first with G28. Until then the printer does not know where the nozzle is.',
+  lost:'The motors are off, so the printer has lost the nozzle. Home again with G28.',
+  heat:'A clay printer works cold. It has no heater, so it ignores this line.',
+  fan:'A clay printer has no part fan. Clay dries in the air.',
+  free:'The motors are already free.'
+};
+
+/* ---------- helpers ---------- */
+function has(p,k){return p&&p[k]!==undefined&&p[k]!==''&&isFinite(+p[k]);}
+function f3(v){return String(+(+v).toFixed(3));}
+function f4(v){return String(+(+v).toFixed(4));}
+function pad3(v){return v<1000?('00'+v).slice(-3):String(v);}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+// the machine voice: commands, numbers and units in G01 Pixel, words in the human voice
+function mv(t){return esc(t).replace(/(\b[GM]\d+\b|\b[XYZEFSPIJ]-?\d+(?:\.\d+)?\b|-?\d+(?:\.\d+)?(?:\s?(?:mm|\u00b0C|ms|%))?)/g,'<span class="px">$1</span>');}
+function unitSpan(u){return u?'<span class="u'+(/^[cgkm\u00b0%C\/0-9.]*$/.test(u)?'':' hv')+'">'+u+'</span>':'';}
+
+/* ---------- the interpreter: reads the file the way a printer would ---------- */
+var lines=[],R=null,fin=null;
+function run(list){
+  var m=M(),area=Math.PI*m.fil*m.fil/4,dist=0,segs=[],res=[];
+  var st={homed:false,lost:false,abs:true,eAbs:true,units:false,x:0,y:0,z:0,e:0,used:0,tn:20,tnT:0,tb:20,tbT:0,fan:0,t:0,f:m.F,ext:0,layers:{}};
+  function toward(v,t,d){return v<t?Math.min(t,v+d):Math.max(t,v-d);}
+  function adv(dt){st.t+=dt;st.tn=toward(st.tn,st.tnT||20,dt*(st.tnT>st.tn?3:1));st.tb=toward(st.tb,st.tbT||20,dt*(st.tbT>st.tb?.8:.3));}
+  list.forEach(function(L,i){
+    var p=L.p||{},d=BY[L.c],r={c:L.c,parts:[L.c],cm:'',warn:'',s0:dist};
+    switch(L.c){
+      case 'G28':st.homed=true;st.lost=false;st.x=st.y=st.z=0;adv(10);r.cm='home every axis';break;
+      case 'G21':st.units=true;r.cm='distances in millimetres';break;
+      case 'G90':st.abs=true;r.cm='positions measured from zero';break;
+      case 'G91':st.abs=false;r.cm='positions as steps from here';break;
+      case 'M82':st.eAbs=true;r.cm='material counted in total';break;
+      case 'M83':st.eAbs=false;r.cm='material counted per move';break;
+      case 'G92':
+        ['X','Y','Z','E'].forEach(function(k){if(has(p,k)){r.parts.push(k+f3(p[k]));st[k.toLowerCase()]=+p[k];}});
+        r.cm='set the position without moving';break;
+      case 'M104':case 'M109':case 'M140':case 'M190':
+        if(has(p,'S'))r.parts.push('S'+Math.round(p.S));
+        var bed=L.c==='M140'||L.c==='M190',wait=L.c==='M109'||L.c==='M190';
+        r.cm=(bed?'heat the bed':'heat the nozzle')+(wait?' and wait':'');
+        if(!m.hot){r.warn=MSG.heat;break;}
+        if(has(p,'S')){
+          if(bed)st.tbT=+p.S;else st.tnT=+p.S;
+          if(wait){var gap=bed?Math.abs(st.tbT-st.tb)/(st.tbT>st.tb?.8:.3):Math.abs(st.tnT-st.tn)/(st.tnT>st.tn?3:1);adv(gap);if(bed)st.tb=st.tbT;else st.tn=st.tnT;}
+          if(!+p.S)r.cm=bed?'bed heater off':'nozzle heater off';
+        }
+        break;
+      case 'G0':case 'G1':case 'G2':case 'G3':move(L,p,r,i);break;
+      case 'G4':if(has(p,'P')){r.parts.push('P'+Math.round(p.P));adv(+p.P/1000);}r.cm='wait';break;
+      case 'M106':if(has(p,'S'))r.parts.push('S'+Math.round(p.S));r.cm='part fan on';if(!m.hot){r.warn=MSG.fan;break;}st.fan=has(p,'S')?+p.S:255;break;
+      case 'M107':r.cm='part fan off';if(!m.hot){r.warn=MSG.fan;break;}st.fan=0;break;
+      case 'M84':st.homed=false;st.lost=true;r.cm='motors off';break;
+    }
+    r.text=r.parts.join(' ');r.s1=dist;
+    r.state={homed:st.homed,lost:st.lost,x:st.x,y:st.y,z:st.z,used:st.used,tn:st.tn,t:st.t};
+    res.push(r);
+  });
+  function move(L,p,r,i){
+    var arc=L.c==='G2'||L.c==='G3';
+    ['X','Y','Z'].concat(arc?['I','J']:[]).forEach(function(k){if(has(p,k))r.parts.push(k+f3(p[k]));});
+    r.cm=L.c==='G0'?'travel':arc?(L.c==='G2'?'clockwise arc':'anticlockwise arc'):'straight move';
+    if(!st.homed){r.warn=st.lost?MSG.lost:MSG.home;if(has(p,'F'))r.parts.push('F'+Math.round(p.F));return;}
+    var x0=st.x,y0=st.y,z0=st.z;
+    function to(k,v0){return has(p,k)?(st.abs?+p[k]:v0+(+p[k])):v0;}
+    var x1=to('X',x0),y1=to('Y',y0),z1=to('Z',z0),pts=[[x0,y0,z0]],len=0;
+    if(has(p,'F'))st.f=Math.max(1,+p.F);
+    if(arc){
+      var cx=x0+(has(p,'I')?+p.I:0),cy=y0+(has(p,'J')?+p.J:0),rr=Math.hypot(x0-cx,y0-cy);
+      if(rr<1e-6){r.warn='I and J put the centre on the start point, so there is no arc to follow.';pts.push([x1,y1,z1]);}
+      else{
+        var a0=Math.atan2(y0-cy,x0-cx),a1=Math.atan2(y1-cy,x1-cx),sw=a1-a0;
+        if(L.c==='G2'){if(sw>=-1e-9)sw-=TAU;}else{if(sw<=1e-9)sw+=TAU;}
+        var n=Math.max(16,Math.ceil(Math.abs(sw)*rr/1.2));
+        for(var k=1;k<=n;k++){var a=a0+sw*k/n;pts.push([cx+rr*Math.cos(a),cy+rr*Math.sin(a),z0+(z1-z0)*k/n]);}
+        if(Math.abs(Math.hypot(x1-cx,y1-cy)-rr)>.5)r.warn='The end point is not on the circle around the centre, so a printer stops here or jumps.';
+        pts[pts.length-1]=[x1,y1,z1];
+      }
+    }else pts.push([x1,y1,z1]);
+    for(var j=1;j<pts.length;j++)len+=Math.hypot(pts[j][0]-pts[j-1][0],pts[j][1]-pts[j-1][1],pts[j][2]-pts[j-1][2]);
+    var ext=L.c!=='G0'&&L.ext&&len>1e-6;
+    if(ext&&M().hot&&st.tn<MIN_FLOW){r.warn='The nozzle is at '+Math.round(st.tn)+' \u00b0C. Plastic flows from about 170 \u00b0C, so the printer will not push material. Heat it first with M109.';ext=false;}
+    if(ext){
+      var de=len*M().w*M().h/area;st.used+=de;
+      if(st.eAbs){st.e+=de;r.parts.push('E'+f4(st.e));}else r.parts.push('E'+f4(de));
+      r.cm+=', laying down material';st.ext++;st.layers[f3(z1)]=1;
+    }
+    if(has(p,'F'))r.parts.push('F'+Math.round(p.F));
+    if(!r.warn){
+      var b=M().bed,out=function(v){return v<-1e-6||v>b+1e-6;};
+      if(z1<-1e-6)r.warn='Below the bed. The nozzle would press into it.';
+      else if(ext&&z1<1e-6)r.warn='The nozzle is on the bed. Lift Z by one layer height first, for example Z'+f3(M().h)+'.';
+      else if(pts.some(function(q){return out(q[0])||out(q[1]);}))r.warn='This move leaves the bed, which runs from 0 to '+b+' mm.';
+    }
+    st.x=x1;st.y=y1;st.z=z1;adv(len/(st.f/60));
+    for(var q=1;q<pts.length;q++){var l=Math.hypot(pts[q][0]-pts[q-1][0],pts[q][1]-pts[q-1][1],pts[q][2]-pts[q-1][2]);segs.push({a:pts[q-1],b:pts[q],ext:ext,line:i,s0:dist,s1:dist+l});dist+=l;}
+  }
+  return {res:res,segs:segs,st:st,dist:dist};
+}
+
+/* ---------- library ---------- */
+var groupsEl=document.getElementById('groups'),libEl=document.getElementById('lib'),ROW={},FORM={},EXT={},openC=null;
+// Essentials first: with these a first object prints. The rest folds away under More commands.
+var essBox,moreEl,moreBoxes={},laidFor=null;
+(function(){
+  var h=document.createElement('h2');h.textContent='Essentials';groupsEl.appendChild(h);
+  var p=document.createElement('p');p.className='lede';p.textContent='With these you can print a first object.';groupsEl.appendChild(p);
+  essBox=document.createElement('div');essBox.className='cmds';groupsEl.appendChild(essBox);
+  moreEl=document.createElement('details');moreEl.className='more';moreEl.innerHTML='<summary>More commands</summary>';groupsEl.appendChild(moreEl);
+  GROUPS.forEach(function(g){var h2=document.createElement('h2');h2.textContent=g;moreEl.appendChild(h2);var b=document.createElement('div');b.className='cmds';moreEl.appendChild(b);moreBoxes[g]=b;});
+})();
+function essList(){return ['G28','G90','M83'].concat(M().hot?['M109']:[]).concat(['G0','G1','M84']);}
+function layoutLib(){
+  if(laidFor===mat)return;laidFor=mat;var ess=essList();
+  ess.forEach(function(c){essBox.appendChild(ROW[c].el);});
+  CMDS.forEach(function(d){if(ess.indexOf(d.c)<0)moreBoxes[d.g].appendChild(ROW[d.c].el);});
+  GROUPS.forEach(function(g){var b=moreBoxes[g],none=!b.children.length;b.hidden=none;b.previousSibling.hidden=none;});
+}
+GROUPS.forEach(function(g){
+  CMDS.filter(function(d){return d.g===g;}).forEach(function(d){
+    var el=document.createElement('div');el.className='cmd';el.id='cmd-'+d.c;
+    var flds=(d.p||[]).map(function(k){return '<div class="fld"><label for="f-'+d.c+'-'+k+'">'+k+'</label><span class="val"><input class="n" id="f-'+d.c+'-'+k+'" data-k="'+k+'" autocomplete="off" spellcheck="false" inputmode="decimal">'+unitSpan(k==='S'?(d.fan?'':'\u00b0C'):UNIT[k])+'</span></div>';}).join('');
+    el.innerHTML='<button type="button" class="row" aria-expanded="false" aria-controls="b-'+d.c+'"><span class="code">'+d.c+'</span><span class="nm">'+d.n+'</span><span class="tag"></span></button>'+
+      '<div class="body" id="b-'+d.c+'"><p class="why" hidden></p><p>'+mv(d.d)+'</p>'+
+      (flds?'<div class="fields">'+flds+'</div>':'')+
+      (d.ext?'<label class="chk"><input type="checkbox" class="ext" checked> Lay down material. E is worked out from the length of the move.</label>':'')+
+      (d.move?'<p class="why hint">Or click on the bed to add this move there.</p>':'')+
+      '<div class="preview" aria-live="polite"></div><button type="button" class="add">Add line <span class="px" aria-hidden="true">&rarr;</span></button></div>';
+    FORM[d.c]={};EXT[d.c]=!!d.ext;
+    var o={el:el,d:d,row:el.querySelector('.row'),tag:el.querySelector('.tag'),why:el.querySelector('.why'),pv:el.querySelector('.preview'),add:el.querySelector('.add'),inp:{}};
+    el.querySelectorAll('input.n').forEach(function(inp){
+      var k=inp.dataset.k;o.inp[k]=inp;
+      inp.addEventListener('input',function(){FORM[d.c][k]=inp.value.replace(',','.');preview(d.c);});
+      inp.addEventListener('keydown',function(e){
+        if(e.key==='Enter'){e.preventDefault();addFrom(d.c);}
+        if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();var v=parseFloat(inp.value)||0,s=(k==='Z'?M().h:STEP[k]||1)*(e.shiftKey?10:1);inp.value=f3(v+(e.key==='ArrowUp'?s:-s));FORM[d.c][k]=inp.value;preview(d.c);}
+      });
+    });
+    var ex=el.querySelector('.ext');if(ex){o.ext=ex;ex.addEventListener('change',function(){EXT[d.c]=ex.checked;preview(d.c);});}
+    o.row.addEventListener('click',function(){openCmd(openC===d.c?null:d.c);});
+    o.add.addEventListener('click',function(){addFrom(d.c);});
+    ROW[d.c]=o;
+  });
+});
+function avail(d){
+  if((d.heat||d.fan)&&!M().hot)return d.heat?MSG.heat:MSG.fan;
+  if(d.move&&!fin.homed)return fin.lost?MSG.lost:MSG.home;
+  if(d.c==='M84'&&!fin.homed)return MSG.free;
+  return '';
+}
+function modeOn(d){return d.mode==='units'?fin.units:d.mode==='abs'?fin.abs:d.mode==='rel'?!fin.abs:d.mode==='eabs'?fin.eAbs:d.mode==='erel'?!fin.eAbs:d.c==='M106'?fin.fan>0:false;}
+function renderLib(){
+  layoutLib();
+  CMDS.forEach(function(d){
+    var o=ROW[d.c],why=avail(d);
+    o.el.classList.toggle('off',!!why);
+    o.why.hidden=!why;o.why.innerHTML=why?mv(why):'';
+    o.add.disabled=!!why;
+    o.tag.textContent=modeOn(d)?'on':'';
+  });
+  if(openC)preview(openC);
+}
+function defaults(c){
+  var d=BY[c],F=FORM[c],m=M();
+  (d.p||[]).forEach(function(k){F[k]=d.def&&d.def[k]!==undefined?d.def[k]:'';});
+  if(d.move){
+    var x=fin.homed?fin.x:m.bed/2,y=fin.homed?fin.y:m.bed/2,s=d.arc?2*m.arc:m.step;
+    if(fin.abs){F.X=f3(Math.min(m.bed,x+s));F.Y=f3(y);}else{F.X=f3(s);F.Y='0';}
+    if(d.arc){F.I=f3(m.arc);F.J='0';}
+    F.F=String(c==='G0'?m.FT:m.F);
+  }
+  if(c==='M104'||c==='M109')F.S=String(fin.tnT||210);
+  Object.keys(ROW[c].inp).forEach(function(k){ROW[c].inp[k].value=F[k]||'';});
+  if(ROW[c].ext)ROW[c].ext.checked=EXT[c];
+}
+function spec(c,over){
+  var p={},F=FORM[c];
+  (BY[c].p||[]).forEach(function(k){var v=over&&over[k]!==undefined?over[k]:F[k];if(has({v:v},'v'))p[k]=+v;});
+  return {c:c,p:p,ext:!!(BY[c].ext&&EXT[c])};
+}
+var PV=null,ghostT0=0;
+function preview(c){
+  var o=ROW[c],t=run(lines.concat([spec(c)])),r=t.res[t.res.length-1],pts=[];
+  t.segs.forEach(function(g){if(g.line===lines.length){if(!pts.length)pts.push(g.a);pts.push(g.b);}});
+  if(c==='G28'){var n0=fin&&(fin.homed||fin.lost)?[fin.x,fin.y,fin.z]:null;pts=n0?[n0,[0,0,0]]:[[0,0,0]];}
+  PV={c:c,text:r.text,pts:pts};ghostT0=performance.now();renderAnat();if(R)fit();
+  o.pv.innerHTML=esc(r.text)+(r.warn&&!avail(BY[c])?'<span class="cm" style="display:block;font:400 .75rem/1.45 var(--human);margin-top:6px">'+mv(r.warn)+'</span>':'');
+}
+function openCmd(c){
+  if(openC&&ROW[openC]){ROW[openC].el.classList.remove('open');ROW[openC].row.setAttribute('aria-expanded','false');}
+  openC=c;
+  if(c){var o=ROW[c];if(moreEl.contains(o.el))moreEl.open=true;defaults(c);o.el.classList.add('open');o.row.setAttribute('aria-expanded','true');preview(c);
+    try{o.el.scrollIntoView({block:'nearest'});}catch(_){}}
+  stage.classList.toggle('grab',!(c&&BY[c].move));
+  if(!c)renderAnat();
+  draw();
+}
+document.getElementById('only').addEventListener('change',function(e){libEl.classList.toggle('only',e.target.checked);});
+
+/* ---------- editing the file ---------- */
+var hist=[];
+function remember(){hist.push(JSON.stringify(lines));if(hist.length>100)hist.shift();}
+function addLine(L){
+  if(lines.length>=3000){status('The file is long enough for this tool: 3000 lines.');return;}
+  remember();lines.push(L);update(true);
+}
+function addFrom(c,over){
+  if(avail(BY[c]))return;
+  var L=spec(c,over);
+  // like a slicer, write the speed only when it changes
+  if(BY[c].move&&has(L.p,'F')&&+L.p.F===fin.f)delete L.p.F;
+  addLine(L);
+  if(BY[c].move){defaults(c);preview(c);}
+}
+document.getElementById('undo').addEventListener('click',function(){if(!hist.length)return;lines=JSON.parse(hist.pop());update(false);});
+document.getElementById('clear').addEventListener('click',function(){if(!lines.length)return;remember();lines=[];update(false);status('Cleared. Undo brings it back.');});
+document.getElementById('example').addEventListener('click',function(){
+  var m=M(),c=m.bed/2,r=m.hot?12:30,n=m.hot?40:10,out=[];
+  out.push({c:'G21'},{c:'G90'},{c:'M83'});
+  if(m.hot)out.push({c:'M140',p:{S:60}},{c:'M104',p:{S:210}});
+  out.push({c:'G28'});
+  if(m.hot)out.push({c:'M109',p:{S:210}});
+  out.push({c:'G0',p:{Z:5,F:m.FT}},{c:'G0',p:{X:c+r,Y:c}},{c:'G0',p:{Z:m.h}});
+  for(var L=1;L<=n;L++){
+    out.push({c:'G2',p:{X:c+r,Y:c,I:-r,J:0,F:m.F},ext:true});
+    if(L===1&&m.hot)out.push({c:'M106',p:{S:255}});
+    if(L<n)out.push({c:'G1',p:{Z:+(m.h*(L+1)).toFixed(3)},ext:false});
+  }
+  out.push({c:'G0',p:{Z:+(m.h*n+10).toFixed(3)}});
+  if(m.hot)out.push({c:'M107'},{c:'M104',p:{S:0}},{c:'M140',p:{S:0}});
+  out.push({c:'M84'});
+  remember();lines=out;sel=-1;update(false);replay();
+  status('An example: a round tube, one full circle per layer. Change it, or press Clear and start your own.');
+  if(bead)bead.happy();
+});
+var explainEl=document.getElementById('explain');explainEl.addEventListener('change',renderLines);
+// repeat the last layer: the moves after the last line that changed Z, again and again, one layer up each time
+document.getElementById('rep').addEventListener('click',function(){
+  var n=Math.max(1,Math.min(100,parseInt(document.getElementById('rep-n').value,10)||1)),k=-1;
+  for(var i=lines.length-1;i>=0;i--){var L=lines[i];if(BY[L.c].move&&has(L.p,'Z')){k=i;break;}}
+  var layer=lines.slice(k+1).filter(function(L){return BY[L.c].move;});
+  if(!fin.homed||!layer.some(function(L){return L.ext&&L.c!=='G0';})){status('Draw a layer first: lift Z, then add moves that lay down material.');return;}
+  if(lines.length+n*(layer.length+1)>3000){status('That would make the file longer than this tool allows.');return;}
+  remember();
+  for(var r=1;r<=n;r++){
+    lines.push({c:'G1',p:{Z:fin.abs?+(fin.z+M().h*r).toFixed(3):M().h},ext:false});
+    layer.forEach(function(L){lines.push(JSON.parse(JSON.stringify(L)));});
+  }
+  update(false);replay();
+});
+
+/* ---------- your file ---------- */
+var linesEl=document.getElementById('lines'),sel=-1,hl=-1;
+function renderLines(){
+  var ex=explainEl.checked;
+  if(!R.res.length){linesEl.innerHTML='<li class="empty">Your file is empty. The lines you add appear here, in the order the printer reads them.</li>';}
+  else linesEl.innerHTML=R.res.map(function(r,i){
+    return '<li class="ln'+(r.warn?' warn':'')+(i===sel?' on':'')+'" data-i="'+i+'"><span class="no">'+pad3(i+1)+'</span><span class="tx">'+esc(r.text)+
+      (ex&&r.cm?'<span class="cm">; '+esc(r.cm)+'</span>':'')+'</span><button type="button" class="x" aria-label="Delete line '+(i+1)+'">&times;</button>'+
+      (r.warn?'<span class="msg">'+mv(r.warn)+'</span>':'')+'</li>';
+  }).join('');
+  document.getElementById('cnt').textContent=pad3(R.res.length);
+}
+linesEl.addEventListener('click',function(e){
+  var li=e.target.closest('.ln');if(!li)return;var i=+li.dataset.i;
+  if(e.target.closest('.x')){remember();lines.splice(i,1);sel=-1;update(false);return;}
+  sel=sel===i?-1:i;linesEl.querySelectorAll('.ln').forEach(function(x){x.classList.toggle('on',+x.dataset.i===sel);});
+  if(sel>=0)showLine(sel+1);
+  renderAnat();
+});
+linesEl.addEventListener('pointerover',function(e){var li=e.target.closest('.ln'),n=li?+li.dataset.i:-1;if(n!==hl){hl=n;draw();renderAnat();}});
+linesEl.addEventListener('pointerleave',function(){hl=-1;draw();renderAnat();});
+
+/* ---------- the printer view ---------- */
+var cv=document.getElementById('cv'),ctx=cv.getContext('2d'),stage=document.getElementById('stage'),C={};
+var EL=.55,cam={a:-.55,cx:110,cy:110,cz:0,s:2,tcx:110,tcy:110,tcz:0,ts:2},hover=null;
+function colors(){var cs=getComputedStyle(document.documentElement);['fg','back','grid','line','bg','tint'].forEach(function(n){C[n]=cs.getPropertyValue('--'+n).trim();});}
+function nozzleAt(){
+  // during playback the nozzle rides the path; otherwise it sits where the shown line left it
+  if(anim&&R.segs.length){for(var i=0;i<R.segs.length;i++){var g=R.segs[i];if(shown<=g.s1){var t=g.s1>g.s0?(shown-g.s0)/(g.s1-g.s0):1;return [g.a[0]+(g.b[0]-g.a[0])*t,g.a[1]+(g.b[1]-g.a[1])*t,g.a[2]+(g.b[2]-g.a[2])*t];}}}
+  var s=stateAt(shownLine);return s.homed||s.lost?[s.x,s.y,s.z]:null;
+}
+function stateAt(k){return k>0&&R.res[k-1]?R.res[k-1].state:{homed:false,x:0,y:0,z:0,used:0,tn:20,t:0};}
+function fit(){
+  // frame what is printed; travel and the nozzle only while nothing is printed yet
+  var m=M(),pts=[],noz=nozzleAt();
+  R.segs.forEach(function(g){if(g.ext)pts.push(g.a,g.b);});
+  if(!pts.length)R.segs.forEach(function(g){pts.push(g.a,g.b);});
+  if(noz&&(!anim||pts.length<2))pts.push(noz);
+  if(openC&&PV&&PV.c===openC&&!avail(BY[openC]))PV.pts.forEach(function(q){pts.push(q);});
+  if(!pts.length)pts=[[m.bed/2-40,m.bed/2-40,0],[m.bed/2+40,m.bed/2+40,0]];
+  var x0=1e9,x1=-1e9,y0=1e9,y1=-1e9,z0=1e9,z1=-1e9;
+  pts.forEach(function(p){x0=Math.min(x0,p[0]);x1=Math.max(x1,p[0]);y0=Math.min(y0,p[1]);y1=Math.max(y1,p[1]);z0=Math.min(z0,p[2],0);z1=Math.max(z1,p[2]);});
+  var span=Math.max(40,x1-x0,y1-y0)*1.25+20,dz=z1-z0,W=stage.clientWidth,H=stage.clientHeight;
+  var ce=Math.cos(EL),se=Math.sin(EL);
+  cam.tcx=(x0+x1)/2;cam.tcy=(y0+y1)/2;cam.tcz=(z0+z1)/2;
+  cam.ts=Math.max(.3,Math.min((W-90)/(span*1.2),(H-110)/(span*1.2*se+dz*ce)));
+  if(REDUCE){cam.cx=cam.tcx;cam.cy=cam.tcy;cam.cz=cam.tcz;cam.s=cam.ts;}
+}
+function P(x,y,z){var ca=Math.cos(cam.a),sa=Math.sin(cam.a),ce=Math.cos(EL),se=Math.sin(EL),X=x-cam.cx,Y=y-cam.cy,xr=X*ca-Y*sa,d=X*sa+Y*ca,W=stage.clientWidth,H=stage.clientHeight;
+  return [W/2+xr*cam.s,H/2+10-((z-cam.cz)*ce+d*se)*cam.s,d];}
+function unproject(sx,sy,z){var ca=Math.cos(cam.a),sa=Math.sin(cam.a),ce=Math.cos(EL),se=Math.sin(EL),W=stage.clientWidth,H=stage.clientHeight;
+  var u=(sx-W/2)/cam.s,v=(H/2+10-sy)/cam.s-(z-cam.cz)*ce,d=v/se;return [u*ca+d*sa+cam.cx,-u*sa+d*ca+cam.cy];}
+function draw(){
+  if(!R)return;
+  var dpr=Math.min(2,window.devicePixelRatio||1),W=stage.clientWidth,H=stage.clientHeight,m=M();
+  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);}
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+  // the bed: a grid over the part you are working on, the edges, and the X and Y directions from zero
+  var span=Math.max(60,(Math.min(W,H)/cam.s)*1.1),step=span>200?20:span>80?10:5;
+  var gx0=Math.max(0,Math.floor((cam.cx-span)/step)*step),gx1=Math.min(m.bed,Math.ceil((cam.cx+span)/step)*step);
+  var gy0=Math.max(0,Math.floor((cam.cy-span)/step)*step),gy1=Math.min(m.bed,Math.ceil((cam.cy+span)/step)*step);
+  ctx.lineWidth=1;ctx.strokeStyle=C.grid;ctx.setLineDash([]);ctx.beginPath();
+  for(var g=gx0;g<=gx1+1e-6;g+=step){var a=P(g,gy0,0),b=P(g,gy1,0);ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);}
+  for(g=gy0;g<=gy1+1e-6;g+=step){a=P(gx0,g,0);b=P(gx1,g,0);ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);}
+  ctx.stroke();
+  ctx.strokeStyle=C.line;ctx.beginPath();[[0,0],[m.bed,0],[m.bed,m.bed],[0,m.bed],[0,0]].forEach(function(q,i){var p=P(q[0],q[1],0);i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);});ctx.stroke();
+  ctx.font='20px "G01 Pixel", monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=C.fg;ctx.strokeStyle=C.fg;
+  var o=P(0,0,0),ax=P(step*2,0,0),ay=P(0,step*2,0);
+  ctx.beginPath();ctx.moveTo(o[0],o[1]);ctx.lineTo(ax[0],ax[1]);ctx.moveTo(o[0],o[1]);ctx.lineTo(ay[0],ay[1]);ctx.stroke();
+  var lx=P(step*2.6,0,0),ly=P(0,step*2.6,0);ctx.fillText('X',lx[0],lx[1]);ctx.fillText('Y',ly[0],ly[1]);
+  ctx.fillRect(Math.round(o[0])-2,Math.round(o[1])-2,4,4);
+  // the path up to the nozzle: travel dashed and faint, material solid at its printed width
+  // a line as wide as it prints, but never so wide that the layers merge into one band
+  var lw=Math.max(1.5,Math.min(10,m.w*cam.s,m.h*Math.cos(EL)*cam.s*.72));
+  function seg(gs,t,strong){
+    var a=P(gs.a[0],gs.a[1],gs.a[2]),b=t<1?P(gs.a[0]+(gs.b[0]-gs.a[0])*t,gs.a[1]+(gs.b[1]-gs.a[1])*t,gs.a[2]+(gs.b[2]-gs.a[2])*t):P(gs.b[0],gs.b[1],gs.b[2]);
+    if(gs.ext){ctx.setLineDash([]);ctx.strokeStyle=C.fg;ctx.lineWidth=lw+(strong?3:0);}
+    else{ctx.setLineDash(strong?[]:[4,4]);ctx.strokeStyle=strong?C.fg:C.back;ctx.lineWidth=strong?2:1;}
+    ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();
+  }
+  ctx.lineCap='round';ctx.lineJoin='round';
+  R.segs.forEach(function(gs){if(gs.s0>=shown-1e-9&&!(gs.s1<=shown))return;var t=gs.s1<=shown?1:(shown-gs.s0)/(gs.s1-gs.s0);seg(gs,t,false);});
+  if(hl>=0)R.segs.forEach(function(gs){if(gs.line===hl)seg(gs,1,true);});
+  ctx.setLineDash([]);ctx.lineCap='butt';
+  // the open command, before it is added: its path dashed, a faint nozzle running it
+  if(openC&&PV&&PV.c===openC&&!avail(BY[openC])&&PV.pts.length){
+    var gp=PV.pts,gl=[0];for(var gi=1;gi<gp.length;gi++)gl.push(gl[gi-1]+Math.hypot(gp[gi][0]-gp[gi-1][0],gp[gi][1]-gp[gi-1][1],gp[gi][2]-gp[gi-1][2]));
+    ctx.setLineDash([6,5]);ctx.strokeStyle=C.fg;ctx.lineWidth=2;ctx.beginPath();
+    gp.forEach(function(q,i){var pp=P(q[0],q[1],q[2]);i?ctx.lineTo(pp[0],pp[1]):ctx.moveTo(pp[0],pp[1]);});ctx.stroke();ctx.setLineDash([]);
+    var tot=gl[gl.length-1],tt=Math.min(1,((performance.now()-ghostT0)%2000)/1500)*tot,gq=gp[gp.length-1];
+    for(gi=1;gi<gp.length;gi++)if(tt<=gl[gi]){var f=(tt-gl[gi-1])/Math.max(1e-9,gl[gi]-gl[gi-1]);gq=[gp[gi-1][0]+(gp[gi][0]-gp[gi-1][0])*f,gp[gi-1][1]+(gp[gi][1]-gp[gi-1][1])*f,gp[gi-1][2]+(gp[gi][2]-gp[gi-1][2])*f];break;}
+    var gq2=P(gq[0],gq[1],gq[2]);ctx.globalAlpha=.35;ctx.fillStyle=C.fg;
+    for(var rG=0;rG<7;rG++){var wG=rG<5?4:rG<6?2:1;for(var cG=0;cG<wG;cG++){ctx.fillRect(wG===1?Math.round(gq2[0])-2:Math.round(gq2[0])-wG*2+cG*4,Math.round(gq2[1])-(7-rG)*4,4,4);}}
+    ctx.globalAlpha=1;
+  }
+  // where a click would put the next move
+  if(hover&&openC&&BY[openC].move&&fin.homed){
+    var hp=P(hover[0],hover[1],fin.z);ctx.strokeStyle=C.fg;ctx.lineWidth=1;ctx.beginPath();
+    ctx.moveTo(hp[0]-8,hp[1]);ctx.lineTo(hp[0]+8,hp[1]);ctx.moveTo(hp[0],hp[1]-8);ctx.lineTo(hp[0],hp[1]+8);ctx.stroke();
+    ctx.textAlign='left';ctx.fillText('X'+f3(hover[0])+' Y'+f3(hover[1]),Math.min(W-150,hp[0]+14),hp[1]-16);
+  }
+  // the nozzle, drawn in whole pixels, with a line down to the bed to show its height
+  var nz=nozzleAt(),u=4,np;
+  if(nz){np=P(nz[0],nz[1],nz[2]);var fl=P(nz[0],nz[1],0);ctx.strokeStyle=C.back;ctx.setLineDash([2,3]);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(np[0],np[1]);ctx.lineTo(fl[0],fl[1]);ctx.stroke();ctx.setLineDash([]);}
+  else np=P(cam.cx,cam.cy,m.h*12+20);
+  var nx=Math.round(np[0]),ny=Math.round(np[1]);ctx.fillStyle=C.fg;
+  for(var rI=0;rI<7;rI++){var wdt=rI<5?4:rI<6?2:1;for(var cI=0;cI<wdt;cI++){var xx=wdt===1?nx-u/2:nx-wdt*u/2+cI*u;ctx.fillRect(xx,ny-(7-rI)*u,u,u);}}
+  if(!nz||!stateAt(shownLine).homed&&!anim){ctx.textAlign='left';ctx.fillText('?',nx+14,ny-18);}
+}
+
+/* ---------- playback ---------- */
+var shown=0,shownLine=0,anim=null;
+var scrub=document.getElementById('scrub'),scrubN=document.getElementById('scrub-n');
+function lineAtDist(d){var k=0;for(var i=0;i<R.res.length;i++){if(R.res[i].s0<=d+1e-9)k=i+1;else break;}return k;}
+function setShownLine(k){shownLine=k;scrub.max=R.res.length;scrub.value=k;scrub.style.setProperty('--p',(R.res.length?k/R.res.length*100:0).toFixed(2)+'%');scrubN.textContent=pad3(k)+'/'+pad3(R.res.length);readout();}
+function showLine(k){anim=null;shown=k>0?R.res[k-1].s1:0;setShownLine(k);fit();draw();}
+function play(from,to,ms){
+  if(REDUCE||ms<=0||to<=from){shown=to;anim=null;setShownLine(R.res.length);fit();draw();return;}
+  anim={from:from,to:to,t0:performance.now(),ms:ms};
+}
+function replay(){play(0,R.dist,Math.min(12000,Math.max(900,R.dist/(M().hot?40:120)*1000)));}
+scrub.addEventListener('input',function(){showLine(+scrub.value);});
+var bead=null,lastT=0;
+function frame(t){
+  if(anim){var k=Math.min(1,(t-anim.t0)/anim.ms);shown=anim.from+(anim.to-anim.from)*k;
+    var ln=k>=1?R.res.length:lineAtDist(shown);if(ln!==shownLine)setShownLine(ln);
+    if(bead&&k<1)bead.setPos(Math.round(k*4));
+    if(k>=1){anim=null;if(bead){clearTimeout(bead._t);bead._t=setTimeout(function(){bead.setPos(0);},500);}}}
+  var e=Math.min(1,(t-lastT)/120);lastT=t;
+  var moved=Math.abs(cam.tcx-cam.cx)+Math.abs(cam.tcy-cam.cy)+Math.abs(cam.tcz-cam.cz)+Math.abs(cam.ts-cam.s)*20>.02;
+  if(moved){cam.cx+=(cam.tcx-cam.cx)*e;cam.cy+=(cam.tcy-cam.cy)*e;cam.cz+=(cam.tcz-cam.cz)*e;cam.s+=(cam.ts-cam.s)*e;}
+  var ghost=openC&&PV&&PV.pts.length>1&&!REDUCE;
+  if(anim||moved||ghost){if(anim)fit();draw();}
+  requestAnimationFrame(frame);
+}
+
+/* ---------- the line taken apart ---------- */
+var anatEl=document.getElementById('anat');
+function tokLabel(c,tok){
+  var d=BY[c],k=tok.charAt(0),abs=!fin||fin.abs;if(tok===c)return d?d.n:'';
+  switch(k){
+    case 'X':case 'Y':return abs?'to '+k+', in mm':k+' step, in mm';
+    case 'Z':return abs?'to height Z, in mm':'height step, in mm';
+    case 'E':return 'material, in mm';
+    case 'F':return 'speed, in mm per minute';
+    case 'S':return d&&d.fan?'fan speed, 0 to 255':'temperature, in \u00b0C';
+    case 'P':return 'pause, in ms';
+    case 'I':return 'centre, X from the start';
+    case 'J':return 'centre, Y from the start';
+  }
+  return '';
+}
+function renderAnat(){
+  if(!anatEl||!R)return;var c=null,t='';
+  if(hl>=0&&R.res[hl]){c=R.res[hl].c;t=R.res[hl].text;}
+  else if(openC&&PV&&PV.c===openC){c=PV.c;t=PV.text;}
+  else if(sel>=0&&R.res[sel]){c=R.res[sel].c;t=R.res[sel].text;}
+  else if(R.res.length){var r=R.res[R.res.length-1];c=r.c;t=r.text;}
+  if(!c){anatEl.innerHTML='<p class="none2">Open a command on the left to see its line taken apart: what each letter and number tells the printer.</p>';return;}
+  anatEl.innerHTML=t.split(' ').map(function(tok){return '<span class="tk'+(tok===c?' cmdtk':'')+'"><span class="px">'+esc(tok)+'</span><span class="lb">'+mv(tokLabel(c,tok))+'</span></span>';}).join('');
+}
+
+/* ---------- read-out and the next step ---------- */
+function readout(){
+  var s=stateAt(shownLine),m=M();
+  document.getElementById('d-x').textContent=s.homed?f3(s.x.toFixed(1)):'-';
+  document.getElementById('d-y').textContent=s.homed?f3(s.y.toFixed(1)):'-';
+  document.getElementById('d-z').textContent=s.homed?f3(s.z.toFixed(2)):'-';
+  document.getElementById('d-e').textContent=s.used>=1000?(s.used/1000).toFixed(1)+' m':f3(s.used.toFixed(s.used<10?2:0));
+  if(m.hot){document.getElementById('d-5t').textContent='Nozzle, \u00b0C';document.getElementById('d-5').textContent=String(Math.round(s.tn));}
+  else{document.getElementById('d-5t').textContent='Time, min:s';var sec=Math.round(s.t);document.getElementById('d-5').textContent=Math.floor(sec/60)+':'+('0'+sec%60).slice(-2);}
+}
+function help(){
+  var m=M(),t,layers=Object.keys(fin.layers).length,last=lines.length?lines[lines.length-1].c:'';
+  if(!lines.length)t='Start with G28: open it on the left and add it. The printer then knows where the nozzle is. The grey commands open up once they make sense.';
+  else if(!fin.homed&&fin.lost)t='The motors are off, so your file is finished. Download it, or home again with G28 to go on.';
+  else if(!fin.homed)t='Add G28 to home the printer. The moves stay grey until it is homed.';
+  else if(m.hot&&fin.tnT<MIN_FLOW&&!fin.ext)t='Heat the nozzle before you lay down material. M109 with S210 waits until it is hot enough.';
+  else if(!fin.ext&&fin.z<1e-6)t='Lift the nozzle by one layer height first: open G1 and set Z to '+f3(m.h)+'.';
+  else if(!fin.ext&&Math.abs(fin.x)+Math.abs(fin.y)<1e-6)t='The nozzle is still in the corner where it homed. Open G0 and click on the bed where your shape should start: G0 travels there without laying down material.';
+  else if(!fin.ext)t='Now open G1, keep Lay down material on, and click on the bed. Each click adds a straight move from where the nozzle is.';
+  else if(layers<2)t='Close the shape by clicking where you started. Then raise Z by '+f3(m.h)+' mm and draw the next layer, or use Repeat the last layer.';
+  else if(last!=='M84')t='Your object is '+layers+' layers high. Lift away with G0 and a higher Z, finish with M84, then download your file.';
+  else t='Your file is complete. Download it, and check it in your printer\'s preview before you print.';
+  document.getElementById('help').innerHTML=mv(t);
+}
+
+/* ---------- state, saving, export ---------- */
+var statusEl=document.getElementById('status'),DEFAULT_STATUS=statusEl.textContent,warned=0;
+function status(t){statusEl.innerHTML=mv(t);clearTimeout(status._t);status._t=setTimeout(function(){statusEl.textContent=DEFAULT_STATUS;},7000);}
+function update(appended){
+  var before=R?R.dist:0;
+  R=run(lines);fin=R.st;
+  renderLib();renderLines();help();renderAnat();
+  if(appended){play(Math.min(shown,before),R.dist,Math.min(1200,Math.max(250,(R.dist-before)/(M().hot?30:90)*1000)));
+    linesEl.scrollTop=linesEl.scrollHeight;}
+  else{anim=null;shown=R.dist;setShownLine(R.res.length);}
+  setShownLine(appended?shownLine:R.res.length);fit();draw();
+  var w=R.res.filter(function(r){return r.warn;}).length;if(w>warned&&bead)bead.surprise();warned=w;
+  document.getElementById('undo').disabled=!hist.length;
+  try{localStorage.setItem('g01-gcode',JSON.stringify({mat:mat,lines:lines}));}catch(_){}
+}
+document.querySelectorAll('.mat').forEach(function(b){
+  b.addEventListener('click',function(){
+    if(mat===b.dataset.m)return;mat=b.dataset.m;
+    document.querySelectorAll('.mat').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    update(false);if(openC){defaults(openC);preview(openC);}
+    if(lines.length)status(mat==='clay'?'Your file is kept. On a clay printer the heat and fan lines do nothing.':'Your file is kept. A plastic printer needs a hot nozzle before it pushes material.');
+  });
+});
+var CRC=(function(){var t=new Uint32Array(256);for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0;}return t;})();
+function zip1(name,text){
+  var data=new TextEncoder().encode(text),nm=new TextEncoder().encode(name),c=0xFFFFFFFF;
+  for(var i=0;i<data.length;i++)c=CRC[(c^data[i])&255]^(c>>>8);c=(c^0xFFFFFFFF)>>>0;
+  var d=new Date(),dt=((d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1))&0xFFFF,dd=(((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate())&0xFFFF;
+  function hdr(central){var b=new DataView(new ArrayBuffer(central?46:30)),o=0;function u32(v){b.setUint32(o,v,true);o+=4;}function u16(v){b.setUint16(o,v,true);o+=2;}
+    u32(central?0x02014b50:0x04034b50);if(central)u16(20);u16(20);u16(0);u16(0);u16(dt);u16(dd);u32(c);u32(data.length);u32(data.length);u16(nm.length);u16(0);if(central){u16(0);u16(0);u16(0);u32(0);u32(0);}return b.buffer;}
+  var loc=hdr(false),cen=hdr(true),end=new DataView(new ArrayBuffer(22)),off=loc.byteLength+nm.length+data.length;
+  end.setUint32(0,0x06054b50,true);end.setUint16(8,1,true);end.setUint16(10,1,true);end.setUint32(12,cen.byteLength+nm.length,true);end.setUint32(16,off,true);
+  return new Blob([loc,nm,data,cen,nm,end.buffer]);
+}
+document.getElementById('dl').addEventListener('click',function(){
+  if(!lines.length){status('Your file is empty. Add a line first, or load the example.');return;}
+  var ex=explainEl.checked,text='; Studio G01 Playground, G-code\n; '+(mat==='clay'?'Clay':'Plastic')+' printer. Check this file in your printer\'s preview before you print.\n'+
+    R.res.map(function(r){return r.text+(ex&&r.cm?' ; '+r.cm:'');}).join('\n')+'\n',name='g01-playground-gcode-'+mat;
+  function ok(msg){status(msg);if(bead)bead.happy();}
+  var api=window.claude&&window.claude.use?window.claude.use('downloads'):Promise.resolve(null);
+  api.then(function(dl){
+    if(dl)return dl.save({filename:name+'.zip',data:zip1(name+'.gcode',text)}).then(function(){ok('Saved '+name+'.zip with the .gcode inside.');},function(e){status(e&&e.code==='declined'?'Download cancelled.':'This view cannot save files. Open the page in a browser to download.');});
+    var a=document.createElement('a'),url=URL.createObjectURL(new Blob([text],{type:'text/plain'}));
+    a.href=url;a.download=name+'.gcode';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},4000);ok('Saved '+name+'.gcode.');
+  });
+});
+
+/* ---------- pointer on the bed: drag to turn, click to add a move ---------- */
+(function(){var id=null,sx=0,sy=0,a0=0,drag=false;
+  stage.addEventListener('pointerdown',function(e){if(e.target.closest('button'))return;id=e.pointerId;sx=e.clientX;sy=e.clientY;a0=cam.a;drag=false;try{stage.setPointerCapture(id);}catch(_){}});
+  stage.addEventListener('pointermove',function(e){
+    var r=stage.getBoundingClientRect();
+    if(id===e.pointerId){if(!drag&&Math.hypot(e.clientX-sx,e.clientY-sy)>5)drag=true;if(drag){cam.a=a0+(e.clientX-sx)*.01;hover=null;draw();return;}}
+    if(openC&&BY[openC].move&&fin.homed){var q=unproject(e.clientX-r.left,e.clientY-r.top,fin.z);hover=[Math.round(q[0]),Math.round(q[1])];draw();}
+  });
+  stage.addEventListener('pointerleave',function(){hover=null;draw();});
+  function up(e){
+    if(id!==e.pointerId)return;id=null;if(drag){drag=false;return;}
+    if(!(openC&&BY[openC].move)){if(fin.homed)status('Open G0, G1, G2 or G3 on the left, then click on the bed to add a move there.');return;}
+    if(!fin.homed){status(MSG.home);return;}
+    var r=stage.getBoundingClientRect(),q=unproject(e.clientX-r.left,e.clientY-r.top,fin.z),x=Math.round(q[0]),y=Math.round(q[1]),o={};
+    if(fin.abs){o.X=x;o.Y=y;}else{o.X=x-fin.x;o.Y=y-fin.y;}
+    if(BY[openC].arc){o.I=+((x-fin.x)/2).toFixed(3);o.J=+((y-fin.y)/2).toFixed(3);}
+    addFrom(openC,o);
+  }
+  stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',function(e){if(id===e.pointerId)id=null;});
+})();
+
+/* ---------- start ---------- */
+var ICON_PLAY='<svg width="16" height="16" viewBox="0 0 16 16" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true"><rect x="2" y="2" width="2" height="12"/><rect x="4" y="4" width="2" height="8"/><rect x="6" y="4" width="2" height="8"/><rect x="8" y="6" width="2" height="4"/><rect x="10" y="6" width="2" height="4"/></svg>';
+document.getElementById('replay').innerHTML=ICON_PLAY;
+document.getElementById('replay').addEventListener('click',function(){if(R.dist)replay();});
+(function(){var el=document.getElementById('bead');if(!el||!window.Bead)return;
+  bead=new Bead(el,{unit:6,color:'var(--fg)'});
+  addEventListener('pointermove',function(e){var r=el.getBoundingClientRect();bead.look(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2));},{passive:true});
+})();
+(function(){var c=document.querySelectorAll('[data-clock]');function t(){try{var s=new Intl.DateTimeFormat('nl-NL',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Amsterdam'}).format(new Date());c.forEach(function(e){e.textContent=s;});}catch(e){}}t();setInterval(t,30000);})();
+function headH(){var h=document.getElementById('hd');if(h)document.documentElement.style.setProperty('--head',h.offsetHeight+'px');}
+headH();colors();
+if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){colors();draw();});
+new MutationObserver(function(){colors();draw();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+try{var saved=JSON.parse(localStorage.getItem('g01-gcode')||'null');if(saved&&saved.lines&&MAT[saved.mat]){mat=saved.mat;lines=saved.lines.filter(function(L){return L&&BY[L.c];});
+  document.querySelectorAll('.mat').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.m===mat?'true':'false');});}}catch(_){}
+update(false);
+cam.cx=cam.tcx;cam.cy=cam.tcy;cam.cz=cam.tcz;cam.s=cam.ts;
+if(window.ResizeObserver)new ResizeObserver(function(){headH();fit();cam.s=cam.ts;draw();}).observe(stage);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
+if(location.hash==='#example')document.getElementById('example').click();
+requestAnimationFrame(function(t){lastT=t;frame(t);});
+})();
+</script>
+</body>
+</html>
