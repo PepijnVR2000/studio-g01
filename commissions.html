@@ -344,7 +344,12 @@ dialog::backdrop{background:rgba(0,70,141,.55)}
 .more3 .send{grid-column:1 / -1;margin-top:8px}
 .more-a{grid-column:1 / -1;margin:0}
 @media (max-width:767px){.more3{grid-template-columns:1fr}.more-q{font-size:1.5rem}}
-.ni{grid-template-rows:auto minmax(0,1fr);align-content:stretch}.ni .big,.card .ni .big{align-self:end;width:auto;height:auto;max-width:min(200px,100%);max-height:100%}</style>
+.ni{grid-template-rows:auto minmax(0,1fr);align-content:stretch}.ni .big,.card .ni .big{align-self:end;width:auto;height:auto;max-width:min(200px,100%);max-height:100%}
+/* details in the same form, under the sentence */
+.det{display:grid;grid-template-columns:1fr 1fr;gap:24px 32px;max-width:900px;margin-top:48px}
+.det .mf textarea{min-height:140px}
+@media (max-width:767px){.det{grid-template-columns:1fr;margin-top:32px}}
+</style>
 
 <style data-g01-menu>
 .menu-btn{display:none;margin-left:auto;font:inherit;font-size:1rem;color:inherit;background:none;border:0;padding:0 0 0 16px;min-height:44px;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
@@ -473,19 +478,16 @@ dialog::backdrop{background:rgba(0,70,141,.55)}
         <label class="sr" for="mail">Email</label>
         <input id="mail" name="mail" type="email" placeholder="your email" size="13" autocomplete="email" required>.
       </p>
+      <div class="det">
+        <label class="mf mf-wide"><span>Tell us about the place or the idea</span><textarea id="m-msg" name="message" rows="5"></textarea></label>
+        <label class="mf"><span>Size or space</span><input id="m-size" type="text" autocomplete="off"></label>
+        <label class="mf"><span>Budget, if known</span><input id="m-budget" type="text" autocomplete="off"></label>
+        <label class="mf"><span>Link to drawings, photos or a website</span><input id="m-link" type="url" autocomplete="url" placeholder="https://"></label>
+        <label class="mf"><span>Phone</span><input id="m-phone" type="tel" autocomplete="tel"></label>
+      </div>
       <input type="checkbox" name="botcheck" id="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
       <button class="send" type="submit">Send to Studio G01 <span class="px" aria-hidden="true">→</span></button>
       <p class="after small" id="after">You can also write to info@studiog01.nl or call +31 6 40 24 55 87.</p>
-    </form>
-    <form id="more" class="more3" hidden>
-      <p class="more-q">Want to tell us more? <span>Optional.</span></p>
-      <label class="mf mf-wide"><span>Tell us more</span><textarea id="m-msg" rows="4"></textarea></label>
-      <label class="mf"><span>Size or space</span><input id="m-size" type="text" autocomplete="off"></label>
-      <label class="mf"><span>Budget, if known</span><input id="m-budget" type="text" autocomplete="off"></label>
-      <label class="mf"><span>Link to drawings, photos or a website</span><input id="m-link" type="url" autocomplete="url" placeholder="https://"></label>
-      <label class="mf"><span>Phone</span><input id="m-phone" type="tel" autocomplete="tel"></label>
-      <button class="send" type="submit">Send the details <span class="px" aria-hidden="true">&rarr;</span></button>
-      <p class="small more-a" id="more-a" aria-live="polite"></p>
     </form>
   </section>
 </main>
@@ -556,15 +558,22 @@ dialog::backdrop{background:rgba(0,70,141,.55)}
     var collab=f.dataset.kind==='collab';
     var subj=collab?'Collaboration: '+v('cwho')+', '+v('cwhat'):'Commission: '+v('what')+' in '+where;
     var line=collab?'We are '+v('cwho')+' and would like to '+v('cwhat')+' together.':'We have '+v('what')+' in '+where+' and would like a piece by '+v('when')+'.';
+    var extra=[['Size or space',v('m-size')],['Budget',v('m-budget')],['Link',v('m-link')],['Phone',v('m-phone')]].filter(function(x){return x[1];});
+    var msg=line+(v('m-msg')?'
+
+'+v('m-msg'):'')+(extra.length?'
+
+'+extra.map(function(x){return x[0]+': '+x[1];}).join('
+'):'');
     var after=document.getElementById('after'),btn=f.querySelector('.send');
     if(!mail){after.textContent='Add your email, so we can write back.';document.getElementById('mail').focus();return;}
     btn.disabled=true;after.textContent='Sending.';
     fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
-      body:JSON.stringify({access_key:'d04490ee-1f03-40c6-b419-5df5aea4a939',subject:subj,from_name:'studiog01.nl',name:who||'(no name)',email:mail,replyto:mail,message:line,botcheck:document.getElementById('botcheck').checked})})
+      body:JSON.stringify({access_key:'d04490ee-1f03-40c6-b419-5df5aea4a939',subject:subj,from_name:'studiog01.nl',name:who||'(no name)',email:mail,replyto:mail,message:msg,botcheck:document.getElementById('botcheck').checked})})
       .then(function(r){return r.json();}).then(function(d){
         if(!d.success)throw 0;
         after.textContent='Thank you. We will write back.';
-        window.g01Brief={subj:subj,name:who,mail:mail};var mo=document.getElementById('more');if(mo){mo.hidden=false;try{mo.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});}catch(_){}setTimeout(function(){var t=document.getElementById('m-msg');if(t)t.focus({preventScroll:true});},400);}
+        f.querySelectorAll('input,textarea,select').forEach(function(x){x.disabled=true;});btn.hidden=true;
         if(!reduce){var h=[[0,3],[1,2],[0,3],[1,2]],k=0,t=setInterval(function(){pose(h[k++]);if(k>=h.length){clearInterval(t);pose(poses[0]);}},100);}
       }).catch(function(){after.textContent='That did not go through. Write to info@studiog01.nl or call +31 6 40 24 55 87.';})
       .then(function(){btn.disabled=false;});
@@ -641,24 +650,5 @@ function layer(img,src,bead){
   var pc=duo.querySelector('.peek-c'),pk=duo.querySelector('.peek-k');
   duo.addEventListener('pointermove',function(e){if(!mq.matches)return;var r=duo.getBoundingClientRect(),left=e.clientX<r.left+r.width/2;pc.classList.toggle('on',left);pk.classList.toggle('on',!left);});
   duo.addEventListener('pointerleave',function(){pc.classList.remove('on');pk.classList.remove('on');});
-})();
-</script>
-<script>
-(function(){
-  // the optional second step: anything filled in goes as a second message under the same subject
-  var m=document.getElementById('more');if(!m)return;
-  m.addEventListener('submit',function(e){
-    e.preventDefault();var b=window.g01Brief;if(!b)return;
-    var v=function(id){return (document.getElementById(id).value||'').trim();};
-    var parts=[['Message',v('m-msg')],['Size or space',v('m-size')],['Budget',v('m-budget')],['Link',v('m-link')],['Phone',v('m-phone')]].filter(function(x){return x[1];});
-    var out=document.getElementById('more-a'),btn=m.querySelector('.send');
-    if(!parts.length){out.textContent='Nothing filled in yet. That is fine too.';return;}
-    btn.disabled=true;out.textContent='Sending.';
-    fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
-      body:JSON.stringify({access_key:'d04490ee-1f03-40c6-b419-5df5aea4a939',subject:'More details: '+b.subj,from_name:'studiog01.nl',name:b.name||'(no name)',email:b.mail,replyto:b.mail,
-        message:parts.map(function(x){return x[0]+': '+x[1];}).join('\n'),botcheck:false})})
-      .then(function(r){return r.json();}).then(function(d){if(!d.success)throw 0;out.textContent='Thank you, we have the details too.';m.querySelectorAll('input,textarea').forEach(function(x){x.disabled=true;});btn.hidden=true;})
-      .catch(function(){out.textContent='That did not go through. Write to info@studiog01.nl instead.';btn.disabled=false;});
-  });
 })();
 </script>
