@@ -559,12 +559,7 @@ dialog::backdrop{background:rgba(0,70,141,.55)}
     var subj=collab?'Collaboration: '+v('cwho')+', '+v('cwhat'):'Commission: '+v('what')+' in '+where;
     var line=collab?'We are '+v('cwho')+' and would like to '+v('cwhat')+' together.':'We have '+v('what')+' in '+where+' and would like a piece by '+v('when')+'.';
     var extra=[['Size or space',v('m-size')],['Budget',v('m-budget')],['Link',v('m-link')],['Phone',v('m-phone')]].filter(function(x){return x[1];});
-    var msg=line+(v('m-msg')?'
-
-'+v('m-msg'):'')+(extra.length?'
-
-'+extra.map(function(x){return x[0]+': '+x[1];}).join('
-'):'');
+    var msg=line+(v('m-msg')?'\n\n'+v('m-msg'):'')+(extra.length?'\n\n'+extra.map(function(x){return x[0]+': '+x[1];}).join('\n'):'');
     var after=document.getElementById('after'),btn=f.querySelector('.send');
     if(!mail){after.textContent='Add your email, so we can write back.';document.getElementById('mail').focus();return;}
     btn.disabled=true;after.textContent='Sending.';
