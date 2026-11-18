@@ -8,7 +8,7 @@ Removed on 13-11-2026 with Bertalan's November update. The files are the exact v
 
 - `work.html`, `work-01.html` to `work-05.html`: the Archive overview and its five projects.
 - `playground.html`: the old Playground overview. The menu's Playground link now opens `playground-vessel.html` directly.
-- `playground-gcode.html`: the G-code tool.
+- `playground-gcode.html`: the G-code tool. Back online since 18-11-2026 as `gcode-k7q4x2.html` in the site root: reachable only by its URL, with `noindex`, and left out of the menu, the sitemap and every other page.
 
 The images these pages use are still in `img/`.
 
