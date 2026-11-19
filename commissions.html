@@ -104,6 +104,13 @@ html{scroll-behavior:smooth}
 .cd .half .go{margin-top:auto}
 .cd .peek{position:absolute;top:0;bottom:0;left:calc(50% - 1px);width:calc(50vw + 2px);margin:0;z-index:2}
 .cd .peek img{width:100%;height:100%;object-fit:cover;display:block}
+.cd .peek .alt{position:absolute;inset:0;opacity:0;transition:opacity .25s ease}
+.cd .peek .alt-wa{object-position:72% 50%}
+.cd .duo:has(.words .sp:hover) .peek .alt-sp,.cd .duo:has(.words .wa:hover) .peek .alt-wa{opacity:1}
+@media (min-width:768px) and (max-width:1199px){.cd .words .w{font-size:2rem}}
+@media (min-width:768px) and (max-width:1023px){.cd .words li{grid-template-columns:1fr;gap:4px}}
+@media (hover:none){.cd .peek .alt{display:none}}
+@media (prefers-reduced-motion:reduce){.cd .peek .alt{transition:none}}
 .cd .peek figcaption{position:absolute;left:var(--gutter);bottom:24px;background:var(--bg);color:var(--fg);padding:4px 10px;font-size:.75rem;line-height:1.4;display:flex;gap:8px;align-items:baseline}
 .cd .peek figcaption .px{font-size:1em}
 .cd .brief{padding-block:120px 0}
@@ -178,7 +185,7 @@ html{scroll-behavior:smooth}
 <main>
 <section class="cd" id="custom-design" aria-labelledby="cd-h">
   <div class="duo">
-    <figure class="peek"><img src="img/vessel.jpg" alt="Printed vessel with a raised pattern in a blue and white glaze"></figure>
+    <figure class="peek"><img src="img/vessel.jpg" alt="Printed vessel with a raised pattern in a blue and white glaze"><img class="alt alt-wa" src="img/wall-art-bar.jpg" alt="" aria-hidden="true"><img class="alt alt-sp" src="img/plw-moss-object.jpg" alt="" aria-hidden="true"></figure>
     <div class="half">
       <div class="lead">
         <h1 class="ttl" id="cd-h">Commissions</h1>
@@ -186,7 +193,7 @@ html{scroll-behavior:smooth}
         <p>We design and make the objects and surfaces you imagine. Our high-quality ceramics give your space an exclusive layer of detail, tailored to your style.</p>
       </div>
       <ul class="words">
-        <li><span class="w">Wall art</span><span class="d">Decorative reliefs from custom tiles, for walls, bars and counters.</span></li><li><span class="w">Everyday objects</span><span class="d">Cups, vases, bowls, pots, candle holders and lampshades.</span></li><li><span class="w">Special projects</span><span class="d">A truly unique idea? We'll shape it with you, in any form.</span></li>
+        <li class="wa"><span class="w">Wall art</span><span class="d">Decorative reliefs from custom tiles, for walls, bars and counters.</span></li><li><span class="w">Everyday objects</span><span class="d">Cups, vases, bowls, pots, candle holders and lampshades.</span></li><li class="sp"><span class="w">Special projects</span><span class="d">A truly unique idea? We'll shape it with you, in any form.</span></li>
       </ul>
       <a class="go" href="#start">Let's talk about the details <span class="px" aria-hidden="true">&rarr;</span></a>
     </div>
